@@ -1,0 +1,87 @@
+/* Theme CSS Custom Properties for Light/Dark Mode */
+
+:root {
+  /* Light Theme Colors */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-secondary: #7c3aed;
+  --color-secondary-hover: #6d28d9;
+
+  --color-background: #ffffff;
+  --color-surface: #f9fafb;
+  --color-surface-hover: #f3f4f6;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+
+  --color-border: #e5e7eb;
+  --color-border-hover: #d1d5db;
+
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Radar-specific colors */
+  --radar-background: #ffffff;
+  --radar-grid-line: #e5e7eb;
+  --radar-quadrant-label: #374151;
+
+  --radar-quadrant-1: #0ea5e9;
+  --radar-quadrant-2: #10b981;
+  --radar-quadrant-3: #f59e0b;
+  --radar-quadrant-4: #ef4444;
+
+  --radar-ring-1: #1e293b;
+  --radar-ring-2: #475569;
+  --radar-ring-3: #94a3b8;
+  --radar-ring-4: #cbd5e1;
+
+  --radar-blip-fill: #2563eb;
+  --radar-blip-hover: #1d4ed8;
+  --radar-blip-active: #1e40af;
+}
+
+/* Dark Theme */
+[data-theme='dark'] {
+  --color-primary: #3b82f6;
+  --color-primary-hover: #60a5fa;
+  --color-secondary: #8b5cf6;
+  --color-secondary-hover: #a78bfa;
+
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-hover: #334155;
+
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+
+  --color-border: #334155;
+  --color-border-hover: #475569;
+
+  --color-success: #22c55e;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
+
+  /* Radar-specific colors (dark mode) */
+  --radar-background: #1e293b;
+  --radar-grid-line: #334155;
+  --radar-quadrant-label: #e2e8f0;
+
+  --radar-quadrant-1: #06b6d4;
+  --radar-quadrant-2: #22c55e;
+  --radar-quadrant-3: #fbbf24;
+  --radar-quadrant-4: #f87171;
+
+  --radar-ring-1: #e2e8f0;
+  --radar-ring-2: #cbd5e1;
+  --radar-ring-3: #64748b;
+  --radar-ring-4: #475569;
+
+  --radar-blip-fill: #3b82f6;
+  --radar-blip-hover: #60a5fa;
+  --radar-blip-active: #93c5fd;
+}
