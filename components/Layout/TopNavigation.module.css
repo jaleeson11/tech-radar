@@ -1,0 +1,179 @@
+.topNav {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.navContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  max-width: 100%;
+}
+
+/* Left Section */
+.leftSection {
+  flex-shrink: 0;
+}
+
+.radarName {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+/* Right Section */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Navigation Buttons */
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.navButton:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.navButton:active {
+  background-color: #e5e7eb;
+}
+
+.buttonIcon {
+  flex-shrink: 0;
+}
+
+.buttonText {
+  white-space: nowrap;
+}
+
+/* User Section */
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 8px;
+  padding-left: 16px;
+  border-left: 1px solid #e5e7eb;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userIcon {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.signOutButton {
+  padding: 6px 12px;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signOutButton:hover {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.signOutButton:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .navContent {
+    padding: 10px 16px;
+  }
+
+  .radarName {
+    font-size: 18px;
+    max-width: 150px;
+  }
+
+  .buttonText {
+    display: none;
+  }
+
+  .navButton {
+    padding: 8px;
+  }
+
+  .userSection {
+    margin-left: 4px;
+    padding-left: 12px;
+  }
+
+  .userName {
+    display: none;
+  }
+
+  .signOutButton {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Responsive - Small Mobile */
+@media (max-width: 480px) {
+  .radarName {
+    font-size: 16px;
+    max-width: 120px;
+  }
+
+  .rightSection {
+    gap: 4px;
+  }
+
+  .userSection {
+    padding-left: 8px;
+    margin-left: 2px;
+  }
+}
