@@ -158,6 +158,15 @@ export function RadarCanvas({ items, config, onBlipClick, className }: RadarCanv
         }
       });
 
+    // Add zoom and pan behavior
+    const zoom = d3.zoom<SVGSVGElement, unknown>()
+      .scaleExtent([0.5, 3]) // Allow zoom from 0.5x to 3x
+      .on('zoom', (event) => {
+        g.attr('transform', event.transform);
+      });
+
+    svg.call(zoom);
+
   }, [items, config, onBlipClick]);
 
   return (
