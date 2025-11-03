@@ -1,0 +1,57 @@
+.radarContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+.radarSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tooltip {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+}
+
+.tooltipName {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tooltipDetails {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Blip hover states are handled by D3.js transitions */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .radarContainer {
+    min-height: 300px;
+  }
+
+  .tooltip {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .tooltipName {
+    font-size: 13px;
+  }
+
+  .tooltipDetails {
+    font-size: 11px;
+  }
+}

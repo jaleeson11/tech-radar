@@ -233,11 +233,11 @@
     - [x] 3.2.2 Define default ring names array
     - [x] 3.2.3 Define MAX_ITEMS_PER_RADAR = 200
     - [x] 3.2.4 Define MAX_RADARS_PER_USER = 10
-  - [ ] 3.3 Implement blip positioning algorithm in `components/Radar/BlipPositioning.ts`:
-    - [ ] 3.3.1 Create function to calculate blip position based on quadrant and ring
-    - [ ] 3.3.2 Implement collision detection to prevent overlapping blips
-    - [ ] 3.3.3 Add randomization within ring boundaries for natural distribution
-    - [ ] 3.3.4 Write tests in `components/Radar/BlipPositioning.test.ts`
+  - [x] 3.3 Implement blip positioning algorithm in `components/Radar/BlipPositioning.ts`:
+    - [x] 3.3.1 Create function to calculate blip position based on quadrant and ring
+    - [x] 3.3.2 Implement collision detection to prevent overlapping blips
+    - [x] 3.3.3 Add randomization within ring boundaries for natural distribution
+    - [x] 3.3.4 Write tests in `components/Radar/BlipPositioning.test.ts`
   - [ ] 3.4 Create main radar component `components/Radar/RadarCanvas.tsx`:
     - [ ] 3.4.1 Set up D3.js SVG canvas with responsive viewBox
     - [ ] 3.4.2 Render 4 quadrants with dividing lines and labels
