@@ -173,8 +173,8 @@
   - [x] 1.5 Set up CSS Modules with global theme variables and styles structure
   - [x] 1.6 Create project folder structure following Next.js App Router conventions (`app/`, `components/`, `lib/`, `hooks/`, `prisma/`)
   - [x] 1.7 Install core dependencies: `d3`, `@prisma/client`, `next-auth`, `zod` (validation), `axios` or `swr` (data fetching)
-  - [x] 1.8 Install dev dependencies: `@types/d3`, `jest`, `@testing-library/react`, `@testing-library/jest-dom`, `@playwright/test`
-  - [x] 1.9 Configure Jest for unit testing with `jest.config.js` and setup file
+  - [x] 1.8 Install dev dependencies: `@types/d3`, `jest`, `@testing-library/react`, `@testing-library/jest-dom`, `@playwright/test` (Note: Later migrated to Vitest)
+  - [x] 1.9 Configure Vitest for unit testing with `vitest.config.ts` and setup file (Migrated from Jest for better Next.js compatibility)
   - [x] 1.10 Configure Playwright for E2E testing with `playwright.config.ts`
   - [x] 1.11 Set up environment variables in `.env.local` (database URL, NextAuth secret, OAuth credentials)
   - [x] 1.12 Create `.gitignore` to exclude `node_modules/`, `.env.local`, `.next/`, build artifacts
@@ -199,28 +199,28 @@
     - [x] 2.6.2 Implement GET endpoint to list all radars for authenticated user
     - [x] 2.6.3 Add input validation using Zod schemas
     - [x] 2.6.4 Write unit tests in `app/api/radars/route.test.ts`
-  - [ ] 2.7 Create API route `app/api/radars/[id]/route.ts`:
-    - [ ] 2.7.1 Implement GET endpoint to fetch radar by ID or shareToken
-    - [ ] 2.7.2 Implement PATCH endpoint to update radar (name, quadrants)
-    - [ ] 2.7.3 Implement DELETE endpoint to delete radar (owner only)
-    - [ ] 2.7.4 Write unit tests
-  - [ ] 2.8 Create API route `app/api/radars/[radarId]/items/route.ts`:
-    - [ ] 2.8.1 Implement POST endpoint to add tech item (validate required fields, enforce 200 item limit)
-    - [ ] 2.8.2 Implement GET endpoint to fetch all items for a radar
-    - [ ] 2.8.3 Add validation for quadrant index (0-3) and ring index (0-3)
-    - [ ] 2.8.4 Write unit tests in `app/api/radars/[radarId]/items/route.test.ts`
-  - [ ] 2.9 Create API route `app/api/items/[id]/route.ts`:
-    - [ ] 2.9.1 Implement PATCH endpoint to update tech item (allow changing all fields)
-    - [ ] 2.9.2 Implement DELETE endpoint to delete tech item
-    - [ ] 2.9.3 Write unit tests in `app/api/items/[id]/route.test.ts`
-  - [ ] 2.10 Create validation utilities in `lib/utils/validation.ts`:
-    - [ ] 2.10.1 Create Zod schemas for Radar creation/update
-    - [ ] 2.10.2 Create Zod schemas for TechItem creation/update
-    - [ ] 2.10.3 Add URL validation helper
+  - [x] 2.7 Create API route `app/api/radars/[id]/route.ts`:
+    - [x] 2.7.1 Implement GET endpoint to fetch radar by ID or shareToken
+    - [x] 2.7.2 Implement PATCH endpoint to update radar (name, quadrants)
+    - [x] 2.7.3 Implement DELETE endpoint to delete radar (owner only)
+    - [x] 2.7.4 Write unit tests
+  - [x] 2.8 Create API route `app/api/radars/[radarId]/items/route.ts`:
+    - [x] 2.8.1 Implement POST endpoint to add tech item (validate required fields, enforce 200 item limit)
+    - [x] 2.8.2 Implement GET endpoint to fetch all items for a radar
+    - [x] 2.8.3 Add validation for quadrant index (0-3) and ring index (0-3)
+    - [x] 2.8.4 Write unit tests in `app/api/radars/[radarId]/items/route.test.ts`
+  - [x] 2.9 Create API route `app/api/items/[id]/route.ts`:
+    - [x] 2.9.1 Implement PATCH endpoint to update tech item (allow changing all fields)
+    - [x] 2.9.2 Implement DELETE endpoint to delete tech item
+    - [x] 2.9.3 Write unit tests in `app/api/items/[id]/route.test.ts`
+  - [x] 2.10 Create validation utilities in `lib/validations/`:
+    - [x] 2.10.1 Create Zod schemas for Radar creation/update (in lib/validations/radar.ts)
+    - [x] 2.10.2 Create Zod schemas for TechItem creation/update (in lib/validations/techItem.ts)
+    - [x] 2.10.3 Add URL validation helper (included in techItem schema)
     - [ ] 2.10.4 Write tests in `lib/utils/validation.test.ts`
-  - [ ] 2.11 Create share token generator in `lib/utils/shareToken.ts` (use UUID or nanoid for unique tokens)
+  - [x] 2.11 Create share token generator in `lib/utils/shareToken.ts` (handled by Prisma @default(cuid()) in schema)
   - [ ] 2.12 Implement rate limiting middleware for public API endpoints (optional but recommended)
-  - [ ] 2.13 Add database indexes for performance (shareToken, radarId foreign keys)
+  - [x] 2.13 Add database indexes for performance (added in Prisma schema: shareToken, ownerId, radarId)
 
 - [ ] **3.0 Radar Visualization & Core UI**
   - [ ] 3.1 Create TypeScript types in `lib/types/radar.types.ts`:
