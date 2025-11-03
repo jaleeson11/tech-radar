@@ -39,5 +39,13 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      // After login, redirect to landing page where smart redirect logic handles routing
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+      // Default to landing page for smart redirect
+      return baseUrl;
+    },
   },
 };

@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
-import { Share2, Download, Settings, User } from 'lucide-react';
+import { Share2, Download, Settings, User, LayoutGrid } from 'lucide-react';
 import styles from './TopNavigation.module.css';
 
 interface TopNavigationProps {
@@ -35,6 +36,16 @@ export function TopNavigation({
         <div className={styles.leftSection}>
           <h1 className={styles.radarName}>{radarName}</h1>
         </div>
+
+        {/* Center: My Radars Link */}
+        {showAuthControls && session && (
+          <div className={styles.centerSection}>
+            <Link href="/dashboard" className={styles.dashboardLink}>
+              <LayoutGrid className={styles.buttonIcon} size={18} aria-hidden="true" />
+              <span>My Radars</span>
+            </Link>
+          </div>
+        )}
 
         {/* Right: Action Buttons & User */}
         <div className={styles.rightSection}>

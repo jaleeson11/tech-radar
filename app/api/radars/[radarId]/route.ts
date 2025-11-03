@@ -89,7 +89,7 @@ export async function PATCH(
     const body = await req.json();
     const validatedData = updateRadarSchema.parse(body);
 
-    // Update radar
+    // Update radar (updatedAt will be set automatically by Prisma @updatedAt)
     const updatedRadar = await prisma.radar.update({
       where: { id: radarId },
       data: validatedData,

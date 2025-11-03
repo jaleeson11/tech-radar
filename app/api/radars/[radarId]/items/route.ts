@@ -63,12 +63,18 @@ export async function POST(
     const body = await req.json();
     const validatedData = createTechItemSchema.parse(body);
 
-    // Create tech item
+    // Create tech item and update radar's updatedAt
     const techItem = await prisma.techItem.create({
       data: {
         ...validatedData,
         radarId,
       },
+    });
+
+    // Manually trigger radar's updatedAt to track item changes
+    await prisma.radar.update({
+      where: { id: radarId },
+      data: { updatedAt: new Date() },
     });
 
     return NextResponse.json(techItem, { status: 201 });

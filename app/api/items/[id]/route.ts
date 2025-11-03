@@ -63,6 +63,12 @@ export async function PATCH(
       data: validatedData,
     });
 
+    // Manually trigger radar's updatedAt to track item changes
+    await prisma.radar.update({
+      where: { id: existingItem.radarId },
+      data: { updatedAt: new Date() },
+    });
+
     return NextResponse.json(updatedItem, { status: 200 });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -131,6 +137,12 @@ export async function DELETE(
     // Delete tech item
     await prisma.techItem.delete({
       where: { id },
+    });
+
+    // Manually trigger radar's updatedAt to track item deletion
+    await prisma.radar.update({
+      where: { id: existingItem.radarId },
+      data: { updatedAt: new Date() },
     });
 
     return NextResponse.json(

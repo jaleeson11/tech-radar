@@ -81,11 +81,12 @@ model Radar {
   quadrants  Json       // Array of 4 quadrant names
   rings      Json       // Array of 4 ring names
   createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  updatedAt  DateTime   @updatedAt // Manually update when items change to track last edit
   items      TechItem[] // One radar has many tech items
 
   @@index([shareToken])
   @@index([ownerId])
+  @@index([updatedAt])
   @@map("radars")
 }
 
