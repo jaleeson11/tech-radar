@@ -178,27 +178,27 @@
   - [x] 1.10 Configure Playwright for E2E testing with `playwright.config.ts`
   - [x] 1.11 Set up environment variables in `.env.local` (database URL, NextAuth secret, OAuth credentials)
   - [x] 1.12 Create `.gitignore` to exclude `node_modules/`, `.env.local`, `.next/`, build artifacts
-  - [ ] 1.13 Initialize Git repository and create initial commit
+  - [x] 1.13 Initialize Git repository and create initial commit
   - [ ] 1.14 Create `README.md` with setup instructions and project overview
 
 - [ ] **2.0 Backend & Data Layer**
-  - [ ] 2.1 Install Prisma: `npm install prisma @prisma/client` and initialize with `npx prisma init`
-  - [ ] 2.2 Design database schema in `prisma/schema.prisma`:
-    - [ ] 2.2.1 Create `User` model (id, email, authProvider, createdAt)
-    - [ ] 2.2.2 Create `Radar` model (id, name, ownerId, shareToken, quadrants, rings, createdAt, updatedAt)
-    - [ ] 2.2.3 Create `TechItem` model (id, radarId, name, quadrant, ring, description, url, category, createdAt, updatedAt)
-    - [ ] 2.2.4 Define relationships: User has many Radars, Radar has many TechItems
-  - [ ] 2.3 Create initial database migration: `npx prisma migrate dev --name init`
-  - [ ] 2.4 Create Prisma client singleton in `lib/prisma.ts` for database connections
-  - [ ] 2.5 Implement NextAuth configuration in `app/api/auth/[...nextauth]/route.ts`:
-    - [ ] 2.5.1 Configure Google OAuth provider
-    - [ ] 2.5.2 Configure Email (magic link) provider
-    - [ ] 2.5.3 Set up database session strategy with Prisma adapter
-  - [ ] 2.6 Create API route `app/api/radars/route.ts`:
-    - [ ] 2.6.1 Implement POST endpoint to create new radar (validate name, generate shareToken, enforce 10 radar limit)
-    - [ ] 2.6.2 Implement GET endpoint to list all radars for authenticated user
-    - [ ] 2.6.3 Add input validation using Zod schemas
-    - [ ] 2.6.4 Write unit tests in `app/api/radars/route.test.ts`
+  - [x] 2.1 Install Prisma: `npm install prisma @prisma/client` and initialize with `npx prisma init`
+  - [x] 2.2 Design database schema in `prisma/schema.prisma`:
+    - [x] 2.2.1 Create `User` model (id, email, authProvider, createdAt)
+    - [x] 2.2.2 Create `Radar` model (id, name, ownerId, shareToken, quadrants, rings, createdAt, updatedAt)
+    - [x] 2.2.3 Create `TechItem` model (id, radarId, name, quadrant, ring, description, url, category, createdAt, updatedAt)
+    - [x] 2.2.4 Define relationships: User has many Radars, Radar has many TechItems
+  - [x] 2.3 Create initial database migration: `npx prisma migrate dev --name init`
+  - [x] 2.4 Create Prisma client singleton in `lib/prisma.ts` for database connections
+  - [x] 2.5 Implement NextAuth configuration in `app/api/auth/[...nextauth]/route.ts`:
+    - [x] 2.5.1 Configure Google OAuth provider
+    - [x] 2.5.2 Configure Email (magic link) provider
+    - [x] 2.5.3 Set up database session strategy with Prisma adapter
+  - [x] 2.6 Create API route `app/api/radars/route.ts`:
+    - [x] 2.6.1 Implement POST endpoint to create new radar (validate name, generate shareToken, enforce 10 radar limit)
+    - [x] 2.6.2 Implement GET endpoint to list all radars for authenticated user
+    - [x] 2.6.3 Add input validation using Zod schemas
+    - [x] 2.6.4 Write unit tests in `app/api/radars/route.test.ts`
   - [ ] 2.7 Create API route `app/api/radars/[id]/route.ts`:
     - [ ] 2.7.1 Implement GET endpoint to fetch radar by ID or shareToken
     - [ ] 2.7.2 Implement PATCH endpoint to update radar (name, quadrants)

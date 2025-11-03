@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - represents authenticated users (NextAuth compatible)
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+
+  // NextAuth relations
+  accounts      Account[]
+  sessions      Session[]
+
+  // App-specific relations
+  radars        Radar[]   // One user has many radars
+
+  @@map("users")
+}
+
+// Account model - for OAuth providers (NextAuth)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// Session model - for database sessions (NextAuth)
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// VerificationToken model - for email magic links (NextAuth)
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Radar model - represents a technology radar
+model Radar {
+  id         String     @id @default(cuid())
+  name       String
+  ownerId    String
+  owner      User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  shareToken String     @unique @default(cuid())
+  quadrants  Json       // Array of 4 quadrant names
+  rings      Json       // Array of 4 ring names
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  items      TechItem[] // One radar has many tech items
+
+  @@index([shareToken])
+  @@index([ownerId])
+  @@map("radars")
+}
+
+// TechItem model - represents a technology item on a radar
+model TechItem {
+  id          String   @id @default(cuid())
+  radarId     String
+  radar       Radar    @relation(fields: [radarId], references: [id], onDelete: Cascade)
+  name        String
+  quadrant    Int      // 0-3 index for quadrant position
+  ring        Int      // 0-3 index for ring position
+  description String?  // Optional description
+  url         String?  // Optional URL
+  category    String?  // Optional category for organization
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([radarId])
+  @@map("tech_items")
+}
