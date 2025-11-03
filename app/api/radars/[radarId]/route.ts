@@ -5,18 +5,18 @@ import { prisma } from '@/lib/prisma';
 import { updateRadarSchema } from '@/lib/validations/radar';
 import { ZodError } from 'zod';
 
-// GET /api/radars/[id] - Fetch radar by ID or shareToken
+// GET /api/radars/[radarId] - Fetch radar by ID or shareToken
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { radarId: string } }
 ) {
   try {
-    const { id } = params;
+    const { radarId } = params;
 
     // Try to fetch by ID first, then by shareToken
     const radar = await prisma.radar.findFirst({
       where: {
-        OR: [{ id }, { shareToken: id }],
+        OR: [{ id: radarId }, { shareToken: radarId }],
       },
       include: {
         items: {
@@ -46,10 +46,10 @@ export async function GET(
   }
 }
 
-// PATCH /api/radars/[id] - Update radar (name, quadrants, rings)
+// PATCH /api/radars/[radarId] - Update radar (name, quadrants, rings)
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { radarId: string } }
 ) {
   try {
     // Check authentication
@@ -58,7 +58,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { radarId } = params;
 
     // Get user from database
     const user = await prisma.user.findUnique({
@@ -71,7 +71,7 @@ export async function PATCH(
 
     // Check if radar exists and user is the owner
     const existingRadar = await prisma.radar.findUnique({
-      where: { id },
+      where: { id: radarId },
     });
 
     if (!existingRadar) {
@@ -91,7 +91,7 @@ export async function PATCH(
 
     // Update radar
     const updatedRadar = await prisma.radar.update({
-      where: { id },
+      where: { id: radarId },
       data: validatedData,
     });
 
@@ -112,10 +112,10 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/radars/[id] - Delete radar (owner only)
+// DELETE /api/radars/[radarId] - Delete radar (owner only)
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { radarId: string } }
 ) {
   try {
     // Check authentication
@@ -124,7 +124,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { radarId } = params;
 
     // Get user from database
     const user = await prisma.user.findUnique({
@@ -137,7 +137,7 @@ export async function DELETE(
 
     // Check if radar exists and user is the owner
     const existingRadar = await prisma.radar.findUnique({
-      where: { id },
+      where: { id: radarId },
     });
 
     if (!existingRadar) {
@@ -153,7 +153,7 @@ export async function DELETE(
 
     // Delete radar (cascade will delete associated items)
     await prisma.radar.delete({
-      where: { id },
+      where: { id: radarId },
     });
 
     return NextResponse.json(

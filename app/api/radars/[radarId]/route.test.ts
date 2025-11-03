@@ -22,12 +22,12 @@ vi.mock('@/lib/prisma', () => ({
 
 const mockGetServerSession = getServerSession as ReturnType<typeof vi.fn>;
 
-describe('/api/radars/[id]', () => {
+describe('/api/radars/[radarId]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  describe('GET /api/radars/[id]', () => {
+  describe('GET /api/radars/[radarId]', () => {
     it('should fetch radar by ID successfully', async () => {
       const mockRadar = {
         id: 'radar-1',
@@ -49,7 +49,7 @@ describe('/api/radars/[id]', () => {
       (prisma.radar.findFirst as ReturnType<typeof vi.fn>).mockResolvedValue(mockRadar);
 
       const req = new NextRequest('http://localhost:3000/api/radars/radar-1');
-      const response = await GET(req, { params: { id: 'radar-1' } });
+      const response = await GET(req, { params: { radarId: 'radar-1' } });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -78,7 +78,7 @@ describe('/api/radars/[id]', () => {
       (prisma.radar.findFirst as ReturnType<typeof vi.fn>).mockResolvedValue(mockRadar);
 
       const req = new NextRequest('http://localhost:3000/api/radars/abc123');
-      const response = await GET(req, { params: { id: 'abc123' } });
+      const response = await GET(req, { params: { radarId: 'abc123' } });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -89,7 +89,7 @@ describe('/api/radars/[id]', () => {
       (prisma.radar.findFirst as ReturnType<typeof vi.fn>).mockResolvedValue(null);
 
       const req = new NextRequest('http://localhost:3000/api/radars/nonexistent');
-      const response = await GET(req, { params: { id: 'nonexistent' } });
+      const response = await GET(req, { params: { radarId: 'nonexistent' } });
       const data = await response.json();
 
       expect(response.status).toBe(404);
@@ -97,7 +97,7 @@ describe('/api/radars/[id]', () => {
     });
   });
 
-  describe('PATCH /api/radars/[id]', () => {
+  describe('PATCH /api/radars/[radarId]', () => {
     it('should update radar successfully', async () => {
       mockGetServerSession.mockResolvedValue({
         user: { email: 'test@example.com' },
@@ -129,7 +129,7 @@ describe('/api/radars/[id]', () => {
         body: JSON.stringify({ name: 'New Name' }),
       });
 
-      const response = await PATCH(req, { params: { id: 'radar-1' } });
+      const response = await PATCH(req, { params: { radarId: 'radar-1' } });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -144,7 +144,7 @@ describe('/api/radars/[id]', () => {
         body: JSON.stringify({ name: 'New Name' }),
       });
 
-      const response = await PATCH(req, { params: { id: 'radar-1' } });
+      const response = await PATCH(req, { params: { radarId: 'radar-1' } });
       const data = await response.json();
 
       expect(response.status).toBe(401);
@@ -177,7 +177,7 @@ describe('/api/radars/[id]', () => {
         body: JSON.stringify({ name: 'New Name' }),
       });
 
-      const response = await PATCH(req, { params: { id: 'radar-1' } });
+      const response = await PATCH(req, { params: { radarId: 'radar-1' } });
       const data = await response.json();
 
       expect(response.status).toBe(403);
@@ -201,7 +201,7 @@ describe('/api/radars/[id]', () => {
         body: JSON.stringify({ name: 'New Name' }),
       });
 
-      const response = await PATCH(req, { params: { id: 'nonexistent' } });
+      const response = await PATCH(req, { params: { radarId: 'nonexistent' } });
       const data = await response.json();
 
       expect(response.status).toBe(404);
@@ -209,7 +209,7 @@ describe('/api/radars/[id]', () => {
     });
   });
 
-  describe('DELETE /api/radars/[id]', () => {
+  describe('DELETE /api/radars/[radarId]', () => {
     it('should delete radar successfully', async () => {
       mockGetServerSession.mockResolvedValue({
         user: { email: 'test@example.com' },
@@ -237,7 +237,7 @@ describe('/api/radars/[id]', () => {
         method: 'DELETE',
       });
 
-      const response = await DELETE(req, { params: { id: 'radar-1' } });
+      const response = await DELETE(req, { params: { radarId: 'radar-1' } });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -252,7 +252,7 @@ describe('/api/radars/[id]', () => {
         method: 'DELETE',
       });
 
-      const response = await DELETE(req, { params: { id: 'radar-1' } });
+      const response = await DELETE(req, { params: { radarId: 'radar-1' } });
       const data = await response.json();
 
       expect(response.status).toBe(401);
@@ -284,7 +284,7 @@ describe('/api/radars/[id]', () => {
         method: 'DELETE',
       });
 
-      const response = await DELETE(req, { params: { id: 'radar-1' } });
+      const response = await DELETE(req, { params: { radarId: 'radar-1' } });
       const data = await response.json();
 
       expect(response.status).toBe(403);
@@ -307,7 +307,7 @@ describe('/api/radars/[id]', () => {
         method: 'DELETE',
       });
 
-      const response = await DELETE(req, { params: { id: 'nonexistent' } });
+      const response = await DELETE(req, { params: { radarId: 'nonexistent' } });
       const data = await response.json();
 
       expect(response.status).toBe(404);

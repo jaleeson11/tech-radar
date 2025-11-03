@@ -252,11 +252,11 @@
     - [x] 3.5.2 Apply hover and active states (implemented in RadarCanvas)
     - [x] 3.5.3 Add ARIA labels for accessibility (implemented in RadarCanvas)
     - [x] 3.5.4 Write tests in `components/Radar/RadarBlip.test.tsx` (covered in RadarCanvas.test.tsx)
-  - [ ] 3.6 Create app layout `components/Layout/AppLayout.tsx`:
-    - [ ] 3.6.1 Implement responsive grid: radar (main area) + side panel (desktop)
-    - [ ] 3.6.2 Add mobile detection and conditional rendering for drawer vs panel
-    - [ ] 3.6.3 Include top navigation component
-    - [ ] 3.6.4 Add global error boundary
+  - [x] 3.6 Create app layout `components/Layout/AppLayout.tsx`:
+    - [x] 3.6.1 Implement responsive grid: radar (main area) + side panel (desktop)
+    - [x] 3.6.2 Add mobile detection and conditional rendering for drawer vs panel
+    - [x] 3.6.3 Include top navigation component (slot support)
+    - [x] 3.6.4 Add global error boundary (ErrorBoundary component created)
   - [ ] 3.7 Create top navigation `components/Layout/TopNavigation.tsx`:
     - [ ] 3.7.1 Display radar name/title
     - [ ] 3.7.2 Add "Share" button
