@@ -257,13 +257,13 @@
     - [x] 3.6.2 Add mobile detection and conditional rendering for drawer vs panel
     - [x] 3.6.3 Include top navigation component (slot support)
     - [x] 3.6.4 Add global error boundary (ErrorBoundary component created)
-  - [ ] 3.7 Create top navigation `components/Layout/TopNavigation.tsx`:
-    - [ ] 3.7.1 Display radar name/title
-    - [ ] 3.7.2 Add "Share" button
-    - [ ] 3.7.3 Add "Export" dropdown button
-    - [ ] 3.7.4 Add "Customize" or "Settings" button
-    - [ ] 3.7.5 Add user account indicator (for authenticated users)
-    - [ ] 3.7.6 Write tests in `components/Layout/TopNavigation.test.tsx`
+  - [x] 3.7 Create top navigation `components/Layout/TopNavigation.tsx`:
+    - [x] 3.7.1 Display radar name/title
+    - [x] 3.7.2 Add "Share" button
+    - [x] 3.7.3 Add "Export" dropdown button
+    - [x] 3.7.4 Add "Customize" or "Settings" button
+    - [x] 3.7.5 Add user account indicator (for authenticated users)
+    - [x] 3.7.6 Write tests in `components/Layout/TopNavigation.test.tsx`
   - [ ] 3.8 Create side panel `components/SidePanel/SidePanel.tsx`:
     - [ ] 3.8.1 Implement fixed-width panel (desktop) or collapsible drawer (mobile)
     - [ ] 3.8.2 Add "Add Item" button at top

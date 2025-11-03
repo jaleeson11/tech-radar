@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { updateRadarSchema } from '@/lib/validations/radar';
 import { ZodError } from 'zod';
@@ -8,10 +8,10 @@ import { ZodError } from 'zod';
 // GET /api/radars/[radarId] - Fetch radar by ID or shareToken
 export async function GET(
   req: NextRequest,
-  { params }: { params: { radarId: string } }
+  { params }: { params: Promise<{ radarId: string }> }
 ) {
   try {
-    const { radarId } = params;
+    const { radarId } = await params;
 
     // Try to fetch by ID first, then by shareToken
     const radar = await prisma.radar.findFirst({
@@ -49,7 +49,7 @@ export async function GET(
 // PATCH /api/radars/[radarId] - Update radar (name, quadrants, rings)
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { radarId: string } }
+  { params }: { params: Promise<{ radarId: string }> }
 ) {
   try {
     // Check authentication
@@ -58,7 +58,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { radarId } = params;
+    const { radarId } = await params;
 
     // Get user from database
     const user = await prisma.user.findUnique({
@@ -99,7 +99,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
-        { error: 'Validation error', details: error.errors },
+        { error: 'Validation error', details: error.issues },
         { status: 400 }
       );
     }
@@ -115,7 +115,7 @@ export async function PATCH(
 // DELETE /api/radars/[radarId] - Delete radar (owner only)
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { radarId: string } }
+  { params }: { params: Promise<{ radarId: string }> }
 ) {
   try {
     // Check authentication
@@ -124,7 +124,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { radarId } = params;
+    const { radarId } = await params;
 
     // Get user from database
     const user = await prisma.user.findUnique({

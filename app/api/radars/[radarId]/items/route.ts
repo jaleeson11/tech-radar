@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { createTechItemSchema } from '@/lib/validations/techItem';
 import { MAX_ITEMS_PER_RADAR } from '@/lib/constants/defaults';
@@ -9,7 +9,7 @@ import { ZodError } from 'zod';
 // POST /api/radars/[radarId]/items - Add a tech item to a radar
 export async function POST(
   req: NextRequest,
-  { params }: { params: { radarId: string } }
+  { params }: { params: Promise<{ radarId: string }> }
 ) {
   try {
     // Check authentication
@@ -18,7 +18,7 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { radarId } = params;
+    const { radarId } = await params;
 
     // Get user from database
     const user = await prisma.user.findUnique({
@@ -75,7 +75,7 @@ export async function POST(
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
-        { error: 'Validation error', details: error.errors },
+        { error: 'Validation error', details: error.issues },
         { status: 400 }
       );
     }
@@ -91,10 +91,10 @@ export async function POST(
 // GET /api/radars/[radarId]/items - Get all tech items for a radar
 export async function GET(
   req: NextRequest,
-  { params }: { params: { radarId: string } }
+  { params }: { params: Promise<{ radarId: string }> }
 ) {
   try {
-    const { radarId } = params;
+    const { radarId } = await params;
 
     // Check if radar exists
     const radar = await prisma.radar.findUnique({
