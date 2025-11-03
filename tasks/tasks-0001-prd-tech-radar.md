@@ -223,16 +223,16 @@
   - [x] 2.13 Add database indexes for performance (added in Prisma schema: shareToken, ownerId, radarId)
 
 - [ ] **3.0 Radar Visualization & Core UI**
-  - [ ] 3.1 Create TypeScript types in `lib/types/radar.types.ts`:
-    - [ ] 3.1.1 Define `Radar` interface
-    - [ ] 3.1.2 Define `TechItem` interface
-    - [ ] 3.1.3 Define `BlipPosition` interface (x, y coordinates)
-    - [ ] 3.1.4 Define `QuadrantConfig` and `RingConfig` types
-  - [ ] 3.2 Create constants file in `lib/constants/defaults.ts`:
-    - [ ] 3.2.1 Define default quadrant names array
-    - [ ] 3.2.2 Define default ring names array
-    - [ ] 3.2.3 Define MAX_ITEMS_PER_RADAR = 200
-    - [ ] 3.2.4 Define MAX_RADARS_PER_USER = 10
+  - [x] 3.1 Create TypeScript types in `lib/types/radar.types.ts`:
+    - [x] 3.1.1 Define `Radar` interface (re-exported from Prisma)
+    - [x] 3.1.2 Define `TechItem` interface (re-exported from Prisma)
+    - [x] 3.1.3 Define `BlipPosition` interface (x, y coordinates)
+    - [x] 3.1.4 Define `QuadrantConfig` and `RingConfig` types
+  - [x] 3.2 Create constants file in `lib/constants/defaults.ts`:
+    - [x] 3.2.1 Define default quadrant names array
+    - [x] 3.2.2 Define default ring names array
+    - [x] 3.2.3 Define MAX_ITEMS_PER_RADAR = 200
+    - [x] 3.2.4 Define MAX_RADARS_PER_USER = 10
   - [ ] 3.3 Implement blip positioning algorithm in `components/Radar/BlipPositioning.ts`:
     - [ ] 3.3.1 Create function to calculate blip position based on quadrant and ring
     - [ ] 3.3.2 Implement collision detection to prevent overlapping blips
