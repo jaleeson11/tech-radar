@@ -1,0 +1,137 @@
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background-color: #f9fafb;
+}
+
+.errorContent {
+  max-width: 600px;
+  width: 100%;
+  padding: 32px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.errorTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.errorMessage {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.errorDetails {
+  margin: 24px 0;
+  padding: 16px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+}
+
+.errorDetails summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #991b1b;
+  user-select: none;
+}
+
+.errorDetails summary:hover {
+  color: #7f1d1d;
+}
+
+.errorStack {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  color: #991b1b;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.errorActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.resetButton,
+.reloadButton {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.resetButton {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.resetButton:hover {
+  background-color: #2563eb;
+}
+
+.resetButton:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.reloadButton {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.reloadButton:hover {
+  background-color: #d1d5db;
+}
+
+.reloadButton:focus {
+  outline: 2px solid #9ca3af;
+  outline-offset: 2px;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .errorContainer {
+    padding: 16px;
+  }
+
+  .errorContent {
+    padding: 24px;
+  }
+
+  .errorTitle {
+    font-size: 20px;
+  }
+
+  .errorMessage {
+    font-size: 14px;
+  }
+
+  .errorActions {
+    flex-direction: column;
+  }
+
+  .resetButton,
+  .reloadButton {
+    width: 100%;
+  }
+}

@@ -238,20 +238,20 @@
     - [x] 3.3.2 Implement collision detection to prevent overlapping blips
     - [x] 3.3.3 Add randomization within ring boundaries for natural distribution
     - [x] 3.3.4 Write tests in `components/Radar/BlipPositioning.test.ts`
-  - [ ] 3.4 Create main radar component `components/Radar/RadarCanvas.tsx`:
-    - [ ] 3.4.1 Set up D3.js SVG canvas with responsive viewBox
-    - [ ] 3.4.2 Render 4 quadrants with dividing lines and labels
-    - [ ] 3.4.3 Render 4 concentric rings with ring labels
-    - [ ] 3.4.4 Implement blip rendering for tech items
-    - [ ] 3.4.5 Add hover state to show tech item name tooltip
-    - [ ] 3.4.6 Add click handler to open tech item detail view
-    - [ ] 3.4.7 Ensure responsive sizing (use container queries or window resize listeners)
-    - [ ] 3.4.8 Write tests in `components/Radar/RadarCanvas.test.tsx`
-  - [ ] 3.5 Create `components/Radar/RadarBlip.tsx`:
-    - [ ] 3.5.1 Render individual blip as SVG circle
-    - [ ] 3.5.2 Apply hover and active states
-    - [ ] 3.5.3 Add ARIA labels for accessibility
-    - [ ] 3.5.4 Write tests in `components/Radar/RadarBlip.test.tsx`
+  - [x] 3.4 Create main radar component `components/Radar/RadarCanvas.tsx`:
+    - [x] 3.4.1 Set up D3.js SVG canvas with responsive viewBox
+    - [x] 3.4.2 Render 4 quadrants with dividing lines and labels
+    - [x] 3.4.3 Render 4 concentric rings with ring labels
+    - [x] 3.4.4 Implement blip rendering for tech items
+    - [x] 3.4.5 Add hover state to show tech item name tooltip
+    - [x] 3.4.6 Add click handler to open tech item detail view
+    - [x] 3.4.7 Ensure responsive sizing (use container queries or window resize listeners)
+    - [x] 3.4.8 Write tests in `components/Radar/RadarCanvas.test.tsx`
+  - [x] 3.5 Create `components/Radar/RadarBlip.tsx`:
+    - [x] 3.5.1 Render individual blip as SVG circle (implemented in RadarCanvas)
+    - [x] 3.5.2 Apply hover and active states (implemented in RadarCanvas)
+    - [x] 3.5.3 Add ARIA labels for accessibility (implemented in RadarCanvas)
+    - [x] 3.5.4 Write tests in `components/Radar/RadarBlip.test.tsx` (covered in RadarCanvas.test.tsx)
   - [ ] 3.6 Create app layout `components/Layout/AppLayout.tsx`:
     - [ ] 3.6.1 Implement responsive grid: radar (main area) + side panel (desktop)
     - [ ] 3.6.2 Add mobile detection and conditional rendering for drawer vs panel

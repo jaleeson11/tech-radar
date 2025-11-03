@@ -1,0 +1,145 @@
+.appLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.topNav {
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Radar Canvas Area (Main Content) */
+.radarArea {
+  flex: 1;
+  overflow: auto;
+  background-color: #f9fafb;
+  position: relative;
+}
+
+/* Side Panel (Desktop) */
+.sidePanel {
+  width: 320px;
+  flex-shrink: 0;
+  background-color: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Mobile Drawer Toggle Button */
+.mobileToggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.mobileToggle:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+.mobileToggle:active {
+  transform: scale(0.95);
+}
+
+.mobileToggle:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Mobile Drawer Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 300;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Drawer */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85%;
+  max-width: 400px;
+  background-color: #ffffff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 400;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .mobileToggle {
+    display: none;
+  }
+
+  .overlay {
+    display: none;
+  }
+
+  .drawer {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .sidePanel {
+    display: none;
+  }
+
+  .radarArea {
+    width: 100%;
+  }
+}
+
+/* Wide screen optimization */
+@media (min-width: 1440px) {
+  .sidePanel {
+    width: 380px;
+  }
+}
