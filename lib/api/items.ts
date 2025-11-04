@@ -15,6 +15,8 @@ export interface UpdateItemRequest {
   name?: string;
   quadrant?: number;
   ring?: number;
+  positionX?: number;
+  positionY?: number;
   description?: string;
   url?: string;
   category?: string;

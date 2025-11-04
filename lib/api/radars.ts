@@ -1,5 +1,5 @@
 import apiClient from './client';
-import { Radar } from '@prisma/client';
+import { Radar, RadarWithOwner } from '@/lib/types/radar.types';
 
 // API Response types
 export interface RadarListItem {
@@ -23,6 +23,7 @@ export interface UpdateRadarRequest {
   name?: string;
   quadrants?: string[];
   rings?: string[];
+  permission?: 'view' | 'edit';
 }
 
 // Radar API methods
@@ -38,8 +39,8 @@ export const radarsApi = {
   /**
    * Get a single radar by ID
    */
-  async getById(radarId: string): Promise<Radar> {
-    const response = await apiClient.get<Radar>(`/radars/${radarId}`);
+  async getById(radarId: string): Promise<RadarWithOwner> {
+    const response = await apiClient.get<RadarWithOwner>(`/radars/${radarId}`);
     return response.data;
   },
 

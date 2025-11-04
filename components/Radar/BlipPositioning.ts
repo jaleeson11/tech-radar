@@ -112,7 +112,12 @@ export function calculateAllBlipPositions(
   const sortedItems = [...items].sort((a, b) => a.ring - b.ring);
 
   for (const item of sortedItems) {
-    const position = calculateBlipPosition(item, config, positions);
+    // Use saved position if available, otherwise calculate new position
+    const position = (item.positionX !== null && item.positionX !== undefined &&
+                      item.positionY !== null && item.positionY !== undefined)
+      ? { x: item.positionX, y: item.positionY }
+      : calculateBlipPosition(item, config, positions);
+
     positions.push(position);
     itemsWithPositions.push({
       ...item,

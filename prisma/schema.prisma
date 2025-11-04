@@ -78,6 +78,7 @@ model Radar {
   ownerId    String
   owner      User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   shareToken String     @unique @default(cuid())
+  permission String     @default("edit") // "view" or "edit" - controls what anyone with the link can do
   quadrants  Json       // Array of 4 quadrant names
   rings      Json       // Array of 4 ring names
   createdAt  DateTime   @default(now())
@@ -98,6 +99,8 @@ model TechItem {
   name        String
   quadrant    Int      // 0-3 index for quadrant position
   ring        Int      // 0-3 index for ring position
+  positionX   Float?   // Optional saved x coordinate
+  positionY   Float?   // Optional saved y coordinate
   description String?  // Optional description
   url         String?  // Optional URL
   category    String?  // Optional category for organization

@@ -12,6 +12,7 @@ export const updateRadarSchema = z.object({
   name: z.string().min(1, 'Radar name is required').max(100, 'Radar name must be 100 characters or less').optional(),
   quadrants: z.array(z.string()).length(4, 'Must provide exactly 4 quadrant names').optional(),
   rings: z.array(z.string()).length(4, 'Must provide exactly 4 ring names').optional(),
+  permission: z.enum(['view', 'edit']).optional(),
 });
 
 export type CreateRadarInput = z.infer<typeof createRadarSchema>;

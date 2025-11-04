@@ -12,22 +12,7 @@ export async function POST(
   { params }: { params: Promise<{ radarId: string }> }
 ) {
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const { radarId } = await params;
-
-    // Get user from database
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
 
     // Check if radar exists and get item count
     const radar = await prisma.radar.findUnique({
@@ -43,12 +28,34 @@ export async function POST(
       return NextResponse.json({ error: 'Radar not found' }, { status: 404 });
     }
 
-    // Check if user is the owner
-    if (radar.ownerId !== user.id) {
-      return NextResponse.json(
-        { error: 'Forbidden - You are not the owner of this radar' },
-        { status: 403 }
-      );
+    // Check authentication and permissions
+    const session = await getServerSession(authOptions);
+
+    if (session?.user?.email) {
+      // User is logged in - check if they're the owner or radar allows editing
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+      });
+
+      if (!user) {
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      }
+
+      // Check if user can edit (owner or radar has edit permission)
+      if (radar.ownerId !== user.id && radar.permission !== 'edit') {
+        return NextResponse.json(
+          { error: 'Forbidden - You do not have permission to edit this radar' },
+          { status: 403 }
+        );
+      }
+    } else {
+      // No session (guest) - allow only if radar has edit permission
+      if (radar.permission !== 'edit') {
+        return NextResponse.json(
+          { error: 'Unauthorized - Please log in to edit this radar' },
+          { status: 401 }
+        );
+      }
     }
 
     // Check item limit

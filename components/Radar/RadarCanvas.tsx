@@ -9,10 +9,11 @@ interface RadarCanvasProps {
   items: TechItemWithPosition[];
   config: RadarVisualizationConfig;
   onBlipClick?: (item: TechItemWithPosition) => void;
+  onBlipMove?: (item: TechItemWithPosition, newQuadrant: number, newRing: number, finalX: number, finalY: number) => void;
   className?: string;
 }
 
-export function RadarCanvas({ items, config, onBlipClick, className }: RadarCanvasProps) {
+export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className }: RadarCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<TechItemWithPosition | null>(null);
@@ -231,6 +232,83 @@ export function RadarCanvas({ items, config, onBlipClick, className }: RadarCanv
           onBlipClick?.(d);
         }
       });
+
+    // Add drag behavior for moving blips between quadrants/rings
+    if (onBlipMove) {
+      const drag = d3.drag<SVGCircleElement, TechItemWithPosition>()
+        .on('start', function (event, d) {
+          // Visual feedback - enlarge and increase opacity
+          d3.select(this)
+            .raise() // Bring to front
+            .attr('r', 10)
+            .attr('stroke-width', 3)
+            .style('cursor', 'grabbing');
+
+          // Hide tooltip during drag
+          setHoveredItem(null);
+        })
+        .on('drag', function (event, d) {
+          // Get current transform for zoom/pan adjustment
+          const transform = zoomTransformRef.current || d3.zoomIdentity;
+
+          // Calculate position in the coordinate system of the group
+          const [mouseX, mouseY] = d3.pointer(event, g.node());
+
+          // Move the blip with mouse
+          d3.select(this)
+            .attr('cx', mouseX)
+            .attr('cy', mouseY);
+        })
+        .on('end', function (event, d) {
+          const [mouseX, mouseY] = d3.pointer(event, g.node());
+
+          // Calculate which quadrant and ring based on final position
+          const dx = mouseX - centerX;
+          const dy = mouseY - centerY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          // Calculate angle in degrees (0-360), starting from east (right) going counter-clockwise
+          let angle = Math.atan2(-dy, dx) * (180 / Math.PI);
+          if (angle < 0) angle += 360;
+
+          // Determine quadrant (0-3)
+          const newQuadrant = Math.floor(angle / 90);
+
+          // Determine ring (0-3) based on distance from center
+          let newRing = 0;
+          const ringThresholds = rings.map(r => (r.outerRadius / 100) * maxRadius);
+          for (let i = 0; i < ringThresholds.length; i++) {
+            if (distance <= ringThresholds[i]) {
+              newRing = i;
+              break;
+            }
+          }
+
+          // Clamp to valid values
+          const clampedQuadrant = Math.max(0, Math.min(3, newQuadrant));
+          const clampedRing = Math.max(0, Math.min(rings.length - 1, newRing));
+
+          // Reset visual state
+          d3.select(this)
+            .attr('r', 6)
+            .attr('stroke-width', 2)
+            .style('cursor', 'pointer');
+
+          // Only trigger callback if position actually changed
+          if (clampedQuadrant !== d.quadrant || clampedRing !== d.ring) {
+            onBlipMove(d, clampedQuadrant, clampedRing, mouseX, mouseY);
+          } else {
+            // Reset position to original if no change
+            d3.select(this)
+              .transition()
+              .duration(200)
+              .attr('cx', d.position.x)
+              .attr('cy', d.position.y);
+          }
+        });
+
+      blips.call(drag);
+    }
 
     // Add zoom and pan behavior
     const zoom = d3.zoom<SVGSVGElement, unknown>()

@@ -15,6 +15,8 @@ export const updateTechItemSchema = z.object({
   name: z.string().min(1, 'Tech item name is required').max(100, 'Tech item name must be 100 characters or less').optional(),
   quadrant: z.number().int().min(0, 'Quadrant must be between 0 and 3').max(3, 'Quadrant must be between 0 and 3').optional(),
   ring: z.number().int().min(0, 'Ring must be between 0 and 3').max(3, 'Ring must be between 0 and 3').optional(),
+  positionX: z.number().optional(),
+  positionY: z.number().optional(),
   description: z.string().max(500, 'Description must be 500 characters or less').optional(),
   url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   category: z.string().max(50, 'Category must be 50 characters or less').optional(),

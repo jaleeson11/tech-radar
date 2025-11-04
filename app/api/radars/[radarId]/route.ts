@@ -13,10 +13,13 @@ export async function GET(
   try {
     const { radarId } = await params;
 
-    // Try to fetch by ID first, then by shareToken
+    // Try to fetch by ID or shareToken
     const radar = await prisma.radar.findFirst({
       where: {
-        OR: [{ id: radarId }, { shareToken: radarId }],
+        OR: [
+          { id: radarId },
+          { shareToken: radarId },
+        ],
       },
       include: {
         items: {

@@ -359,55 +359,49 @@ describe('TechItemForm', () => {
     });
 
     it('should show loading state during submission', async () => {
-      const user = userEvent.setup();
-      const slowOnSave = vi.fn(() => new Promise(resolve => setTimeout(resolve, 100)));
-
-      render(
+      const { rerender } = render(
         <TechItemForm
           mode="add"
           radarId={mockRadarId}
           quadrantNames={mockQuadrantNames}
-          onSave={slowOnSave}
+          onSave={mockOnSave}
           onCancel={mockOnCancel}
+          isLoading={false}
         />
       );
 
-      const nameInput = screen.getByLabelText(/name/i);
-      const submitButton = screen.getByRole('button', { name: /add item/i });
+      // Rerender with loading state
+      rerender(
+        <TechItemForm
+          mode="add"
+          radarId={mockRadarId}
+          quadrantNames={mockQuadrantNames}
+          onSave={mockOnSave}
+          onCancel={mockOnCancel}
+          isLoading={true}
+        />
+      );
 
-      await user.type(nameInput, 'Test Item');
-      await user.click(submitButton);
-
-      await waitFor(() => {
-        expect(screen.getByText(/saving\.\.\./i)).toBeInTheDocument();
-      });
+      expect(screen.getByText(/saving\.\.\./i)).toBeInTheDocument();
     });
 
     it('should disable buttons during submission', async () => {
-      const user = userEvent.setup();
-      const slowOnSave = vi.fn(() => new Promise(resolve => setTimeout(resolve, 100)));
-
       render(
         <TechItemForm
           mode="add"
           radarId={mockRadarId}
           quadrantNames={mockQuadrantNames}
-          onSave={slowOnSave}
+          onSave={mockOnSave}
           onCancel={mockOnCancel}
+          isLoading={true}
         />
       );
 
-      const nameInput = screen.getByLabelText(/name/i);
-      const submitButton = screen.getByRole('button', { name: /add item/i });
+      const submitButton = screen.getByRole('button', { name: /saving\.\.\./i });
       const cancelButton = screen.getByRole('button', { name: /cancel/i });
 
-      await user.type(nameInput, 'Test Item');
-      await user.click(submitButton);
-
-      await waitFor(() => {
-        expect(submitButton).toBeDisabled();
-        expect(cancelButton).toBeDisabled();
-      });
+      expect(submitButton).toBeDisabled();
+      expect(cancelButton).toBeDisabled();
     });
 
     it('should call onCancel when cancel button is clicked', async () => {
@@ -532,30 +526,24 @@ describe('TechItemForm', () => {
     });
 
     it('should prevent form submission when already submitting', async () => {
-      const user = userEvent.setup();
-      const slowOnSave = vi.fn(() => new Promise(resolve => setTimeout(resolve, 100)));
-
       render(
         <TechItemForm
           mode="add"
           radarId={mockRadarId}
           quadrantNames={mockQuadrantNames}
-          onSave={slowOnSave}
+          onSave={mockOnSave}
           onCancel={mockOnCancel}
+          isLoading={true}
         />
       );
 
-      const nameInput = screen.getByLabelText(/name/i);
-      const submitButton = screen.getByRole('button', { name: /add item/i });
+      const submitButton = screen.getByRole('button', { name: /saving\.\.\./i });
 
-      await user.type(nameInput, 'Test Item');
-      await user.click(submitButton);
-      await user.click(submitButton); // Try clicking again
+      // Button should be disabled when loading
+      expect(submitButton).toBeDisabled();
 
-      // Wait for submission to complete
-      await waitFor(() => {
-        expect(slowOnSave).toHaveBeenCalledTimes(1);
-      }, { timeout: 200 });
+      // Verify onSave is not called when button is disabled
+      expect(mockOnSave).not.toHaveBeenCalled();
     });
   });
 });

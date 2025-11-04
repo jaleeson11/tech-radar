@@ -11,29 +11,14 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const { id } = await params;
 
-    // Get user from database
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    // Check if tech item exists and get the radar owner
+    // Check if tech item exists and get the radar info
     const existingItem = await prisma.techItem.findUnique({
       where: { id },
       include: {
         radar: {
-          select: { ownerId: true },
+          select: { ownerId: true, permission: true },
         },
       },
     });
@@ -45,12 +30,34 @@ export async function PATCH(
       );
     }
 
-    // Check if user is the owner of the radar
-    if (existingItem.radar.ownerId !== user.id) {
-      return NextResponse.json(
-        { error: 'Forbidden - You are not the owner of this radar' },
-        { status: 403 }
-      );
+    // Check authentication and permissions
+    const session = await getServerSession(authOptions);
+
+    if (session?.user?.email) {
+      // User is logged in - check if they're the owner or radar allows editing
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+      });
+
+      if (!user) {
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      }
+
+      // Check if user can edit (owner or radar has edit permission)
+      if (existingItem.radar.ownerId !== user.id && existingItem.radar.permission !== 'edit') {
+        return NextResponse.json(
+          { error: 'Forbidden - You do not have permission to edit this radar' },
+          { status: 403 }
+        );
+      }
+    } else {
+      // No session (guest) - allow only if radar has edit permission
+      if (existingItem.radar.permission !== 'edit') {
+        return NextResponse.json(
+          { error: 'Unauthorized - Please log in to edit this radar' },
+          { status: 401 }
+        );
+      }
     }
 
     // Parse and validate request body
@@ -92,29 +99,14 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const { id } = await params;
 
-    // Get user from database
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    // Check if tech item exists and get the radar owner
+    // Check if tech item exists and get the radar info
     const existingItem = await prisma.techItem.findUnique({
       where: { id },
       include: {
         radar: {
-          select: { ownerId: true },
+          select: { ownerId: true, permission: true },
         },
       },
     });
@@ -126,12 +118,34 @@ export async function DELETE(
       );
     }
 
-    // Check if user is the owner of the radar
-    if (existingItem.radar.ownerId !== user.id) {
-      return NextResponse.json(
-        { error: 'Forbidden - You are not the owner of this radar' },
-        { status: 403 }
-      );
+    // Check authentication and permissions
+    const session = await getServerSession(authOptions);
+
+    if (session?.user?.email) {
+      // User is logged in - check if they're the owner or radar allows editing
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+      });
+
+      if (!user) {
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      }
+
+      // Check if user can edit (owner or radar has edit permission)
+      if (existingItem.radar.ownerId !== user.id && existingItem.radar.permission !== 'edit') {
+        return NextResponse.json(
+          { error: 'Forbidden - You do not have permission to edit this radar' },
+          { status: 403 }
+        );
+      }
+    } else {
+      // No session (guest) - allow only if radar has edit permission
+      if (existingItem.radar.permission !== 'edit') {
+        return NextResponse.json(
+          { error: 'Unauthorized - Please log in to edit this radar' },
+          { status: 401 }
+        );
+      }
     }
 
     // Delete tech item

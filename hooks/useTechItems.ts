@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { TechItem } from '@prisma/client';
-import { itemsApi, CreateItemRequest } from '@/lib/api/items';
+import { itemsApi, CreateItemRequest, UpdateItemRequest } from '@/lib/api/items';
 import { MAX_ITEMS_PER_RADAR } from '@/lib/constants/defaults';
 import { AxiosError } from 'axios';
 
@@ -46,7 +46,7 @@ export function useTechItems(radarId: string, initialItems: TechItem[] = []) {
   );
 
   const updateTechItem = useCallback(
-    async (id: string, data: CreateItemRequest): Promise<{ success: boolean; item?: TechItem; error?: string }> => {
+    async (id: string, data: UpdateItemRequest): Promise<{ success: boolean; item?: TechItem; error?: string }> => {
       setIsLoading(true);
       setError(null);
 
