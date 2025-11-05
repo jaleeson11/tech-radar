@@ -94,7 +94,8 @@
 - `components/SidePanel/TechItemList.tsx` - List view of tech items
 - `components/SidePanel/TechItemList.test.tsx` - List component tests
 - `components/SidePanel/FolderOrganizer.tsx` - Folder/category organization UI
-- `components/SidePanel/TechItemDetail.tsx` - Detail view/modal for tech items
+- `components/SidePanel/TechItemDetail.tsx` - Detail view for tech items (completed)
+- `components/SidePanel/TechItemDetail.module.css` - Detail view styles
 
 ### Components - Modals & Dialogs
 
@@ -317,12 +318,12 @@
     - [x] 4.2.5 Show error message if limit reached or validation fails
     - [x] 4.2.6 Refresh radar visualization after adding item
     - [x] 4.2.7 Write tests in `hooks/useTechItems.test.ts`
-  - [ ] 4.3 Implement edit tech item functionality:
-    - [ ] 4.3.1 Add `updateTechItem` mutation to useTechItems hook
-    - [ ] 4.3.2 Pre-populate form with existing tech item data
-    - [ ] 4.3.3 Allow changing any field including quadrant and ring
-    - [ ] 4.3.4 Handle "last write wins" conflict resolution (no optimistic locking)
-    - [ ] 4.3.5 Refresh radar after successful update
+  - [x] 4.3 Implement edit tech item functionality:
+    - [x] 4.3.1 Add `updateTechItem` mutation to useTechItems hook (already existed)
+    - [x] 4.3.2 Pre-populate form with existing tech item data (via initialData prop)
+    - [x] 4.3.3 Allow changing any field including quadrant and ring
+    - [x] 4.3.4 Handle "last write wins" conflict resolution (no optimistic locking)
+    - [x] 4.3.5 Refresh radar after successful update (automatic via useTechItems hook)
   - [ ] 4.4 Implement delete tech item functionality:
     - [ ] 4.4.1 Add `deleteTechItem` mutation to useTechItems hook
     - [ ] 4.4.2 Create delete confirmation modal `components/Modals/DeleteConfirmModal.tsx`
@@ -335,12 +336,12 @@
     - [ ] 4.5.3 Add click handler to open detail view or edit form
     - [ ] 4.5.4 Add edit and delete action buttons for each item
     - [ ] 4.5.5 Write tests in `components/SidePanel/TechItemList.test.tsx`
-  - [ ] 4.6 Create tech item detail view `components/SidePanel/TechItemDetail.tsx`:
-    - [ ] 4.6.1 Display full tech item information (name, quadrant, ring, description, URL)
-    - [ ] 4.6.2 Make URL clickable (open in new tab)
-    - [ ] 4.6.3 Add "Edit" button to switch to edit mode
-    - [ ] 4.6.4 Add "Delete" button
-    - [ ] 4.6.5 Add "Close" button to return to list view
+  - [x] 4.6 Create tech item detail view `components/SidePanel/TechItemDetail.tsx`:
+    - [x] 4.6.1 Display full tech item information (name, quadrant, ring, description, URL)
+    - [x] 4.6.2 Make URL clickable (open in new tab)
+    - [x] 4.6.3 Add "Edit" button to switch to edit mode
+    - [ ] 4.6.4 Add "Delete" button (deferred - will implement with 4.4)
+    - [x] 4.6.5 Add "Close" button to return to list view
   - [ ] 4.7 Implement folder/category organization `components/SidePanel/FolderOrganizer.tsx`:
     - [ ] 4.7.1 Create tree/accordion structure for categories
     - [ ] 4.7.2 Allow users to create new categories

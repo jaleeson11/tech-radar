@@ -180,7 +180,6 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
       .attr('stroke-width', 2)
       .attr('cursor', 'pointer')
       .attr('role', 'button')
-      .attr('tabindex', 0)
       .attr('opacity', shouldAnimate ? 0 : 1)
       .attr('aria-label', (d) => `${d.name} - ${quadrants[d.quadrant].name}, ${rings[d.ring].name}`);
 
@@ -225,29 +224,45 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
       .on('click', function (event, d) {
         event.stopPropagation();
         onBlipClick?.(d);
-      })
-      .on('keydown', function (event, d) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          onBlipClick?.(d);
-        }
       });
 
     // Add drag behavior for moving blips between quadrants/rings
     if (onBlipMove) {
+      let dragStartPos: { x: number; y: number } | null = null;
+      let isDragging = false;
+      const DRAG_THRESHOLD = 5; // pixels - minimum movement to be considered a drag
+
       const drag = d3.drag<SVGCircleElement, TechItemWithPosition>()
         .on('start', function (event, d) {
-          // Visual feedback - enlarge and increase opacity
-          d3.select(this)
-            .raise() // Bring to front
-            .attr('r', 10)
-            .attr('stroke-width', 3)
-            .style('cursor', 'grabbing');
-
-          // Hide tooltip during drag
-          setHoveredItem(null);
+          // Store starting position
+          dragStartPos = { x: event.x, y: event.y };
+          isDragging = false;
         })
         .on('drag', function (event, d) {
+          // Check if we've moved enough to be considered dragging
+          if (!isDragging && dragStartPos) {
+            const dx = event.x - dragStartPos.x;
+            const dy = event.y - dragStartPos.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < DRAG_THRESHOLD) {
+              // Not enough movement yet, don't start dragging
+              return;
+            }
+
+            // Now we're actually dragging - show visual feedback
+            isDragging = true;
+            d3.select(this)
+              .raise() // Bring to front
+              .attr('r', 10)
+              .attr('stroke-width', 3)
+              .style('cursor', 'grabbing');
+
+            // Hide tooltip during drag
+            setHoveredItem(null);
+          }
+
+          if (!isDragging) return; // Don't move until threshold is reached
           // Get current transform for zoom/pan adjustment
           const transform = zoomTransformRef.current || d3.zoomIdentity;
 
@@ -260,6 +275,12 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
             .attr('cy', mouseY);
         })
         .on('end', function (event, d) {
+          // If we never started dragging (just a click), don't do anything
+          if (!isDragging) {
+            dragStartPos = null;
+            return;
+          }
+
           const [mouseX, mouseY] = d3.pointer(event, g.node());
 
           // Calculate which quadrant and ring based on final position
@@ -305,6 +326,10 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
               .attr('cx', d.position.x)
               .attr('cy', d.position.y);
           }
+
+          // Reset drag state
+          dragStartPos = null;
+          isDragging = false;
         });
 
       blips.call(drag);

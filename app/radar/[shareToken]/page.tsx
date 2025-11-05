@@ -11,9 +11,11 @@ import { AppLayout } from '@/components/Layout/AppLayout';
 import { TopNavigation } from '@/components/Layout/TopNavigation';
 import { SidePanel } from '@/components/SidePanel/SidePanel';
 import { TechItemForm, TechItemFormData } from '@/components/SidePanel/TechItemForm';
+import { TechItemDetail } from '@/components/SidePanel/TechItemDetail';
 import { RadarCanvas } from '@/components/Radar/RadarCanvas';
 import { ShareModal } from '@/components/Modals/ShareModal';
 import { WelcomeModal } from '@/components/Modals/WelcomeModal';
+import { DeleteConfirmModal } from '@/components/Modals/DeleteConfirmModal';
 import {
   calculateAllBlipPositions,
   getDefaultPositioningConfig,
@@ -44,9 +46,14 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const [isLoadingRadar, setIsLoadingRadar] = useState(true);
   const [radarError, setRadarError] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [viewingItem, setViewingItem] = useState<TechItem | null>(null);
+  const [editingItem, setEditingItem] = useState<TechItem | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<TechItem | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [mobileSidePanelOpen, setMobileSidePanelOpen] = useState(false);
 
   // Check if user is the owner
   const isOwner = session?.user?.email === radar?.owner?.email;
@@ -220,13 +227,22 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   }, [radar]);
 
   const handleBlipClick = (item: TechItem) => {
-    console.log('Blip clicked:', item);
-    // TODO: Open item detail modal
+    // Open item detail view in side panel
+    setViewingItem(item);
+    setEditingItem(null);
+    setShowAddForm(false);
+    setSuccessMessage(null);
+    // Open mobile drawer to show detail view
+    setMobileSidePanelOpen(true);
   };
 
   const handleAddItem = () => {
     setShowAddForm(true);
+    setViewingItem(null);
+    setEditingItem(null);
     setSuccessMessage(null);
+    // Open mobile drawer to show add form
+    setMobileSidePanelOpen(true);
   };
 
   const handleSaveItem = async (data: TechItemFormData) => {
@@ -242,8 +258,78 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     // Error is handled by the hook and passed to the form
   };
 
+  const handleEditItem = async (data: TechItemFormData) => {
+    if (!editingItem) return;
+
+    const result = await updateTechItem(editingItem.id, data);
+
+    if (result.success) {
+      setSuccessMessage('Tech item updated successfully!');
+      // Return to detail view after successful edit
+      setViewingItem(result.item || null);
+      setEditingItem(null);
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(null), 3000);
+    }
+    // Error is handled by the hook and passed to the form
+  };
+
+  const handleEditFromDetail = () => {
+    // Switch from detail view to edit mode
+    if (viewingItem) {
+      setEditingItem(viewingItem);
+      setViewingItem(null);
+    }
+  };
+
+  const handleCloseDetail = () => {
+    setViewingItem(null);
+    setSuccessMessage(null);
+    // Close mobile drawer when closing detail view
+    setMobileSidePanelOpen(false);
+  };
+
+  const handleDeleteClick = () => {
+    if (viewingItem) {
+      setItemToDelete(viewingItem);
+      setShowDeleteModal(true);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!itemToDelete) return;
+
+    const result = await deleteTechItem(itemToDelete.id);
+
+    if (result.success) {
+      setSuccessMessage('Tech item deleted successfully!');
+      setShowDeleteModal(false);
+      setItemToDelete(null);
+      setViewingItem(null);
+      // Close mobile drawer after deletion
+      setMobileSidePanelOpen(false);
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(null), 3000);
+    }
+    // Error is handled by the hook and will show in the error state
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setItemToDelete(null);
+  };
+
   const handleCancelForm = () => {
-    setShowAddForm(false);
+    // If we were editing, return to detail view
+    if (editingItem) {
+      setViewingItem(editingItem);
+      setEditingItem(null);
+    } else {
+      // If we were adding, just close the form
+      setShowAddForm(false);
+    }
     setSuccessMessage(null);
   };
 
@@ -323,16 +409,27 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
 
   const sidePanel = (
     <SidePanel onAddItem={canEdit ? handleAddItem : undefined}>
-      {showAddForm && radar ? (
+      {(showAddForm || editingItem) && radar ? (
         <TechItemForm
-          mode="add"
+          mode={editingItem ? 'edit' : 'add'}
           radarId={radar.id}
           quadrantNames={(radar.quadrants as string[]) || DEFAULT_QUADRANTS}
-          onSave={handleSaveItem}
+          initialData={editingItem || undefined}
+          onSave={editingItem ? handleEditItem : handleSaveItem}
           onCancel={handleCancelForm}
           successMessage={successMessage}
           errorMessage={itemsError}
           isLoading={isLoadingItems}
+        />
+      ) : viewingItem && radar ? (
+        <TechItemDetail
+          item={viewingItem}
+          quadrantNames={(radar.quadrants as string[]) || DEFAULT_QUADRANTS}
+          ringNames={(radar.rings as string[]) || DEFAULT_RINGS}
+          onEdit={handleEditFromDetail}
+          onDelete={handleDeleteClick}
+          onClose={handleCloseDetail}
+          canEdit={canEdit}
         />
       ) : items.length === 0 ? (
         <p className={styles.noItems}>No tech items yet</p>
@@ -351,7 +448,12 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
 
   return (
     <>
-      <AppLayout topNav={topNav} sidePanel={sidePanel}>
+      <AppLayout
+        topNav={topNav}
+        sidePanel={sidePanel}
+        openSidePanel={mobileSidePanelOpen}
+        onSidePanelToggle={setMobileSidePanelOpen}
+      >
         <RadarCanvas
           items={itemsWithPositions}
           config={radarConfig}
@@ -370,6 +472,15 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
         isOpen={showWelcomeModal}
         onContinueAsVisitor={handleContinueAsVisitor}
         radarName={radar?.name || 'Tech Radar'}
+      />
+
+      <DeleteConfirmModal
+        isOpen={showDeleteModal}
+        title="Delete Tech Item"
+        message="Are you sure you want to delete this tech item?"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        isDeleting={isLoadingItems}
       />
     </>
   );

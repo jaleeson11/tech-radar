@@ -1,0 +1,246 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--surface-background, #ffffff);
+  border-radius: 8px;
+  height: 100%;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color, #e5e7eb);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.editButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--primary-color, #3b82f6);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.editButton:hover {
+  background: var(--primary-color-hover, #2563eb);
+}
+
+.editButton:active {
+  transform: translateY(1px);
+}
+
+.editButton:focus-visible {
+  outline: 2px solid var(--primary-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+.closeButton {
+  padding: 0.25rem 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  background: transparent;
+  color: var(--text-tertiary, #9ca3af);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.closeButton:hover {
+  background: var(--button-secondary-hover, #e5e7eb);
+  color: var(--text-secondary, #4a4a4a);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--primary-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary, #9ca3af);
+}
+
+.value {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a1a);
+}
+
+/* Info Grid (for Quadrant/Ring) */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  background: var(--surface-secondary, #f9fafb);
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* Description */
+.description {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #4a4a4a);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Link */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.9375rem;
+  color: var(--primary-color, #3b82f6);
+  text-decoration: none;
+  word-break: break-all;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: var(--primary-color-hover, #2563eb);
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--primary-color, #3b82f6);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.externalIcon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Metadata */
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  margin-top: auto;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+  font-size: 0.8125rem;
+}
+
+.metaLabel {
+  color: var(--text-tertiary, #9ca3af);
+  font-weight: 500;
+}
+
+.metaValue {
+  color: var(--text-secondary, #6b7280);
+}
+
+.metaSeparator {
+  color: var(--text-tertiary, #d1d5db);
+}
+
+/* Danger Zone */
+.dangerZone {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--error-color, #dc2626);
+  border: 1px solid var(--error-color, #dc2626);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.1s;
+}
+
+.deleteButton:hover {
+  background: var(--error-color, #dc2626);
+  color: #ffffff;
+}
+
+.deleteButton:active {
+  transform: translateY(1px);
+}
+
+.deleteButton:focus-visible {
+  outline: 2px solid var(--error-color, #dc2626);
+  outline-offset: 2px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .editButton {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+}

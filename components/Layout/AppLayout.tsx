@@ -9,9 +9,18 @@ interface AppLayoutProps {
   topNav?: React.ReactNode;
   sidePanel?: React.ReactNode;
   className?: string;
+  openSidePanel?: boolean; // External control to open drawer
+  onSidePanelToggle?: (isOpen: boolean) => void; // Callback when drawer state changes
 }
 
-export function AppLayout({ children, topNav, sidePanel, className }: AppLayoutProps) {
+export function AppLayout({
+  children,
+  topNav,
+  sidePanel,
+  className,
+  openSidePanel,
+  onSidePanelToggle
+}: AppLayoutProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
@@ -39,8 +48,17 @@ export function AppLayout({ children, topNav, sidePanel, className }: AppLayoutP
     }
   }, [isMobile]);
 
+  // Handle external control of side panel (for mobile drawer)
+  useEffect(() => {
+    if (isMobile && openSidePanel !== undefined) {
+      setIsSidePanelOpen(openSidePanel);
+    }
+  }, [openSidePanel, isMobile]);
+
   const toggleSidePanel = () => {
-    setIsSidePanelOpen(!isSidePanelOpen);
+    const newState = !isSidePanelOpen;
+    setIsSidePanelOpen(newState);
+    onSidePanelToggle?.(newState);
   };
 
   return (

@@ -152,39 +152,7 @@ describe('RadarCanvas', () => {
     });
   });
 
-  describe('Keyboard Accessibility', () => {
-    it('should call onBlipClick when Enter key is pressed', () => {
-      const handleClick = vi.fn();
-      render(<RadarCanvas items={mockItems} config={mockConfig} onBlipClick={handleClick} />);
-
-      const blip = screen.getByRole('button', { name: /react.*tools.*adopt/i });
-      fireEvent.keyDown(blip, { key: 'Enter' });
-
-      expect(handleClick).toHaveBeenCalledTimes(1);
-      expect(handleClick).toHaveBeenCalledWith(mockItems[0]);
-    });
-
-    it('should call onBlipClick when Space key is pressed', () => {
-      const handleClick = vi.fn();
-      render(<RadarCanvas items={mockItems} config={mockConfig} onBlipClick={handleClick} />);
-
-      const blip = screen.getByRole('button', { name: /react.*tools.*adopt/i });
-      fireEvent.keyDown(blip, { key: ' ' });
-
-      expect(handleClick).toHaveBeenCalledTimes(1);
-      expect(handleClick).toHaveBeenCalledWith(mockItems[0]);
-    });
-
-    it('should not call onBlipClick for other keys', () => {
-      const handleClick = vi.fn();
-      render(<RadarCanvas items={mockItems} config={mockConfig} onBlipClick={handleClick} />);
-
-      const blip = screen.getByRole('button', { name: /react.*tools.*adopt/i });
-      fireEvent.keyDown(blip, { key: 'Escape' });
-
-      expect(handleClick).not.toHaveBeenCalled();
-    });
-
+  describe('Accessibility', () => {
     it('should have proper ARIA labels for blips', () => {
       render(<RadarCanvas items={mockItems} config={mockConfig} />);
 
@@ -195,12 +163,8 @@ describe('RadarCanvas', () => {
       expect(tsBlip).toHaveAttribute('aria-label');
     });
 
-    it('should have tabindex for keyboard navigation', () => {
-      render(<RadarCanvas items={mockItems} config={mockConfig} />);
-
-      const blip = screen.getByRole('button', { name: /react.*tools.*adopt/i });
-      expect(blip).toHaveAttribute('tabindex', '0');
-    });
+    // Note: Keyboard navigation (tabindex, keydown handlers) was intentionally removed
+    // to fix double-click UX issues. Blips are click-only interactions.
   });
 
   describe('Responsive Behavior', () => {
