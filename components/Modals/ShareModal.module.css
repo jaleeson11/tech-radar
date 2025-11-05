@@ -65,62 +65,29 @@
   margin-bottom: 24px;
 }
 
-.label {
-  display: block;
+.description {
+  margin: 0 0 16px 0;
   font-size: 14px;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 12px;
+  color: #6b7280;
+  line-height: 1.5;
 }
 
-.permissionControl {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+.linkBox {
+  padding: 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   background-color: #f9fafb;
 }
 
-.permissionIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-  flex-shrink: 0;
-}
-
-.permissionSelect {
-  flex: 1;
+.linkInput {
+  width: 100%;
   border: none;
   background: transparent;
   font-size: 14px;
-  font-weight: 500;
   color: #111827;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-family: monospace;
   outline: none;
-}
-
-.permissionSelect:hover:not(:disabled) {
-  background-color: #e5e7eb;
-}
-
-.permissionSelect:focus {
-  background-color: #e5e7eb;
-}
-
-.permissionSelect:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.permissionDescription {
-  margin: 8px 0 0 0;
-  font-size: 13px;
-  color: #6b7280;
+  cursor: text;
 }
 
 .actions {

@@ -83,33 +83,6 @@ describe('/api/radars/[radarId]/items', () => {
       expect(data.ring).toBe(0);
     });
 
-    it('should return 401 if user is not authenticated and radar has view permission', async () => {
-      mockGetServerSession.mockResolvedValue(null);
-
-      (prisma.radar.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'radar-1',
-        name: 'My Radar',
-        ownerId: 'user-1',
-        permission: 'view',
-        _count: { items: 5 },
-      });
-
-      const req = new NextRequest('http://localhost:3000/api/radars/radar-1/items', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: 'React',
-          quadrant: 0,
-          ring: 0,
-        }),
-      });
-
-      const response = await POST(req, { params: { radarId: 'radar-1' } });
-      const data = await response.json();
-
-      expect(response.status).toBe(401);
-      expect(data.error).toContain('Unauthorized');
-    });
-
     it('should return 404 if radar not found', async () => {
       mockGetServerSession.mockResolvedValue({
         user: { email: 'test@example.com' },
@@ -136,40 +109,6 @@ describe('/api/radars/[radarId]/items', () => {
 
       expect(response.status).toBe(404);
       expect(data.error).toBe('Radar not found');
-    });
-
-    it('should return 403 if user is not the owner and radar has view permission', async () => {
-      mockGetServerSession.mockResolvedValue({
-        user: { email: 'test@example.com' },
-      } as any);
-
-      (prisma.user.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'user-1',
-        email: 'test@example.com',
-      });
-
-      (prisma.radar.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'radar-1',
-        name: 'My Radar',
-        ownerId: 'different-user',
-        permission: 'view',
-        _count: { items: 5 },
-      });
-
-      const req = new NextRequest('http://localhost:3000/api/radars/radar-1/items', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: 'React',
-          quadrant: 0,
-          ring: 0,
-        }),
-      });
-
-      const response = await POST(req, { params: { radarId: 'radar-1' } });
-      const data = await response.json();
-
-      expect(response.status).toBe(403);
-      expect(data.error).toContain('Forbidden');
     });
 
     it('should allow guest to create item when radar has edit permission', async () => {

@@ -83,33 +83,6 @@ describe('/api/items/[id]', () => {
       expect(data.ring).toBe(1);
     });
 
-    it('should return 401 if user is not authenticated and radar has view permission', async () => {
-      mockGetServerSession.mockResolvedValue(null);
-
-      (prisma.techItem.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'item-1',
-        radarId: 'radar-1',
-        name: 'React',
-        quadrant: 0,
-        ring: 0,
-        radar: {
-          ownerId: 'user-1',
-          permission: 'view',
-        },
-      });
-
-      const req = new NextRequest('http://localhost:3000/api/items/item-1', {
-        method: 'PATCH',
-        body: JSON.stringify({ description: 'New description' }),
-      });
-
-      const response = await PATCH(req, { params: { id: 'item-1' } });
-      const data = await response.json();
-
-      expect(response.status).toBe(401);
-      expect(data.error).toContain('Unauthorized');
-    });
-
     it('should return 404 if tech item not found', async () => {
       mockGetServerSession.mockResolvedValue({
         user: { email: 'test@example.com' },
@@ -132,45 +105,6 @@ describe('/api/items/[id]', () => {
 
       expect(response.status).toBe(404);
       expect(data.error).toBe('Tech item not found');
-    });
-
-    it('should return 403 if user is not the radar owner and radar has view permission', async () => {
-      mockGetServerSession.mockResolvedValue({
-        user: { email: 'test@example.com' },
-      } as any);
-
-      (prisma.user.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'user-1',
-        email: 'test@example.com',
-      });
-
-      (prisma.techItem.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'item-1',
-        radarId: 'radar-1',
-        name: 'React',
-        quadrant: 0,
-        ring: 0,
-        description: 'Old description',
-        url: 'https://react.dev',
-        category: 'Frontend',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        radar: {
-          ownerId: 'different-user',
-          permission: 'view',
-        },
-      });
-
-      const req = new NextRequest('http://localhost:3000/api/items/item-1', {
-        method: 'PATCH',
-        body: JSON.stringify({ description: 'New description' }),
-      });
-
-      const response = await PATCH(req, { params: { id: 'item-1' } });
-      const data = await response.json();
-
-      expect(response.status).toBe(403);
-      expect(data.error).toContain('Forbidden');
     });
 
     it('should allow guest to update item when radar has edit permission', async () => {
@@ -337,32 +271,6 @@ describe('/api/items/[id]', () => {
       expect(prisma.techItem.delete).toHaveBeenCalledWith({ where: { id: 'item-1' } });
     });
 
-    it('should return 401 if user is not authenticated and radar has view permission', async () => {
-      mockGetServerSession.mockResolvedValue(null);
-
-      (prisma.techItem.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'item-1',
-        radarId: 'radar-1',
-        name: 'React',
-        quadrant: 0,
-        ring: 0,
-        radar: {
-          ownerId: 'user-1',
-          permission: 'view',
-        },
-      });
-
-      const req = new NextRequest('http://localhost:3000/api/items/item-1', {
-        method: 'DELETE',
-      });
-
-      const response = await DELETE(req, { params: { id: 'item-1' } });
-      const data = await response.json();
-
-      expect(response.status).toBe(401);
-      expect(data.error).toContain('Unauthorized');
-    });
-
     it('should return 404 if tech item not found', async () => {
       mockGetServerSession.mockResolvedValue({
         user: { email: 'test@example.com' },
@@ -384,44 +292,6 @@ describe('/api/items/[id]', () => {
 
       expect(response.status).toBe(404);
       expect(data.error).toBe('Tech item not found');
-    });
-
-    it('should return 403 if user is not the radar owner and radar has view permission', async () => {
-      mockGetServerSession.mockResolvedValue({
-        user: { email: 'test@example.com' },
-      } as any);
-
-      (prisma.user.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'user-1',
-        email: 'test@example.com',
-      });
-
-      (prisma.techItem.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'item-1',
-        radarId: 'radar-1',
-        name: 'React',
-        quadrant: 0,
-        ring: 0,
-        description: 'A JavaScript library',
-        url: 'https://react.dev',
-        category: 'Frontend',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        radar: {
-          ownerId: 'different-user',
-          permission: 'view',
-        },
-      });
-
-      const req = new NextRequest('http://localhost:3000/api/items/item-1', {
-        method: 'DELETE',
-      });
-
-      const response = await DELETE(req, { params: { id: 'item-1' } });
-      const data = await response.json();
-
-      expect(response.status).toBe(403);
-      expect(data.error).toContain('Forbidden');
     });
 
     it('should allow guest to delete item when radar has edit permission', async () => {

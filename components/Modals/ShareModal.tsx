@@ -1,28 +1,21 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Link2, Check, Lock, Globe } from 'lucide-react';
+import { Link2, Check } from 'lucide-react';
 import styles from './ShareModal.module.css';
 
 interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
   shareUrl: string;
-  permission: 'view' | 'edit';
-  onPermissionChange: (permission: 'view' | 'edit') => Promise<void>;
-  isOwner: boolean;
 }
 
 export function ShareModal({
   isOpen,
   onClose,
   shareUrl,
-  permission,
-  onPermissionChange,
-  isOwner,
 }: ShareModalProps) {
   const [copied, setCopied] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
 
   if (!isOpen) return null;
 
@@ -30,17 +23,6 @@ export function ShareModal({
     navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handlePermissionChange = async (newPermission: 'view' | 'edit') => {
-    if (!isOwner || isUpdating) return;
-
-    setIsUpdating(true);
-    try {
-      await onPermissionChange(newPermission);
-    } finally {
-      setIsUpdating(false);
-    }
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -67,33 +49,18 @@ export function ShareModal({
 
         <div className={styles.content}>
           <div className={styles.section}>
-            <label className={styles.label} htmlFor="permission-select">
-              General access
-            </label>
-            <div className={styles.permissionControl}>
-              <div className={styles.permissionIcon}>
-                {permission === 'view' ? (
-                  <Lock size={20} />
-                ) : (
-                  <Globe size={20} />
-                )}
-              </div>
-              <select
-                id="permission-select"
-                value={permission}
-                onChange={(e) => handlePermissionChange(e.target.value as 'view' | 'edit')}
-                className={styles.permissionSelect}
-                disabled={!isOwner || isUpdating}
-              >
-                <option value="view">Restricted</option>
-                <option value="edit">Anyone with the link</option>
-              </select>
-            </div>
-            <p className={styles.permissionDescription}>
-              {permission === 'view'
-                ? 'Only people with access can open with the link'
-                : 'Anyone with the link can edit'}
+            <p className={styles.description}>
+              Anyone with this link can view and edit this radar
             </p>
+            <div className={styles.linkBox}>
+              <input
+                type="text"
+                value={shareUrl}
+                readOnly
+                className={styles.linkInput}
+                onClick={(e) => e.currentTarget.select()}
+              />
+            </div>
           </div>
 
           <div className={styles.actions}>

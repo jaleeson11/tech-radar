@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { createTechItemSchema } from '@/lib/validations/techItem';
 import { MAX_ITEMS_PER_RADAR } from '@/lib/constants/defaults';
@@ -28,35 +26,7 @@ export async function POST(
       return NextResponse.json({ error: 'Radar not found' }, { status: 404 });
     }
 
-    // Check authentication and permissions
-    const session = await getServerSession(authOptions);
-
-    if (session?.user?.email) {
-      // User is logged in - check if they're the owner or radar allows editing
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-      });
-
-      if (!user) {
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
-      }
-
-      // Check if user can edit (owner or radar has edit permission)
-      if (radar.ownerId !== user.id && radar.permission !== 'edit') {
-        return NextResponse.json(
-          { error: 'Forbidden - You do not have permission to edit this radar' },
-          { status: 403 }
-        );
-      }
-    } else {
-      // No session (guest) - allow only if radar has edit permission
-      if (radar.permission !== 'edit') {
-        return NextResponse.json(
-          { error: 'Unauthorized - Please log in to edit this radar' },
-          { status: 401 }
-        );
-      }
-    }
+    // Anyone with the link can add items (authenticated or guest)
 
     // Check item limit
     if (radar._count.items >= MAX_ITEMS_PER_RADAR) {

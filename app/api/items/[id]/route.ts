@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { updateTechItemSchema } from '@/lib/validations/techItem';
 import { ZodError } from 'zod';
@@ -13,14 +11,10 @@ export async function PATCH(
   try {
     const { id } = await params;
 
-    // Check if tech item exists and get the radar info
+    // Check if tech item exists
     const existingItem = await prisma.techItem.findUnique({
       where: { id },
-      include: {
-        radar: {
-          select: { ownerId: true, permission: true },
-        },
-      },
+      select: { id: true, radarId: true },
     });
 
     if (!existingItem) {
@@ -30,35 +24,7 @@ export async function PATCH(
       );
     }
 
-    // Check authentication and permissions
-    const session = await getServerSession(authOptions);
-
-    if (session?.user?.email) {
-      // User is logged in - check if they're the owner or radar allows editing
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-      });
-
-      if (!user) {
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
-      }
-
-      // Check if user can edit (owner or radar has edit permission)
-      if (existingItem.radar.ownerId !== user.id && existingItem.radar.permission !== 'edit') {
-        return NextResponse.json(
-          { error: 'Forbidden - You do not have permission to edit this radar' },
-          { status: 403 }
-        );
-      }
-    } else {
-      // No session (guest) - allow only if radar has edit permission
-      if (existingItem.radar.permission !== 'edit') {
-        return NextResponse.json(
-          { error: 'Unauthorized - Please log in to edit this radar' },
-          { status: 401 }
-        );
-      }
-    }
+    // Anyone with access to the radar can edit items (authenticated or guest)
 
     // Parse and validate request body
     const body = await req.json();
@@ -101,14 +67,10 @@ export async function DELETE(
   try {
     const { id } = await params;
 
-    // Check if tech item exists and get the radar info
+    // Check if tech item exists
     const existingItem = await prisma.techItem.findUnique({
       where: { id },
-      include: {
-        radar: {
-          select: { ownerId: true, permission: true },
-        },
-      },
+      select: { id: true, radarId: true },
     });
 
     if (!existingItem) {
@@ -118,35 +80,7 @@ export async function DELETE(
       );
     }
 
-    // Check authentication and permissions
-    const session = await getServerSession(authOptions);
-
-    if (session?.user?.email) {
-      // User is logged in - check if they're the owner or radar allows editing
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-      });
-
-      if (!user) {
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
-      }
-
-      // Check if user can edit (owner or radar has edit permission)
-      if (existingItem.radar.ownerId !== user.id && existingItem.radar.permission !== 'edit') {
-        return NextResponse.json(
-          { error: 'Forbidden - You do not have permission to edit this radar' },
-          { status: 403 }
-        );
-      }
-    } else {
-      // No session (guest) - allow only if radar has edit permission
-      if (existingItem.radar.permission !== 'edit') {
-        return NextResponse.json(
-          { error: 'Unauthorized - Please log in to edit this radar' },
-          { status: 401 }
-        );
-      }
-    }
+    // Anyone with access to the radar can edit items (authenticated or guest)
 
     // Delete tech item
     await prisma.techItem.delete({

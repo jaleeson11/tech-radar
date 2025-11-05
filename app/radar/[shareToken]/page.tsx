@@ -51,8 +51,8 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   // Check if user is the owner
   const isOwner = session?.user?.email === radar?.owner?.email;
 
-  // Check if user can edit - owner can always edit, others based on permission
-  const canEdit = isOwner || radar?.permission === 'edit';
+  // Anyone with the link can edit (owner or guest)
+  const canEdit = true;
 
   // Use the useTechItems hook for managing items
   const {
@@ -281,23 +281,6 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     // TODO: Open customize quadrants modal
   };
 
-  const handlePermissionChange = async (newPermission: 'view' | 'edit') => {
-    if (!radar || !isOwner) return;
-
-    try {
-      const updatedRadar = await radarsApi.update(radar.id, {
-        permission: newPermission,
-      });
-      // Preserve the owner data from the original radar since API might not return it
-      setRadar({
-        ...updatedRadar,
-        owner: radar.owner,
-      });
-    } catch (err) {
-      console.error('Error updating permission:', err);
-      alert('Failed to update permission');
-    }
-  };
 
   const handleContinueAsVisitor = () => {
     // Remember that user has seen the welcome modal for this session
@@ -381,9 +364,6 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         shareUrl={`${typeof window !== 'undefined' ? window.location.origin : ''}/radar/${shareToken}`}
-        permission={radar?.permission as 'view' | 'edit'}
-        onPermissionChange={handlePermissionChange}
-        isOwner={isOwner}
       />
 
       <WelcomeModal

@@ -77,8 +77,7 @@ model Radar {
   name       String
   ownerId    String
   owner      User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  shareToken String     @unique @default(cuid())
-  permission String     @default("edit") // "view" or "edit" - controls what anyone with the link can do
+  shareToken String     @unique @default(cuid()) // Single share link - anyone with link can edit
   quadrants  Json       // Array of 4 quadrant names
   rings      Json       // Array of 4 ring names
   createdAt  DateTime   @default(now())
