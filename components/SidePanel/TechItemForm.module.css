@@ -123,56 +123,8 @@
   border-top: 1px solid var(--border-color, #e5e7eb);
 }
 
-.cancelButton,
-.saveButton {
+.formActions > * {
   flex: 1;
-  padding: 0.625rem 1.25rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-}
-
-.cancelButton {
-  background: var(--button-secondary-bg, #f3f4f6);
-  color: var(--text-secondary, #4a4a4a);
-}
-
-.cancelButton:hover:not(:disabled) {
-  background: var(--button-secondary-hover, #e5e7eb);
-}
-
-.saveButton {
-  background: var(--primary-color, #3b82f6);
-  color: #ffffff;
-}
-
-.saveButton:hover:not(:disabled) {
-  background: var(--primary-color-hover, #2563eb);
-}
-
-.cancelButton:active:not(:disabled),
-.saveButton:active:not(:disabled) {
-  transform: translateY(1px);
-}
-
-.cancelButton:disabled,
-.saveButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.saveButton:disabled {
-  background: var(--primary-color, #3b82f6);
-}
-
-/* Focus visible for keyboard navigation */
-.cancelButton:focus-visible,
-.saveButton:focus-visible {
-  outline: 2px solid var(--primary-color, #3b82f6);
-  outline-offset: 2px;
 }
 
 /* Mobile responsive */
@@ -190,8 +142,7 @@
     flex-direction: column-reverse;
   }
 
-  .cancelButton,
-  .saveButton {
+  .formActions > * {
     width: 100%;
   }
 }

@@ -1,82 +1,17 @@
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow: auto;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.title {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.closeButton {
-  background: none;
-  border: none;
-  font-size: 28px;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: all 0.2s;
-}
-
-.closeButton:hover {
-  background-color: #f3f4f6;
-  color: #111827;
-}
-
-.content {
-  padding: 24px;
-}
-
-.section {
-  margin-bottom: 24px;
-}
-
+/* Description */
 .description {
-  margin: 0 0 16px 0;
+  margin: 0 0 var(--spacing-4) 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
+/* Link Box */
 .linkBox {
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background-color: #f9fafb;
+  padding: var(--spacing-3);
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
 }
 
 .linkInput {
@@ -84,87 +19,30 @@
   border: none;
   background: transparent;
   font-size: 14px;
-  color: #111827;
-  font-family: monospace;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-mono);
   outline: none;
   cursor: text;
 }
 
+/* Actions */
 .actions {
   display: flex;
-  gap: 12px;
-  justify-content: flex-end;
+  gap: var(--spacing-3);
+  width: 100%;
 }
 
-.copyButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background-color: transparent;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  color: #374151;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
+.actions > * {
+  flex: 1;
 }
 
-.copyButton:hover {
-  background-color: #f3f4f6;
-  border-color: #9ca3af;
-}
-
-.copyButton:active {
-  background-color: #e5e7eb;
-}
-
-.doneButton {
-  padding: 10px 24px;
-  background-color: #3b82f6;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.doneButton:hover {
-  background-color: #2563eb;
-}
-
-.doneButton:active {
-  background-color: #1d4ed8;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .modal {
-    width: 95%;
-  }
-
-  .header {
-    padding: 16px 20px;
-  }
-
-  .content {
-    padding: 20px;
-  }
-
-  .title {
-    font-size: 18px;
-  }
-
+/* Mobile responsive */
+@media (max-width: 640px) {
   .actions {
     flex-direction: column-reverse;
   }
 
-  .copyButton,
-  .doneButton {
+  .actions > * {
     width: 100%;
-    justify-content: center;
   }
 }

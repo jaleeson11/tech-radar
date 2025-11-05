@@ -1,28 +1,5 @@
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  max-width: 450px;
-  width: 90%;
-  max-height: 90vh;
-  overflow: auto;
-}
-
+/* Content */
 .content {
-  padding: 48px 32px;
   text-align: center;
 }
 
@@ -32,85 +9,35 @@
   justify-content: center;
   width: 80px;
   height: 80px;
-  margin: 0 auto 24px;
+  margin: 0 auto var(--spacing-6);
   background-color: #eff6ff;
   border-radius: 50%;
-  color: #3b82f6;
+  color: var(--color-primary);
 }
 
 .title {
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--spacing-3) 0;
   font-size: 24px;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-text-primary);
 }
 
 .description {
-  margin: 0 0 32px 0;
+  margin: 0 0 var(--spacing-8) 0;
   font-size: 15px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
+/* Actions */
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--spacing-3);
 }
 
-.loginButton {
-  width: 100%;
-  padding: 14px 24px;
-  background-color: #3b82f6;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.loginButton:hover {
-  background-color: #2563eb;
-}
-
-.loginButton:active {
-  background-color: #1d4ed8;
-}
-
-.visitorButton {
-  width: 100%;
-  padding: 14px 24px;
-  background-color: transparent;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  color: #374151;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.visitorButton:hover {
-  background-color: #f3f4f6;
-  border-color: #9ca3af;
-}
-
-.visitorButton:active {
-  background-color: #e5e7eb;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .modal {
-    width: 95%;
-  }
-
-  .content {
-    padding: 40px 24px;
-  }
-
+/* Mobile responsive */
+@media (max-width: 640px) {
   .title {
     font-size: 22px;
   }

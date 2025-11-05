@@ -1,8 +1,8 @@
 /* Dashboard Container */
 .dashboard {
   min-height: 100vh;
-  background: #f9fafb;
-  padding: 40px 20px;
+  background: var(--color-surface);
+  padding: var(--spacing-10) var(--spacing-5);
 }
 
 /* Loading State */
@@ -12,14 +12,14 @@
   align-items: center;
   justify-content: center;
   min-height: 60vh;
-  gap: 16px;
+  gap: var(--spacing-4);
 }
 
 .spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid #e5e7eb;
-  border-top-color: #3b82f6;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -33,207 +33,140 @@
 .loadingState p {
   margin: 0;
   font-size: 16px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 /* Header */
 .header {
-  max-width: 1200px;
-  margin: 0 auto 40px;
+  max-width: var(--max-width-container);
+  margin: 0 auto var(--spacing-10);
 }
 
 .headerContent {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: var(--spacing-6);
 }
 
 .headerText h1 {
-  margin: 0 0 8px 0;
+  margin: 0 0 var(--spacing-2) 0;
   font-size: 32px;
   font-weight: 700;
-  color: #111827;
+  color: var(--color-text-primary);
 }
 
 .headerText p {
   margin: 0;
   font-size: 16px;
-  color: #6b7280;
-}
-
-.createButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background-color: #3b82f6;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.createButton:hover {
-  background-color: #2563eb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.createButton:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+  color: var(--color-text-secondary);
 }
 
 /* Search Bar */
 .searchBar {
   position: relative;
-  max-width: 1200px;
-  margin: 0 auto 32px;
+  max-width: var(--max-width-container);
+  margin: 0 auto var(--spacing-8);
 }
 
 .searchIcon {
   position: absolute;
-  left: 16px;
+  left: var(--spacing-4);
   top: 50%;
   transform: translateY(-50%);
-  color: #9ca3af;
+  color: var(--color-text-tertiary);
   pointer-events: none;
 }
 
 .searchInput {
   width: 100%;
-  padding: 12px 16px 12px 48px;
+  padding: var(--spacing-3) var(--spacing-4) var(--spacing-3) 48px;
   font-size: 16px;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
   transition: all 0.2s ease;
 }
 
 .searchInput:hover {
-  border-color: #d1d5db;
+  border-color: var(--color-border-hover);
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 /* Error Message */
 .errorMessage {
-  max-width: 1200px;
-  margin: 0 auto 24px;
-  padding: 16px 20px;
+  max-width: var(--max-width-container);
+  margin: 0 auto var(--spacing-6);
+  padding: var(--spacing-4) var(--spacing-5);
   background-color: #fef2f2;
   border: 1px solid #fecaca;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-4);
 }
 
 .errorMessage p {
   margin: 0;
-  color: #991b1b;
+  color: var(--color-error);
   font-size: 14px;
-}
-
-.errorMessage button {
-  background: none;
-  border: none;
-  color: #991b1b;
-  font-size: 24px;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0 4px;
-}
-
-.errorMessage button:hover {
-  opacity: 0.7;
 }
 
 /* Empty State */
 .emptyState {
   max-width: 600px;
-  margin: 80px auto;
+  margin: var(--spacing-20) auto;
   text-align: center;
-  padding: 40px;
+  padding: var(--spacing-10);
 }
 
 .emptyState svg {
-  color: #9ca3af;
-  margin-bottom: 24px;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--spacing-6);
 }
 
 .emptyState h2 {
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--spacing-3) 0;
   font-size: 24px;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-text-primary);
 }
 
 .emptyState p {
-  margin: 0 0 32px 0;
+  margin: 0 0 var(--spacing-8) 0;
   font-size: 16px;
-  color: #6b7280;
-}
-
-.createButtonLarge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 28px;
-  background-color: #3b82f6;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.createButtonLarge:hover {
-  background-color: #2563eb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.createButtonLarge:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+  color: var(--color-text-secondary);
 }
 
 /* Radars Grid */
 .radarsGrid {
-  max-width: 1200px;
+  max-width: var(--max-width-container);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  gap: var(--spacing-6);
 }
 
 /* Radar Card */
 .radarCard {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 24px;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
   transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-4);
 }
 
 .radarCard:hover {
-  border-color: #3b82f6;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-2px);
 }
 
@@ -241,14 +174,14 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--spacing-3);
 }
 
 .cardHeader h3 {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-text-primary);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -260,20 +193,20 @@
 .publicBadge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) 10px;
   background-color: #dbeafe;
   color: #1e40af;
   font-size: 12px;
   font-weight: 600;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   white-space: nowrap;
 }
 
 .cardDescription {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   line-height: 1.5;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -284,102 +217,38 @@
 
 .cardStats {
   display: flex;
-  gap: 16px;
-  padding-top: 12px;
-  border-top: 1px solid #f3f4f6;
+  gap: var(--spacing-4);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-surface-hover);
 }
 
 .stat {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-2);
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 .stat svg {
-  color: #9ca3af;
+  color: var(--color-text-tertiary);
 }
 
 .cardActions {
   display: flex;
-  gap: 8px;
+  gap: var(--spacing-2);
   margin-top: auto;
-}
-
-.viewButton,
-.editButton {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.viewButton {
-  background-color: #f3f4f6;
-  color: #374151;
-  border: 1px solid #e5e7eb;
-}
-
-.viewButton:hover {
-  background-color: #e5e7eb;
-  border-color: #d1d5db;
-}
-
-.editButton {
-  background-color: #3b82f6;
-  color: white;
-  border: 1px solid transparent;
-}
-
-.editButton:hover {
-  background-color: #2563eb;
-}
-
-.deleteButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  background-color: transparent;
-  color: #ef4444;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.deleteButton:hover {
-  background-color: #fef2f2;
-  border-color: #fecaca;
-}
-
-.deleteButton:focus {
-  outline: 2px solid #ef4444;
-  outline-offset: 2px;
 }
 
 /* Responsive - Tablet */
 @media (max-width: 768px) {
   .dashboard {
-    padding: 24px 16px;
+    padding: var(--spacing-6) var(--spacing-4);
   }
 
   .headerContent {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .createButton {
-    width: 100%;
-    justify-content: center;
   }
 
   .radarsGrid {
@@ -398,7 +267,7 @@
   }
 
   .radarCard {
-    padding: 20px;
+    padding: var(--spacing-5);
   }
 
   .cardHeader h3 {
@@ -407,11 +276,5 @@
 
   .cardActions {
     flex-direction: column;
-  }
-
-  .viewButton,
-  .editButton,
-  .deleteButton {
-    width: 100%;
   }
 }

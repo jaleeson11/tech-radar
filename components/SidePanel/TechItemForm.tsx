@@ -5,6 +5,7 @@ import { TechItem } from '@prisma/client';
 import { DEFAULT_RINGS } from '@/lib/constants/defaults';
 import { createTechItemSchema } from '@/lib/validations/techItem';
 import { z } from 'zod';
+import { Button } from '@/components/Button';
 import styles from './TechItemForm.module.css';
 
 interface TechItemFormProps {
@@ -307,21 +308,21 @@ export function TechItemForm({
 
       {/* Form Actions */}
       <div className={styles.formActions}>
-        <button
+        <Button
           type="button"
           onClick={onCancel}
-          className={styles.cancelButton}
+          variant="secondary"
           disabled={isLoading}
         >
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
-          className={styles.saveButton}
-          disabled={isLoading}
+          variant="primary"
+          isLoading={isLoading}
         >
-          {isLoading ? 'Saving...' : mode === 'add' ? 'Add Item' : 'Save Changes'}
-        </button>
+          {mode === 'add' ? 'Add Item' : 'Save Changes'}
+        </Button>
       </div>
     </form>
   );

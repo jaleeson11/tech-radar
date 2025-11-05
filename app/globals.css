@@ -11,9 +11,13 @@ body {
 body {
   color: var(--color-text-primary);
   background: var(--color-background);
-  font-family: var(--font-family-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-inter);
+}
+
+h1, h2, h3, h4, h5, h6,
+button,
+.button {
+  font-family: var(--font-space-grotesk);
 }
 
 * {

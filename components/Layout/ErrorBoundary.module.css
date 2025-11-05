@@ -3,45 +3,45 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 24px;
-  background-color: #f9fafb;
+  padding: var(--spacing-6);
+  background-color: var(--color-surface);
 }
 
 .errorContent {
   max-width: 600px;
   width: 100%;
-  padding: 32px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-8);
+  background-color: var(--color-background);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
 }
 
 .errorTitle {
   font-size: 24px;
   font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 16px 0;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
 }
 
 .errorMessage {
   font-size: 16px;
-  color: #6b7280;
-  margin: 0 0 24px 0;
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-6) 0;
   line-height: 1.5;
 }
 
 .errorDetails {
-  margin: 24px 0;
-  padding: 16px;
+  margin: var(--spacing-6) 0;
+  padding: var(--spacing-4);
   background-color: #fef2f2;
   border: 1px solid #fecaca;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
 .errorDetails summary {
   cursor: pointer;
   font-weight: 600;
-  color: #991b1b;
+  color: var(--color-error);
   user-select: none;
 }
 
@@ -50,29 +50,29 @@
 }
 
 .errorStack {
-  margin-top: 12px;
-  padding: 12px;
-  background-color: #ffffff;
+  margin-top: var(--spacing-3);
+  padding: var(--spacing-3);
+  background-color: var(--color-background);
   border: 1px solid #fecaca;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   overflow-x: auto;
   font-size: 12px;
-  font-family: 'Courier New', monospace;
-  color: #991b1b;
+  font-family: var(--font-family-mono);
+  color: var(--color-error);
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .errorActions {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing-3);
   flex-wrap: wrap;
 }
 
 .resetButton,
 .reloadButton {
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 10px var(--spacing-5);
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -81,41 +81,41 @@
 }
 
 .resetButton {
-  background-color: #3b82f6;
+  background-color: var(--color-primary);
   color: white;
 }
 
 .resetButton:hover {
-  background-color: #2563eb;
+  background-color: var(--color-primary-hover);
 }
 
 .resetButton:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
 .reloadButton {
-  background-color: #e5e7eb;
-  color: #374151;
+  background-color: var(--color-border);
+  color: var(--color-text-secondary);
 }
 
 .reloadButton:hover {
-  background-color: #d1d5db;
+  background-color: var(--color-border-hover);
 }
 
 .reloadButton:focus {
-  outline: 2px solid #9ca3af;
+  outline: 2px solid var(--color-text-tertiary);
   outline-offset: 2px;
 }
 
 /* Mobile responsive */
 @media (max-width: 640px) {
   .errorContainer {
-    padding: 16px;
+    padding: var(--spacing-4);
   }
 
   .errorContent {
-    padding: 24px;
+    padding: var(--spacing-6);
   }
 
   .errorTitle {

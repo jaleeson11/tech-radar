@@ -15,18 +15,18 @@
   position: fixed;
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-sm);
   font-size: 14px;
   pointer-events: none;
-  z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: var(--z-index-tooltip);
+  box-shadow: var(--shadow-md);
   max-width: 250px;
 }
 
 .tooltipName {
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: var(--spacing-1);
 }
 
 .tooltipDetails {
@@ -44,7 +44,7 @@
 
   .tooltip {
     font-size: 12px;
-    padding: 6px 10px;
+    padding: var(--spacing-2);
   }
 
   .tooltipName {

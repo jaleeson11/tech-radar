@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { Share2, Download, Settings, User, LayoutGrid } from 'lucide-react';
+import { Button } from '@/components/Button';
 import styles from './TopNavigation.module.css';
 
 interface TopNavigationProps {
@@ -51,41 +52,47 @@ export function TopNavigation({
         <div className={styles.rightSection}>
           {/* Share Button */}
           {onShare && (
-            <button
+            <Button
               onClick={onShare}
-              className={styles.navButton}
+              variant="ghost"
+              size="sm"
+              leftIcon={<Share2 size={18} />}
               aria-label="Share radar"
               title="Share radar"
+              className={styles.navButton}
             >
-              <Share2 className={styles.buttonIcon} size={18} aria-hidden="true" />
               <span className={styles.buttonText}>Share</span>
-            </button>
+            </Button>
           )}
 
           {/* Export Button */}
           {onExport && (
-            <button
+            <Button
               onClick={onExport}
-              className={styles.navButton}
+              variant="ghost"
+              size="sm"
+              leftIcon={<Download size={18} />}
               aria-label="Export radar"
               title="Export radar"
+              className={styles.navButton}
             >
-              <Download className={styles.buttonIcon} size={18} aria-hidden="true" />
               <span className={styles.buttonText}>Export</span>
-            </button>
+            </Button>
           )}
 
           {/* Customize Button */}
           {onCustomize && (
-            <button
+            <Button
               onClick={onCustomize}
-              className={styles.navButton}
+              variant="ghost"
+              size="sm"
+              leftIcon={<Settings size={18} />}
               aria-label="Customize radar"
               title="Customize radar"
+              className={styles.navButton}
             >
-              <Settings className={styles.buttonIcon} size={18} aria-hidden="true" />
               <span className={styles.buttonText}>Settings</span>
-            </button>
+            </Button>
           )}
 
           {/* User Account Indicator */}
@@ -97,14 +104,16 @@ export function TopNavigation({
                   {session.user?.name || session.user?.email}
                 </span>
               </div>
-              <button
+              <Button
                 onClick={handleSignOut}
-                className={styles.signOutButton}
+                variant="ghost"
+                size="sm"
                 aria-label="Sign out"
                 title="Sign out"
+                className={styles.signOutButton}
               >
                 Sign Out
-              </button>
+              </Button>
             </div>
           )}
         </div>

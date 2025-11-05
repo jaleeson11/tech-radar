@@ -22,16 +22,16 @@
 .radarArea {
   flex: 1;
   overflow: auto;
-  background-color: #f9fafb;
+  background-color: var(--color-surface);
   position: relative;
 }
 
 /* Side Panel (Desktop) */
 .sidePanel {
-  width: 320px;
+  width: var(--sidebar-width);
   flex-shrink: 0;
-  background-color: #ffffff;
-  border-left: 1px solid #e5e7eb;
+  background-color: var(--color-background);
+  border-left: 1px solid var(--color-border);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -39,17 +39,17 @@
 /* Mobile Drawer Toggle Button */
 .mobileToggle {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: var(--spacing-6);
+  right: var(--spacing-6);
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: #3b82f6;
+  background-color: var(--color-primary);
   color: white;
   border: none;
-  font-size: 24px;
+  font-size: var(--spacing-6);
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   z-index: 200;
   display: flex;
   align-items: center;
@@ -58,7 +58,7 @@
 }
 
 .mobileToggle:hover {
-  background-color: #2563eb;
+  background-color: var(--color-primary-hover);
   transform: scale(1.05);
 }
 
@@ -67,7 +67,7 @@
 }
 
 .mobileToggle:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -100,8 +100,8 @@
   bottom: 0;
   width: 85%;
   max-width: 400px;
-  background-color: #ffffff;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background);
+  box-shadow: -2px 0 var(--spacing-2) rgba(0, 0, 0, 0.1);
   z-index: 400;
   overflow-y: auto;
   transform: translateX(100%);
@@ -140,6 +140,6 @@
 /* Wide screen optimization */
 @media (min-width: 1440px) {
   .sidePanel {
-    width: 380px;
+    width: 380px; /* Intentionally larger than --sidebar-width for wide screens */
   }
 }

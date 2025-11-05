@@ -42,18 +42,26 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
     const shouldAnimate = !hasAnimated;
 
     // Draw rings (concentric circles) with ripple animation
-    rings.forEach((ring, index) => {
+    // Define opacity scale - decreasing from center outward
+    const ringOpacities = [0.15, 0.10, 0.06, 0.03];
+
+    // Draw rings in REVERSE order (largest to smallest) so inner rings with higher opacity appear on top
+    [...rings].reverse().forEach((ring, reverseIndex) => {
+      const index = rings.length - 1 - reverseIndex; // Get original index for opacity
       const radius = (ring.outerRadius / 100) * maxRadius;
       const delay = shouldAnimate ? index * 150 : 0; // Stagger delay for ripple effect
+      const baseOpacity = ringOpacities[index] || 0.03;
 
       const circle = g.append('circle')
         .attr('cx', centerX)
         .attr('cy', centerY)
         .attr('r', shouldAnimate ? 0 : radius) // Start from center or final size
         .attr('class', `ring ring-${ring.index}`)
-        .attr('fill', 'none')
-        .attr('stroke', '#ccc')
-        .attr('stroke-width', 1)
+        .attr('fill', '#14b8a6')
+        .attr('fill-opacity', shouldAnimate ? 0 : baseOpacity)
+        .attr('stroke', '#14b8a6')
+        .attr('stroke-width', 1.5)
+        .attr('stroke-opacity', 0.3)
         .attr('opacity', shouldAnimate ? 0 : 1);
 
       if (shouldAnimate) {
@@ -63,7 +71,8 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
           .duration(600)
           .ease(d3.easeCubicOut)
           .attr('r', radius)
-          .attr('opacity', 1);
+          .attr('opacity', 1)
+          .attr('fill-opacity', baseOpacity);
       }
     });
 
@@ -77,8 +86,9 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
       .attr('x2', centerX)
       .attr('y2', centerY + maxRadius)
       .attr('class', 'quadrant-divider')
-      .attr('stroke', '#999')
+      .attr('stroke', '#14b8a6')
       .attr('stroke-width', 2)
+      .attr('stroke-opacity', 0.4)
       .attr('opacity', shouldAnimate ? 0 : 1);
 
     if (shouldAnimate) {
@@ -96,8 +106,9 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
       .attr('x2', centerX + maxRadius)
       .attr('y2', centerY)
       .attr('class', 'quadrant-divider')
-      .attr('stroke', '#999')
+      .attr('stroke', '#14b8a6')
       .attr('stroke-width', 2)
+      .attr('stroke-opacity', 0.4)
       .attr('opacity', shouldAnimate ? 0 : 1);
 
     if (shouldAnimate) {
@@ -337,7 +348,7 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
 
     // Add zoom and pan behavior
     const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([0.5, 3]) // Allow zoom from 0.5x to 3x
+      .scaleExtent([1, 3]) // Allow zoom from 1x (default) to 3x, no zoom out beyond default
       .on('zoom', (event) => {
         g.attr('transform', event.transform);
         // Save the transform so we can restore it if the component re-renders
@@ -393,10 +404,10 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
 // Helper function to get color for each quadrant
 function getBlipColor(quadrant: number): string {
   const colors = [
-    '#3b82f6', // Blue - Quadrant 0
-    '#10b981', // Green - Quadrant 1
-    '#f59e0b', // Orange - Quadrant 2
-    '#ef4444', // Red - Quadrant 3
+    '#14b8a6', // Teal - Quadrant 0
+    '#06b6d4', // Cyan - Quadrant 1
+    '#8b5cf6', // Purple - Quadrant 2
+    '#ec4899', // Pink - Quadrant 3
   ];
   return colors[quadrant] || '#6b7280';
 }

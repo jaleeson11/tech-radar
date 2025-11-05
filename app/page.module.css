@@ -1,7 +1,7 @@
 /* Landing Page Container */
 .landingPage {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+  background: linear-gradient(to bottom, var(--color-background), var(--color-surface));
 }
 
 /* Hero Section */
@@ -9,9 +9,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1200px;
+  max-width: var(--max-width-container);
   margin: 0 auto;
-  padding: 80px 40px;
+  padding: var(--spacing-20) var(--spacing-10);
   gap: 60px;
 }
 
@@ -21,43 +21,43 @@
 }
 
 .heroTitle {
-  margin: 0 0 24px 0;
+  margin: 0 0 var(--spacing-6) 0;
   font-size: 56px;
   font-weight: 700;
   line-height: 1.1;
-  color: #111827;
+  color: var(--color-text-primary);
   letter-spacing: -0.02em;
 }
 
 .heroSubtitle {
-  margin: 0 0 40px 0;
+  margin: 0 0 var(--spacing-10) 0;
   font-size: 20px;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 .ctaButtons {
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-4);
   align-items: center;
 }
 
 .primaryCta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-2);
   padding: 14px 28px;
-  background-color: #3b82f6;
+  background-color: var(--color-primary);
   color: white;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .primaryCta:hover {
-  background-color: #2563eb;
+  background-color: var(--color-primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
 }
@@ -66,19 +66,19 @@
   display: inline-flex;
   align-items: center;
   padding: 14px 28px;
-  background-color: white;
-  color: #374151;
+  background-color: var(--color-background);
+  color: var(--color-text-secondary);
   font-size: 16px;
   font-weight: 600;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .secondaryCta:hover {
-  border-color: #d1d5db;
-  background-color: #f9fafb;
+  border-color: var(--color-border-hover);
+  background-color: var(--color-surface);
 }
 
 .heroVisual {
@@ -87,10 +87,10 @@
 }
 
 .radarPreview {
-  background: white;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: var(--color-background);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-10);
+  box-shadow: var(--shadow-xl);
 }
 
 .radarSvg {
@@ -101,41 +101,41 @@
 .quadrantLabel {
   font-size: 14px;
   font-weight: 600;
-  fill: #6b7280;
+  fill: var(--color-text-secondary);
 }
 
 /* Features Section */
 .features {
-  max-width: 1200px;
+  max-width: var(--max-width-container);
   margin: 0 auto;
-  padding: 80px 40px;
+  padding: var(--spacing-20) var(--spacing-10);
 }
 
 .featuresTitle {
-  margin: 0 0 48px 0;
+  margin: 0 0 var(--spacing-12) 0;
   font-size: 40px;
   font-weight: 700;
   text-align: center;
-  color: #111827;
+  color: var(--color-text-primary);
 }
 
 .featureGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 32px;
+  gap: var(--spacing-8);
 }
 
 .featureCard {
-  padding: 32px;
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  padding: var(--spacing-8);
+  background: var(--color-background);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
   transition: all 0.2s ease;
 }
 
 .featureCard:hover {
-  border-color: #3b82f6;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
 }
 
@@ -145,30 +145,30 @@
   justify-content: center;
   width: 56px;
   height: 56px;
-  margin-bottom: 20px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  border-radius: 12px;
+  margin-bottom: var(--spacing-5);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-lg);
   color: white;
 }
 
 .featureCard h3 {
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--spacing-3) 0;
   font-size: 20px;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-text-primary);
 }
 
 .featureCard p {
   margin: 0;
   font-size: 16px;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 /* CTA Section */
 .cta {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  padding: 80px 40px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  padding: var(--spacing-20) var(--spacing-10);
 }
 
 .ctaContent {
@@ -178,14 +178,14 @@
 }
 
 .ctaContent h2 {
-  margin: 0 0 16px 0;
+  margin: 0 0 var(--spacing-4) 0;
   font-size: 40px;
   font-weight: 700;
   color: white;
 }
 
 .ctaContent p {
-  margin: 0 0 32px 0;
+  margin: 0 0 var(--spacing-8) 0;
   font-size: 20px;
   color: rgba(255, 255, 255, 0.9);
 }
@@ -193,41 +193,41 @@
 .ctaButton {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 16px 32px;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-8);
   background-color: white;
-  color: #3b82f6;
+  color: var(--color-primary);
   font-size: 18px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .ctaButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Footer */
 .footer {
-  padding: 40px;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+  padding: var(--spacing-10);
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
 }
 
 .footerText {
   margin: 0;
   text-align: center;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 /* Responsive - Tablet */
 @media (max-width: 968px) {
   .hero {
     flex-direction: column;
-    padding: 60px 32px;
+    padding: var(--spacing-16) var(--spacing-8);
     text-align: center;
   }
 
@@ -251,7 +251,7 @@
 /* Responsive - Mobile */
 @media (max-width: 640px) {
   .hero {
-    padding: 40px 20px;
+    padding: var(--spacing-10) var(--spacing-5);
   }
 
   .heroTitle {
@@ -274,7 +274,7 @@
   }
 
   .features {
-    padding: 60px 20px;
+    padding: var(--spacing-16) var(--spacing-5);
   }
 
   .featuresTitle {
@@ -283,11 +283,11 @@
 
   .featureGrid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: var(--spacing-6);
   }
 
   .cta {
-    padding: 60px 20px;
+    padding: var(--spacing-16) var(--spacing-5);
   }
 
   .ctaContent h2 {

@@ -3,6 +3,7 @@
 import React from 'react';
 import { TechItem } from '@prisma/client';
 import { ExternalLink, Trash2 } from 'lucide-react';
+import { Button } from '@/components/Button';
 import styles from './TechItemDetail.module.css';
 
 interface TechItemDetailProps {
@@ -31,21 +32,23 @@ export function TechItemDetail({
         <h3 className={styles.title}>{item.name}</h3>
         <div className={styles.headerActions}>
           {canEdit && (
-            <button
+            <Button
               onClick={onEdit}
-              className={styles.editButton}
+              variant="ghost"
+              size="sm"
               aria-label="Edit tech item"
             >
               Edit
-            </button>
+            </Button>
           )}
-          <button
+          <Button
             onClick={onClose}
-            className={styles.closeButton}
+            variant="ghost"
+            size="sm"
             aria-label="Close detail view"
           >
             ×
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -121,14 +124,15 @@ export function TechItemDetail({
         {/* Delete Button */}
         {canEdit && (
           <div className={styles.dangerZone}>
-            <button
+            <Button
               onClick={onDelete}
-              className={styles.deleteButton}
+              variant="danger"
+              size="sm"
+              leftIcon={<Trash2 size={16} />}
               aria-label="Delete tech item"
             >
-              <Trash2 size={16} aria-hidden="true" />
               Delete Item
-            </button>
+            </Button>
           </div>
         )}
       </div>

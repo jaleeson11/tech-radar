@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Plus } from 'lucide-react';
+import { Button } from '@/components/Button';
 import styles from './SidePanel.module.css';
 
 interface SidePanelProps {
@@ -17,15 +18,17 @@ export function SidePanel({ onAddItem, children, className }: SidePanelProps) {
       <div className={styles.header}>
         <h2 className={styles.title}>Tech Items</h2>
         {onAddItem && (
-          <button
+          <Button
             onClick={onAddItem}
-            className={styles.addButton}
+            variant="primary"
+            size="sm"
+            leftIcon={<Plus size={18} />}
             aria-label="Add tech item"
             title="Add tech item"
+            className={styles.addButton}
           >
-            <Plus size={18} aria-hidden="true" />
-            <span>Add Item</span>
-          </button>
+            Add Item
+          </Button>
         )}
       </div>
 

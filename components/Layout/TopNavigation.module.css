@@ -1,14 +1,14 @@
 .topNav {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .navContent {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
+  padding: var(--spacing-3) var(--spacing-6);
   max-width: 100%;
 }
 
@@ -21,7 +21,7 @@
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -33,18 +33,18 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  padding: 0 16px;
+  padding: 0 var(--spacing-4);
 }
 
 .dashboardLink {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
   background-color: transparent;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  color: #374151;
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -52,12 +52,12 @@
 }
 
 .dashboardLink:hover {
-  background-color: #f3f4f6;
-  border-color: #9ca3af;
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-text-tertiary);
 }
 
 .dashboardLink:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -65,41 +65,7 @@
 .rightSection {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-/* Navigation Buttons */
-.navButton {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background-color: transparent;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  color: #374151;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.navButton:hover {
-  background-color: #f3f4f6;
-  border-color: #9ca3af;
-}
-
-.navButton:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-.navButton:active {
-  background-color: #e5e7eb;
-}
-
-.buttonIcon {
-  flex-shrink: 0;
+  gap: var(--spacing-2);
 }
 
 .buttonText {
@@ -110,16 +76,16 @@
 .permissionToggle {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background-color: #f9fafb;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
 }
 
 .permissionLabel {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -145,7 +111,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #cbd5e1;
+  background-color: var(--color-border-hover);
   transition: 0.3s;
   border-radius: 20px;
 }
@@ -163,7 +129,7 @@
 }
 
 .toggleSwitch input:checked + .toggleSlider {
-  background-color: #10b981;
+  background-color: var(--color-success);
 }
 
 .toggleSwitch input:checked + .toggleSlider:before {
@@ -171,12 +137,12 @@
 }
 
 .toggleSwitch input:focus + .toggleSlider {
-  box-shadow: 0 0 0 2px #3b82f6;
+  box-shadow: 0 0 0 2px var(--color-primary);
 }
 
 .permissionValue {
   font-size: 13px;
-  color: #374151;
+  color: var(--color-text-secondary);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -185,26 +151,26 @@
 .userSection {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-left: 8px;
-  padding-left: 16px;
-  border-left: 1px solid #e5e7eb;
+  gap: var(--spacing-3);
+  margin-left: var(--spacing-2);
+  padding-left: var(--spacing-4);
+  border-left: 1px solid var(--color-border);
 }
 
 .userInfo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-2);
 }
 
 .userIcon {
-  color: #6b7280;
+  color: var(--color-text-secondary);
   flex-shrink: 0;
 }
 
 .userName {
   font-size: 14px;
-  color: #374151;
+  color: var(--color-text-secondary);
   font-weight: 500;
   max-width: 150px;
   overflow: hidden;
@@ -212,33 +178,10 @@
   white-space: nowrap;
 }
 
-.signOutButton {
-  padding: 6px 12px;
-  background-color: transparent;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  color: #374151;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.signOutButton:hover {
-  background-color: #fef2f2;
-  border-color: #fca5a5;
-  color: #dc2626;
-}
-
-.signOutButton:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
 /* Responsive - Mobile */
 @media (max-width: 768px) {
   .navContent {
-    padding: 10px 16px;
+    padding: 10px var(--spacing-4);
   }
 
   .radarName {
@@ -247,7 +190,7 @@
   }
 
   .centerSection {
-    padding: 0 8px;
+    padding: 0 var(--spacing-2);
   }
 
   .dashboardLink span {
@@ -255,20 +198,16 @@
   }
 
   .dashboardLink {
-    padding: 8px;
+    padding: var(--spacing-2);
   }
 
   .buttonText {
     display: none;
   }
 
-  .navButton {
-    padding: 8px;
-  }
-
   .permissionToggle {
-    padding: 6px 8px;
-    gap: 6px;
+    padding: var(--spacing-2);
+    gap: var(--spacing-2);
   }
 
   .permissionLabel {
@@ -280,17 +219,12 @@
   }
 
   .userSection {
-    margin-left: 4px;
-    padding-left: 12px;
+    margin-left: var(--spacing-1);
+    padding-left: var(--spacing-3);
   }
 
   .userName {
     display: none;
-  }
-
-  .signOutButton {
-    padding: 6px 10px;
-    font-size: 12px;
   }
 }
 
@@ -302,11 +236,11 @@
   }
 
   .rightSection {
-    gap: 4px;
+    gap: var(--spacing-1);
   }
 
   .userSection {
-    padding-left: 8px;
-    margin-left: 2px;
+    padding-left: var(--spacing-2);
+    margin-left: var(--spacing-1);
   }
 }

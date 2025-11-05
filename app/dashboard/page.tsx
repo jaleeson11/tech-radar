@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Plus, Search, Calendar, Eye, Edit, Trash2 } from 'lucide-react';
 import { radarsApi, RadarListItem } from '@/lib/api';
 import { AxiosError } from 'axios';
+import { Button } from '@/components/Button';
 import styles from './page.module.css';
 
 // Force dynamic rendering - this page requires authentication
@@ -115,14 +116,14 @@ export default function DashboardPage() {
             <h1>My Technology Radars</h1>
             <p>Manage and visualize your technology landscape</p>
           </div>
-          <button
+          <Button
             onClick={handleCreateRadar}
-            className={styles.createButton}
+            variant="primary"
+            leftIcon={<Plus size={20} />}
             aria-label="Create new radar"
           >
-            <Plus size={20} aria-hidden="true" />
             Create Radar
-          </button>
+          </Button>
         </div>
       </header>
 
@@ -163,10 +164,14 @@ export default function DashboardPage() {
               <Plus size={48} aria-hidden="true" />
               <h2>No radars yet</h2>
               <p>Create your first technology radar to get started</p>
-              <button onClick={handleCreateRadar} className={styles.createButtonLarge}>
-                <Plus size={20} aria-hidden="true" />
+              <Button
+                onClick={handleCreateRadar}
+                variant="primary"
+                size="lg"
+                leftIcon={<Plus size={20} />}
+              >
                 Create Your First Radar
-              </button>
+              </Button>
             </>
           )}
         </div>
@@ -204,13 +209,14 @@ export default function DashboardPage() {
                   <Edit size={18} aria-hidden="true" />
                   Edit
                 </Link>
-                <button
+                <Button
                   onClick={() => handleDeleteRadar(radar.id, radar.name)}
-                  className={styles.deleteButton}
+                  variant="ghost"
+                  size="sm"
+                  leftIcon={<Trash2 size={18} />}
                   aria-label={`Delete ${radar.name}`}
                 >
-                  <Trash2 size={18} aria-hidden="true" />
-                </button>
+                </Button>
               </div>
             </div>
           ))}
