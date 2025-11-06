@@ -7,13 +7,6 @@
   border-radius: 8px;
 }
 
-.formTitle {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary, #1a1a1a);
-}
-
 .successMessage {
   padding: 0.75rem 1rem;
   background-color: #d1fae5;
@@ -117,14 +110,15 @@
 
 .formActions {
   display: flex;
+  justify-content: flex-end;
   gap: 0.75rem;
   margin-top: 0.5rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border-color, #e5e7eb);
 }
 
-.formActions > * {
-  flex: 1;
+.submitButton {
+  min-width: 140px;
 }
 
 /* Mobile responsive */
@@ -134,15 +128,8 @@
     gap: 1rem;
   }
 
-  .formTitle {
-    font-size: 1.125rem;
-  }
-
-  .formActions {
-    flex-direction: column-reverse;
-  }
-
-  .formActions > * {
+  .submitButton {
     width: 100%;
+    min-width: unset;
   }
 }

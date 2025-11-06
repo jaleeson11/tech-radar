@@ -131,10 +131,6 @@ export function TechItemForm({
 
   return (
     <form onSubmit={handleSubmit} className={styles.form} noValidate>
-      <h3 className={styles.formTitle}>
-        {mode === 'add' ? 'Add Tech Item' : 'Edit Tech Item'}
-      </h3>
-
       {/* Success Message */}
       {successMessage && (
         <div className={styles.successMessage} role="alert" aria-live="polite">
@@ -309,17 +305,10 @@ export function TechItemForm({
       {/* Form Actions */}
       <div className={styles.formActions}>
         <Button
-          type="button"
-          onClick={onCancel}
-          variant="secondary"
-          disabled={isLoading}
-        >
-          Cancel
-        </Button>
-        <Button
           type="submit"
           variant="primary"
           isLoading={isLoading}
+          className={styles.submitButton}
         >
           {mode === 'add' ? 'Add Item' : 'Save Changes'}
         </Button>

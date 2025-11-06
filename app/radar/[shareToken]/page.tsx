@@ -407,8 +407,25 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     />
   );
 
+  // Determine view mode for side panel header
+  const getViewMode = (): 'list' | 'detail' | 'add' | 'edit' => {
+    if (showAddForm) return 'add';
+    if (editingItem) return 'edit';
+    if (viewingItem) return 'detail';
+    return 'list';
+  };
+
   const sidePanel = (
-    <SidePanel onAddItem={canEdit ? handleAddItem : undefined}>
+    <SidePanel
+      viewMode={getViewMode()}
+      itemName={viewingItem?.name || editingItem?.name}
+      onAddItem={canEdit ? handleAddItem : undefined}
+      onBack={viewingItem ? handleCloseDetail : undefined}
+      onCancel={(showAddForm || editingItem) ? handleCancelForm : undefined}
+      onEdit={viewingItem ? handleEditFromDetail : undefined}
+      onDelete={viewingItem ? handleDeleteClick : undefined}
+      canEdit={canEdit}
+    >
       {(showAddForm || editingItem) && radar ? (
         <TechItemForm
           mode={editingItem ? 'edit' : 'add'}

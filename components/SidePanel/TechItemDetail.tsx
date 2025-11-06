@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { TechItem } from '@prisma/client';
-import { ExternalLink, Trash2 } from 'lucide-react';
-import { Button } from '@/components/Button';
+import { ExternalLink } from 'lucide-react';
 import styles from './TechItemDetail.module.css';
 
 interface TechItemDetailProps {
@@ -27,31 +26,6 @@ export function TechItemDetail({
 }: TechItemDetailProps) {
   return (
     <div className={styles.container}>
-      {/* Header with Edit button */}
-      <div className={styles.header}>
-        <h3 className={styles.title}>{item.name}</h3>
-        <div className={styles.headerActions}>
-          {canEdit && (
-            <Button
-              onClick={onEdit}
-              variant="ghost"
-              size="sm"
-              aria-label="Edit tech item"
-            >
-              Edit
-            </Button>
-          )}
-          <Button
-            onClick={onClose}
-            variant="ghost"
-            size="sm"
-            aria-label="Close detail view"
-          >
-            ×
-          </Button>
-        </div>
-      </div>
-
       {/* Content sections */}
       <div className={styles.content}>
         {/* Position Info */}
@@ -120,21 +94,6 @@ export function TechItemDetail({
             </>
           )}
         </div>
-
-        {/* Delete Button */}
-        {canEdit && (
-          <div className={styles.dangerZone}>
-            <Button
-              onClick={onDelete}
-              variant="danger"
-              size="sm"
-              leftIcon={<Trash2 size={16} />}
-              aria-label="Delete tech item"
-            >
-              Delete Item
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );

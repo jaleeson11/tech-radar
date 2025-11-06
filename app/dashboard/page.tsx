@@ -216,6 +216,7 @@ export default function DashboardPage() {
                   leftIcon={<Trash2 size={18} />}
                   aria-label={`Delete ${radar.name}`}
                 >
+                  Delete
                 </Button>
               </div>
             </div>

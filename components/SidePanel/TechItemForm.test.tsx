@@ -16,20 +16,6 @@ describe('TechItemForm', () => {
   });
 
   describe('Rendering - Add Mode', () => {
-    it('should render form in add mode with correct title', () => {
-      render(
-        <TechItemForm
-          mode="add"
-          radarId={mockRadarId}
-          quadrantNames={mockQuadrantNames}
-          onSave={mockOnSave}
-          onCancel={mockOnCancel}
-        />
-      );
-
-      expect(screen.getByRole('heading', { name: /add tech item/i })).toBeInTheDocument();
-    });
-
     it('should render all required form fields', () => {
       render(
         <TechItemForm
@@ -65,7 +51,7 @@ describe('TechItemForm', () => {
       expect(requiredMarkers.length).toBeGreaterThan(0);
     });
 
-    it('should render save and cancel buttons', () => {
+    it('should render save button', () => {
       render(
         <TechItemForm
           mode="add"
@@ -77,7 +63,6 @@ describe('TechItemForm', () => {
       );
 
       expect(screen.getByRole('button', { name: /add item/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
     });
 
     it('should populate quadrant dropdown with custom names', () => {
@@ -128,21 +113,6 @@ describe('TechItemForm', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
-    it('should render form in edit mode with correct title', () => {
-      render(
-        <TechItemForm
-          mode="edit"
-          radarId={mockRadarId}
-          quadrantNames={mockQuadrantNames}
-          initialData={mockInitialData}
-          onSave={mockOnSave}
-          onCancel={mockOnCancel}
-        />
-      );
-
-      expect(screen.getByRole('heading', { name: /edit tech item/i })).toBeInTheDocument();
-    });
 
     it('should pre-populate form fields with initial data', () => {
       render(
@@ -370,6 +340,9 @@ describe('TechItemForm', () => {
         />
       );
 
+      const submitButton = screen.getByRole('button', { name: /add item/i });
+      expect(submitButton).not.toBeDisabled();
+
       // Rerender with loading state
       rerender(
         <TechItemForm
@@ -382,10 +355,11 @@ describe('TechItemForm', () => {
         />
       );
 
-      expect(screen.getByText(/saving\.\.\./i)).toBeInTheDocument();
+      // Button should be disabled during loading
+      expect(submitButton).toBeDisabled();
     });
 
-    it('should disable buttons during submission', async () => {
+    it('should disable submit button during submission', async () => {
       render(
         <TechItemForm
           mode="add"
@@ -397,29 +371,9 @@ describe('TechItemForm', () => {
         />
       );
 
-      const submitButton = screen.getByRole('button', { name: /saving\.\.\./i });
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const submitButton = screen.getByRole('button', { name: /add item/i });
 
       expect(submitButton).toBeDisabled();
-      expect(cancelButton).toBeDisabled();
-    });
-
-    it('should call onCancel when cancel button is clicked', async () => {
-      const user = userEvent.setup();
-      render(
-        <TechItemForm
-          mode="add"
-          radarId={mockRadarId}
-          quadrantNames={mockQuadrantNames}
-          onSave={mockOnSave}
-          onCancel={mockOnCancel}
-        />
-      );
-
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
-      await user.click(cancelButton);
-
-      expect(mockOnCancel).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -448,21 +402,6 @@ describe('TechItemForm', () => {
       expect(descriptionInput).toBeInTheDocument();
       expect(urlInput).toBeInTheDocument();
       expect(categoryInput).toBeInTheDocument();
-    });
-
-    it('should have proper heading hierarchy', () => {
-      render(
-        <TechItemForm
-          mode="add"
-          radarId={mockRadarId}
-          quadrantNames={mockQuadrantNames}
-          onSave={mockOnSave}
-          onCancel={mockOnCancel}
-        />
-      );
-
-      const heading = screen.getByRole('heading', { level: 3 });
-      expect(heading).toHaveTextContent(/add tech item/i);
     });
   });
 
@@ -537,7 +476,7 @@ describe('TechItemForm', () => {
         />
       );
 
-      const submitButton = screen.getByRole('button', { name: /saving\.\.\./i });
+      const submitButton = screen.getByRole('button', { name: /add item/i });
 
       // Button should be disabled when loading
       expect(submitButton).toBeDisabled();
