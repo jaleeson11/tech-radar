@@ -12,6 +12,7 @@ import { TopNavigation } from '@/components/Layout/TopNavigation';
 import { SidePanel } from '@/components/SidePanel/SidePanel';
 import { TechItemForm, TechItemFormData } from '@/components/SidePanel/TechItemForm';
 import { TechItemDetail } from '@/components/SidePanel/TechItemDetail';
+import { TechItemList } from '@/components/SidePanel/TechItemList';
 import { RadarCanvas } from '@/components/Radar/RadarCanvas';
 import { ShareModal } from '@/components/Modals/ShareModal';
 import { WelcomeModal } from '@/components/Modals/WelcomeModal';
@@ -448,17 +449,27 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
           onClose={handleCloseDetail}
           canEdit={canEdit}
         />
-      ) : items.length === 0 ? (
-        <p className={styles.noItems}>No tech items yet</p>
       ) : (
-        <ul className={styles.itemsList}>
-          {items.map((item) => (
-            <li key={item.id} className={styles.itemCard}>
-              <h4>{item.name}</h4>
-              {item.description && <p>{item.description}</p>}
-            </li>
-          ))}
-        </ul>
+        <TechItemList
+          items={items}
+          quadrants={(radar.quadrants as string[]) || DEFAULT_QUADRANTS}
+          rings={(radar.rings as string[]) || DEFAULT_RINGS}
+          onItemClick={(item) => {
+            setViewingItem(item);
+            setMobileSidePanelOpen(true);
+          }}
+          onEditClick={(item) => {
+            setEditingItem(item);
+            setViewingItem(null);
+            setShowAddForm(false);
+            setMobileSidePanelOpen(true);
+          }}
+          onDeleteClick={(item) => {
+            setItemToDelete(item);
+            setShowDeleteModal(true);
+          }}
+          canEdit={canEdit}
+        />
       )}
     </SidePanel>
   );

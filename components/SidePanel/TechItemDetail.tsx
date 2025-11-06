@@ -31,13 +31,13 @@ export function TechItemDetail({
         {/* Position Info */}
         <div className={styles.section}>
           <div className={styles.infoGrid}>
-            <div className={styles.infoItem}>
+            <div className={styles.infoItem} data-quadrant={item.quadrant}>
               <span className={styles.label}>Quadrant</span>
               <span className={styles.value}>
                 {quadrantNames[item.quadrant] || `Quadrant ${item.quadrant + 1}`}
               </span>
             </div>
-            <div className={styles.infoItem}>
+            <div className={styles.infoItem} data-ring={item.ring}>
               <span className={styles.label}>Ring</span>
               <span className={styles.value}>
                 {ringNames[item.ring] || `Ring ${item.ring + 1}`}

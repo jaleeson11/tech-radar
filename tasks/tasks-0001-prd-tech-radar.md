@@ -1,8 +1,8 @@
 # Task List: Tech Radar Web Application
 
 **Source PRD:** `0001-prd-tech-radar.md`
-**Status:** Phase 3 Complete - Core UI & Visualization Implemented
-**Last Updated:** 2025-11-03
+**Status:** Phase 4 In Progress - Tech Item Management (Tasks 4.4-4.7 Complete)
+**Last Updated:** 2025-11-06
 
 ---
 
@@ -91,9 +91,9 @@
 - `components/SidePanel/TechItemForm.tsx` - Form for adding/editing tech items (completed)
 - `components/SidePanel/TechItemForm.test.tsx` - Form validation tests (25 tests passing)
 - `components/SidePanel/TechItemForm.module.css` - Form styles
-- `components/SidePanel/TechItemList.tsx` - List view of tech items
-- `components/SidePanel/TechItemList.test.tsx` - List component tests
-- `components/SidePanel/FolderOrganizer.tsx` - Folder/category organization UI
+- `components/SidePanel/TechItemList.tsx` - Categorized list view with collapsible sections (completed)
+- `components/SidePanel/TechItemList.module.css` - List styles (completed)
+- `components/SidePanel/TechItemList.test.tsx` - List component tests (18 tests passing)
 - `components/SidePanel/TechItemDetail.tsx` - Detail view for tech items (completed)
 - `components/SidePanel/TechItemDetail.module.css` - Detail view styles
 
@@ -324,30 +324,30 @@
     - [x] 4.3.3 Allow changing any field including quadrant and ring
     - [x] 4.3.4 Handle "last write wins" conflict resolution (no optimistic locking)
     - [x] 4.3.5 Refresh radar after successful update (automatic via useTechItems hook)
-  - [ ] 4.4 Implement delete tech item functionality:
-    - [ ] 4.4.1 Add `deleteTechItem` mutation to useTechItems hook
-    - [ ] 4.4.2 Create delete confirmation modal `components/Modals/DeleteConfirmModal.tsx`
-    - [ ] 4.4.3 Show confirmation dialog before deletion
-    - [ ] 4.4.4 Remove item from radar on successful deletion
-    - [ ] 4.4.5 Write tests in `components/Modals/DeleteConfirmModal.test.tsx`
-  - [ ] 4.5 Create tech item list `components/SidePanel/TechItemList.tsx`:
-    - [ ] 4.5.1 Display all tech items in a scrollable list
-    - [ ] 4.5.2 Show item name, quadrant, and ring for each item
-    - [ ] 4.5.3 Add click handler to open detail view or edit form
-    - [ ] 4.5.4 Add edit and delete action buttons for each item
-    - [ ] 4.5.5 Write tests in `components/SidePanel/TechItemList.test.tsx`
+  - [x] 4.4 Implement delete tech item functionality:
+    - [x] 4.4.1 Add `deleteTechItem` mutation to useTechItems hook
+    - [x] 4.4.2 Create delete confirmation modal `components/Modals/DeleteConfirmModal.tsx`
+    - [x] 4.4.3 Show confirmation dialog before deletion
+    - [x] 4.4.4 Remove item from radar on successful deletion
+    - [x] 4.4.5 Write tests in `components/Modals/DeleteConfirmModal.test.tsx`
+  - [x] 4.5 Create tech item list `components/SidePanel/TechItemList.tsx`:
+    - [x] 4.5.1 Display all tech items in a scrollable list
+    - [x] 4.5.2 Show item name, quadrant, and ring for each item
+    - [x] 4.5.3 Add click handler to open detail view or edit form
+    - [x] 4.5.4 Add edit and delete action buttons for each item
+    - [x] 4.5.5 Write tests in `components/SidePanel/TechItemList.test.tsx`
   - [x] 4.6 Create tech item detail view `components/SidePanel/TechItemDetail.tsx`:
     - [x] 4.6.1 Display full tech item information (name, quadrant, ring, description, URL)
     - [x] 4.6.2 Make URL clickable (open in new tab)
     - [x] 4.6.3 Add "Edit" button to switch to edit mode
-    - [ ] 4.6.4 Add "Delete" button (deferred - will implement with 4.4)
+    - [x] 4.6.4 Add "Delete" button
     - [x] 4.6.5 Add "Close" button to return to list view
-  - [ ] 4.7 Implement folder/category organization `components/SidePanel/FolderOrganizer.tsx`:
-    - [ ] 4.7.1 Create tree/accordion structure for categories
-    - [ ] 4.7.2 Allow users to create new categories
-    - [ ] 4.7.3 Allow dragging items between categories (optional for MVP)
-    - [ ] 4.7.4 Store category assignment in TechItem model (category field)
-    - [ ] 4.7.5 Note: Categories are organizational only, don't affect radar visualization
+  - [x] 4.7 Implement folder/category organization (integrated into TechItemList):
+    - [x] 4.7.1 Create tree/accordion structure for categories (collapsible category sections in TechItemList)
+    - [x] 4.7.2 Allow users to create new categories (via text field in TechItemForm)
+    - [ ] 4.7.3 Allow dragging items between categories (optional for MVP - deferred)
+    - [x] 4.7.4 Store category assignment in TechItem model (category field exists in schema)
+    - [x] 4.7.5 Note: Categories are organizational only, don't affect radar visualization
   - [ ] 4.8 Implement shareable link system:
     - [ ] 4.8.1 Create share modal `components/Modals/ShareLinkModal.tsx`
     - [ ] 4.8.2 Display full shareable URL (origin + /radar/[shareToken])
