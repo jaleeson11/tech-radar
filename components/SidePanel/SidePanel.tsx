@@ -3,13 +3,15 @@
 import React from 'react';
 import { Plus, ArrowLeft, Edit2, Trash2, X } from 'lucide-react';
 import { Button } from '@/components/Button';
+import { TechIcon } from './TechIcon';
 import styles from './SidePanel.module.css';
 
-type ViewMode = 'list' | 'detail' | 'add' | 'edit';
+type ViewMode = 'list' | 'detail' | 'add' | 'edit' | 'add-choice' | 'library-browse';
 
 interface SidePanelProps {
   viewMode?: ViewMode;
   itemName?: string;
+  itemIcon?: string;
   onAddItem?: () => void;
   onBack?: () => void;
   onCancel?: () => void;
@@ -23,6 +25,7 @@ interface SidePanelProps {
 export function SidePanel({
   viewMode = 'list',
   itemName,
+  itemIcon,
   onAddItem,
   onBack,
   onCancel,
@@ -35,6 +38,24 @@ export function SidePanel({
 
   const renderHeader = () => {
     switch (viewMode) {
+      case 'library-browse':
+        // This view has its own header
+        return null;
+
+      case 'add-choice':
+        return (
+          <div className={styles.header}>
+            <button
+              onClick={onCancel}
+              className={styles.backButton}
+              aria-label="Back to list"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <h2 className={styles.title}>Add Tech Item</h2>
+          </div>
+        );
+
       case 'detail':
         return (
           <div className={styles.header}>
@@ -45,7 +66,14 @@ export function SidePanel({
             >
               <ArrowLeft size={20} />
             </button>
-            <h2 className={styles.title}>{itemName || 'Item Details'}</h2>
+            <div className={styles.titleContainer}>
+              {itemIcon && (
+                <div className={styles.headerIcon}>
+                  <TechIcon icon={itemIcon} name={itemName || 'Item'} size={28} />
+                </div>
+              )}
+              <h2 className={styles.title}>{itemName || 'Item Details'}</h2>
+            </div>
             {canEdit && (
               <div className={styles.actions}>
                 {onEdit && (

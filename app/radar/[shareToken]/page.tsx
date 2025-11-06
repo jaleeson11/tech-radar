@@ -13,6 +13,9 @@ import { SidePanel } from '@/components/SidePanel/SidePanel';
 import { TechItemForm, TechItemFormData } from '@/components/SidePanel/TechItemForm';
 import { TechItemDetail } from '@/components/SidePanel/TechItemDetail';
 import { TechItemList } from '@/components/SidePanel/TechItemList';
+import { AddItemChoice } from '@/components/SidePanel/AddItemChoice';
+import { TechLibrary } from '@/components/SidePanel/TechLibrary';
+import { TechLibraryItem } from '@/lib/data/tech-library';
 import { RadarCanvas } from '@/components/Radar/RadarCanvas';
 import { ShareModal } from '@/components/Modals/ShareModal';
 import { WelcomeModal } from '@/components/Modals/WelcomeModal';
@@ -46,7 +49,10 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const [radar, setRadar] = useState<RadarWithOwner | null>(null);
   const [isLoadingRadar, setIsLoadingRadar] = useState(true);
   const [radarError, setRadarError] = useState<string | null>(null);
+  const [showAddChoice, setShowAddChoice] = useState(false);
+  const [showLibraryBrowse, setShowLibraryBrowse] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [libraryItemData, setLibraryItemData] = useState<TechLibraryItem | null>(null);
   const [viewingItem, setViewingItem] = useState<TechItem | null>(null);
   const [editingItem, setEditingItem] = useState<TechItem | null>(null);
   const [itemToDelete, setItemToDelete] = useState<TechItem | null>(null);
@@ -238,12 +244,46 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   };
 
   const handleAddItem = () => {
-    setShowAddForm(true);
+    setShowAddChoice(true);
+    setShowLibraryBrowse(false);
+    setShowAddForm(false);
+    setLibraryItemData(null);
     setViewingItem(null);
     setEditingItem(null);
     setSuccessMessage(null);
-    // Open mobile drawer to show add form
+    // Open mobile drawer to show choice
     setMobileSidePanelOpen(true);
+  };
+
+  const handleBrowseLibrary = () => {
+    setShowAddChoice(false);
+    setShowLibraryBrowse(true);
+    setShowAddForm(false);
+  };
+
+  const handleCreateCustom = () => {
+    setShowAddChoice(false);
+    setShowLibraryBrowse(false);
+    setShowAddForm(true);
+    setLibraryItemData(null);
+  };
+
+  const handleSelectLibraryItem = (item: TechLibraryItem) => {
+    setLibraryItemData(item);
+    setShowLibraryBrowse(false);
+    setShowAddForm(true);
+  };
+
+  const handleBackFromLibrary = () => {
+    setShowLibraryBrowse(false);
+    setShowAddChoice(true);
+  };
+
+  const handleBackFromChoice = () => {
+    setShowAddChoice(false);
+    setShowAddForm(false);
+    setShowLibraryBrowse(false);
+    setLibraryItemData(null);
   };
 
   const handleSaveItem = async (data: TechItemFormData) => {
@@ -252,6 +292,9 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     if (result.success) {
       setSuccessMessage('Tech item added successfully!');
       setShowAddForm(false);
+      setShowAddChoice(false);
+      setShowLibraryBrowse(false);
+      setLibraryItemData(null);
 
       // Clear success message after 3 seconds
       setTimeout(() => setSuccessMessage(null), 3000);
@@ -328,8 +371,16 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       setViewingItem(editingItem);
       setEditingItem(null);
     } else {
-      // If we were adding, just close the form
-      setShowAddForm(false);
+      // If we were adding from library, go back to library
+      if (libraryItemData) {
+        setShowAddForm(false);
+        setShowLibraryBrowse(true);
+        setLibraryItemData(null);
+      } else {
+        // Otherwise just close the form and go back to choice
+        setShowAddForm(false);
+        setShowAddChoice(true);
+      }
     }
     setSuccessMessage(null);
   };
@@ -409,7 +460,9 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   );
 
   // Determine view mode for side panel header
-  const getViewMode = (): 'list' | 'detail' | 'add' | 'edit' => {
+  const getViewMode = (): 'list' | 'detail' | 'add' | 'edit' | 'add-choice' | 'library-browse' => {
+    if (showAddChoice) return 'add-choice';
+    if (showLibraryBrowse) return 'library-browse';
     if (showAddForm) return 'add';
     if (editingItem) return 'edit';
     if (viewingItem) return 'detail';
@@ -420,19 +473,38 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     <SidePanel
       viewMode={getViewMode()}
       itemName={viewingItem?.name || editingItem?.name}
+      itemIcon={viewingItem?.icon || undefined}
       onAddItem={canEdit ? handleAddItem : undefined}
       onBack={viewingItem ? handleCloseDetail : undefined}
-      onCancel={(showAddForm || editingItem) ? handleCancelForm : undefined}
+      onCancel={(showAddForm || editingItem || showAddChoice) ? (showAddChoice ? handleBackFromChoice : handleCancelForm) : undefined}
       onEdit={viewingItem ? handleEditFromDetail : undefined}
       onDelete={viewingItem ? handleDeleteClick : undefined}
       canEdit={canEdit}
     >
-      {(showAddForm || editingItem) && radar ? (
+      {showAddChoice ? (
+        <AddItemChoice
+          onBrowseLibrary={handleBrowseLibrary}
+          onCreateCustom={handleCreateCustom}
+        />
+      ) : showLibraryBrowse ? (
+        <TechLibrary
+          onSelectItem={handleSelectLibraryItem}
+          onBack={handleBackFromLibrary}
+        />
+      ) : (showAddForm || editingItem) && radar ? (
         <TechItemForm
           mode={editingItem ? 'edit' : 'add'}
           radarId={radar.id}
           quadrantNames={(radar.quadrants as string[]) || DEFAULT_QUADRANTS}
-          initialData={editingItem || undefined}
+          initialData={editingItem || (libraryItemData ? {
+            name: libraryItemData.name,
+            description: libraryItemData.description,
+            url: libraryItemData.url,
+            quadrant: libraryItemData.suggestedQuadrant,
+            ring: libraryItemData.suggestedRing,
+            category: libraryItemData.categories[0] || undefined,
+            icon: libraryItemData.icon,
+          } : undefined)}
           onSave={editingItem ? handleEditItem : handleSaveItem}
           onCancel={handleCancelForm}
           successMessage={successMessage}

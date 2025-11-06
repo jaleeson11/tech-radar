@@ -103,6 +103,7 @@ model TechItem {
   description String?  // Optional description
   url         String?  // Optional URL
   category    String?  // Optional category for organization
+  icon        String?  // Optional simple-icons slug for displaying icon
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

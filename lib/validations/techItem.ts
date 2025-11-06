@@ -8,6 +8,7 @@ export const createTechItemSchema = z.object({
   description: z.string().max(500, 'Description must be 500 characters or less').optional(),
   url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   category: z.string().max(50, 'Category must be 50 characters or less').optional(),
+  icon: z.string().max(100, 'Icon must be 100 characters or less').optional(),
 });
 
 // Validation schema for updating a tech item
@@ -20,6 +21,7 @@ export const updateTechItemSchema = z.object({
   description: z.string().max(500, 'Description must be 500 characters or less').optional(),
   url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   category: z.string().max(50, 'Category must be 50 characters or less').optional(),
+  icon: z.string().max(100, 'Icon must be 100 characters or less').optional(),
 });
 
 export type CreateTechItemInput = z.infer<typeof createTechItemSchema>;

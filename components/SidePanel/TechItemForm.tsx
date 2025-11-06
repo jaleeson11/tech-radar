@@ -27,6 +27,7 @@ export interface TechItemFormData {
   description?: string;
   url?: string;
   category?: string;
+  icon?: string; // simple-icons slug
 }
 
 export function TechItemForm({
@@ -48,6 +49,7 @@ export function TechItemForm({
     description: initialData?.description || '',
     url: initialData?.url || '',
     category: initialData?.category || '',
+    icon: initialData?.icon || undefined,
   });
 
   // Validation errors
@@ -63,6 +65,7 @@ export function TechItemForm({
         description: initialData.description || '',
         url: initialData.url || '',
         category: initialData.category || '',
+        icon: initialData.icon || undefined,
       });
     }
   }, [initialData]);

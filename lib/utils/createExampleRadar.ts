@@ -8,6 +8,7 @@ interface ExampleTechItem {
   description: string;
   url?: string;
   category?: string;
+  icon?: string;
 }
 
 // Pre-populated tech items for the example radar
@@ -20,6 +21,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Container platform that we use extensively for development and production deployments.',
     url: 'https://www.docker.com/',
     category: 'Containerization',
+    icon: 'docker',
   },
   {
     name: 'Kubernetes',
@@ -28,6 +30,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Container orchestration platform. We are evaluating for production workloads.',
     url: 'https://kubernetes.io/',
     category: 'Orchestration',
+    icon: 'kubernetes',
   },
   {
     name: 'Terraform',
@@ -36,6 +39,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Infrastructure as Code tool worth exploring for cloud resource management.',
     url: 'https://www.terraform.io/',
     category: 'Infrastructure',
+    icon: 'terraform',
   },
   {
     name: 'Vagrant',
@@ -44,6 +48,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'VM management tool. Consider Docker instead for containerization needs.',
     url: 'https://www.vagrantup.com/',
     category: 'Virtualization',
+    icon: 'vagrant',
   },
 
   // Techniques Quadrant (1)
@@ -84,6 +89,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Our primary cloud platform for hosting and infrastructure services.',
     url: 'https://aws.amazon.com/',
     category: 'Cloud',
+    icon: 'amazonwebservices',
   },
   {
     name: 'Google Cloud',
@@ -92,6 +98,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Evaluating for specific use cases like BigQuery and ML workloads.',
     url: 'https://cloud.google.com/',
     category: 'Cloud',
+    icon: 'googlecloud',
   },
   {
     name: 'Azure',
@@ -100,6 +107,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Worth exploring for enterprise integrations and hybrid cloud scenarios.',
     url: 'https://azure.microsoft.com/',
     category: 'Cloud',
+    icon: 'microsoftazure',
   },
   {
     name: 'On-Premise',
@@ -117,6 +125,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Our standard library for building user interfaces. Used across all projects.',
     url: 'https://react.dev/',
     category: 'Frontend',
+    icon: 'react',
   },
   {
     name: 'Vue.js',
@@ -125,6 +134,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Progressive framework worth considering for new projects requiring simplicity.',
     url: 'https://vuejs.org/',
     category: 'Frontend',
+    icon: 'vuedotjs',
   },
   {
     name: 'Svelte',
@@ -133,6 +143,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Compiler-based framework with excellent performance. Worth exploring.',
     url: 'https://svelte.dev/',
     category: 'Frontend',
+    icon: 'svelte',
   },
   {
     name: 'Angular 1.x',
@@ -141,6 +152,7 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
     description: 'Deprecated framework. Migrate to modern alternatives.',
     url: 'https://angularjs.org/',
     category: 'Frontend',
+    icon: 'angularjs',
   },
 ];
 

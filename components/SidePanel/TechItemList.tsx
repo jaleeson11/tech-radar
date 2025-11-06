@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronRight, Edit2, Trash2 } from 'lucide-react';
 import { TechItem } from '@/lib/types/radar.types';
+import { TechIcon } from './TechIcon';
 import styles from './TechItemList.module.css';
 
 interface TechItemListProps {
@@ -148,6 +149,11 @@ export function TechItemList({
                     }}
                     aria-label={`View details for ${item.name}`}
                   >
+                    {item.icon && (
+                      <div className={styles.itemIcon}>
+                        <TechIcon icon={item.icon} name={item.name} size={32} />
+                      </div>
+                    )}
                     <div className={styles.itemContent}>
                       <h3 className={styles.itemName}>{item.name}</h3>
                       <div className={styles.itemMeta}>
