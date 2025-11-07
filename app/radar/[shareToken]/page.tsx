@@ -414,9 +414,11 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       category: item.category || undefined,
     });
 
-    if (result.success) {
-      // Items are automatically updated in the hook, no need for manual refresh
-      console.log(`Moved ${item.name} to quadrant ${newQuadrant}, ring ${newRing} at (${finalX}, ${finalY})`);
+    if (result.success && result.item) {
+      // If this item is currently being viewed, update the detail view with the returned item
+      if (viewingItem && viewingItem.id === item.id) {
+        setViewingItem(result.item);
+      }
     }
     // Error is handled by the hook
   };

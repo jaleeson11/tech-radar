@@ -369,7 +369,7 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
       setHasAnimated(true);
     }
 
-  }, [items, config]);
+  }, [items, config, onBlipClick, onBlipMove]);
 
   return (
     <div className={`${styles.radarContainer} ${className || ''}`}>
