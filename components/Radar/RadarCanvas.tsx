@@ -299,8 +299,9 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
           const dy = mouseY - centerY;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          // Calculate angle in degrees (0-360), starting from east (right) going counter-clockwise
-          let angle = Math.atan2(-dy, dx) * (180 / Math.PI);
+          // Calculate angle in degrees (0-360), starting from east (right) going clockwise
+          // This matches the coordinate system used in BlipPositioning.ts
+          let angle = Math.atan2(dy, dx) * (180 / Math.PI);
           if (angle < 0) angle += 360;
 
           // Determine quadrant (0-3)
