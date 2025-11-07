@@ -65,7 +65,8 @@ describe('TechItemForm', () => {
       expect(screen.getByRole('button', { name: /add item/i })).toBeInTheDocument();
     });
 
-    it('should populate quadrant dropdown with custom names', () => {
+    it('should populate quadrant dropdown with custom names', async () => {
+      const user = userEvent.setup();
       render(
         <TechItemForm
           mode="add"
@@ -76,13 +77,17 @@ describe('TechItemForm', () => {
         />
       );
 
-      const quadrantSelect = screen.getByLabelText(/quadrant/i) as HTMLSelectElement;
-      const options = Array.from(quadrantSelect.options).map(opt => opt.text);
+      const quadrantButton = screen.getByRole('button', { name: /quadrant/i });
+      await user.click(quadrantButton);
 
-      expect(options).toEqual(mockQuadrantNames);
+      // Check that all quadrant names appear in the dropdown
+      mockQuadrantNames.forEach(name => {
+        expect(screen.getByRole('option', { name })).toBeInTheDocument();
+      });
     });
 
-    it('should populate ring dropdown with default ring names', () => {
+    it('should populate ring dropdown with default ring names', async () => {
+      const user = userEvent.setup();
       render(
         <TechItemForm
           mode="add"
@@ -93,10 +98,13 @@ describe('TechItemForm', () => {
         />
       );
 
-      const ringSelect = screen.getByLabelText(/ring/i) as HTMLSelectElement;
-      const options = Array.from(ringSelect.options).map(opt => opt.text);
+      const ringButton = screen.getByRole('button', { name: /ring/i });
+      await user.click(ringButton);
 
-      expect(options).toEqual(DEFAULT_RINGS);
+      // Check that all ring names appear in the dropdown
+      DEFAULT_RINGS.forEach(name => {
+        expect(screen.getByRole('option', { name })).toBeInTheDocument();
+      });
     });
   });
 
@@ -179,10 +187,14 @@ describe('TechItemForm', () => {
         />
       );
 
-      const quadrantSelect = screen.getByLabelText(/quadrant/i) as HTMLSelectElement;
-      await user.selectOptions(quadrantSelect, '2');
+      const quadrantButton = screen.getByRole('button', { name: /quadrant/i });
+      await user.click(quadrantButton);
 
-      expect(quadrantSelect.value).toBe('2');
+      const platformsOption = screen.getByRole('option', { name: 'Platforms' });
+      await user.click(platformsOption);
+
+      // Check that the button now shows the selected value
+      expect(quadrantButton).toHaveTextContent('Platforms');
     });
 
     it('should update ring dropdown on selection', async () => {
@@ -197,10 +209,14 @@ describe('TechItemForm', () => {
         />
       );
 
-      const ringSelect = screen.getByLabelText(/ring/i) as HTMLSelectElement;
-      await user.selectOptions(ringSelect, '1');
+      const ringButton = screen.getByRole('button', { name: /ring/i });
+      await user.click(ringButton);
 
-      expect(ringSelect.value).toBe('1');
+      const trialOption = screen.getByRole('option', { name: 'Trial' });
+      await user.click(trialOption);
+
+      // Check that the button now shows the selected value
+      expect(ringButton).toHaveTextContent('Trial');
     });
 
     it('should update description field on user input', async () => {
@@ -297,19 +313,28 @@ describe('TechItemForm', () => {
       );
 
       const nameInput = screen.getByLabelText(/name/i);
-      const quadrantSelect = screen.getByLabelText(/quadrant/i);
-      const ringSelect = screen.getByLabelText(/ring/i);
       const descriptionInput = screen.getByLabelText(/description/i);
       const urlInput = screen.getByLabelText(/url/i);
       const categoryInput = screen.getByLabelText(/category/i);
-      const submitButton = screen.getByRole('button', { name: /add item/i });
 
       await user.type(nameInput, 'Docker');
-      await user.selectOptions(quadrantSelect, '2');
-      await user.selectOptions(ringSelect, '0');
       await user.type(descriptionInput, 'Container platform');
       await user.type(urlInput, 'https://docker.com');
       await user.type(categoryInput, 'DevOps');
+
+      // Select quadrant
+      const quadrantButton = screen.getByRole('button', { name: /quadrant/i });
+      await user.click(quadrantButton);
+      const platformsOption = screen.getByRole('option', { name: 'Platforms' });
+      await user.click(platformsOption);
+
+      // Select ring
+      const ringButton = screen.getByRole('button', { name: /ring/i });
+      await user.click(ringButton);
+      const adoptOption = screen.getByRole('option', { name: 'Adopt' });
+      await user.click(adoptOption);
+
+      const submitButton = screen.getByRole('button', { name: /add item/i });
       await user.click(submitButton);
 
       await waitFor(() => {

@@ -305,7 +305,23 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const handleEditItem = async (data: TechItemFormData) => {
     if (!editingItem) return;
 
-    const result = await updateTechItem(editingItem.id, data);
+    // Check if quadrant or ring changed - if so, clear saved positions to force recalculation
+    const quadrantChanged = data.quadrant !== editingItem.quadrant;
+    const ringChanged = data.ring !== editingItem.ring;
+    const shouldClearPosition = quadrantChanged || ringChanged;
+
+    // Clear from cache if position needs recalculation
+    if (shouldClearPosition) {
+      positionCache.current.delete(editingItem.id);
+    }
+
+    const updateData = {
+      ...data,
+      // Clear saved positions if ring or quadrant changed
+      ...(shouldClearPosition && { positionX: null, positionY: null }),
+    };
+
+    const result = await updateTechItem(editingItem.id, updateData);
 
     if (result.success) {
       setSuccessMessage('Tech item updated successfully!');

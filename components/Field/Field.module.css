@@ -1,0 +1,68 @@
+.field {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  line-height: var(--line-height-normal);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.field::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.field:hover:not(:disabled):not(:read-only) {
+  border-color: var(--color-border-hover);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.field:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-surface);
+  color: var(--color-text-tertiary);
+}
+
+.field:read-only {
+  background: var(--color-surface);
+  cursor: default;
+}
+
+.field.error {
+  border-color: var(--color-error);
+}
+
+.field.error:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 10%, transparent);
+}
+
+.field.fullWidth {
+  width: 100%;
+}
+
+/* Textarea-specific styles */
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Remove default number input spinners */
+.field[type='number']::-webkit-inner-spin-button,
+.field[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.field[type='number'] {
+  -moz-appearance: textfield;
+}

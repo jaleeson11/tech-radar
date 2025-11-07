@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { TechItem } from '@prisma/client';
 import { DEFAULT_RINGS } from '@/lib/constants/defaults';
 import { createTechItemSchema } from '@/lib/validations/techItem';
 import { z } from 'zod';
 import { Button } from '@/components/Button';
+import { Select, SelectOption } from '@/components/Select';
+import { Field } from '@/components/Field';
 import styles from './TechItemForm.module.css';
 
 interface TechItemFormProps {
@@ -54,6 +56,18 @@ export function TechItemForm({
 
   // Validation errors
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Transform quadrant names into Select options
+  const quadrantOptions: SelectOption[] = useMemo(
+    () => quadrantNames.map((name, index) => ({ value: index, label: name })),
+    [quadrantNames]
+  );
+
+  // Transform ring names into Select options
+  const ringOptions: SelectOption[] = useMemo(
+    () => DEFAULT_RINGS.map((name, index) => ({ value: index, label: name })),
+    []
+  );
 
   // Update form data when initialData changes (for edit mode)
   useEffect(() => {
@@ -153,13 +167,13 @@ export function TechItemForm({
         <label htmlFor="name" className={styles.label}>
           Name <span className={styles.required}>*</span>
         </label>
-        <input
+        <Field
           type="text"
           id="name"
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+          error={!!errors.name}
           placeholder="e.g., React, PostgreSQL, Docker"
           required
           aria-required="true"
@@ -175,26 +189,25 @@ export function TechItemForm({
 
       {/* Quadrant Dropdown (Required) */}
       <div className={styles.formGroup}>
-        <label htmlFor="quadrant" className={styles.label}>
+        <label id="quadrant-label" htmlFor="quadrant" className={styles.label}>
           Quadrant <span className={styles.required}>*</span>
         </label>
-        <select
+        <Select
           id="quadrant"
           name="quadrant"
+          options={quadrantOptions}
           value={formData.quadrant}
-          onChange={handleChange}
-          className={`${styles.select} ${errors.quadrant ? styles.inputError : ''}`}
+          onChange={(value) => {
+            const event = {
+              target: { name: 'quadrant', value: String(value) }
+            } as React.ChangeEvent<HTMLSelectElement>;
+            handleChange(event);
+          }}
+          error={!!errors.quadrant}
           required
-          aria-required="true"
           aria-invalid={!!errors.quadrant}
           aria-describedby={errors.quadrant ? 'quadrant-error' : undefined}
-        >
-          {quadrantNames.map((name, index) => (
-            <option key={index} value={index}>
-              {name}
-            </option>
-          ))}
-        </select>
+        />
         {errors.quadrant && (
           <span id="quadrant-error" className={styles.errorMessage} role="alert">
             {errors.quadrant}
@@ -204,26 +217,25 @@ export function TechItemForm({
 
       {/* Ring Dropdown (Required) */}
       <div className={styles.formGroup}>
-        <label htmlFor="ring" className={styles.label}>
+        <label id="ring-label" htmlFor="ring" className={styles.label}>
           Ring <span className={styles.required}>*</span>
         </label>
-        <select
+        <Select
           id="ring"
           name="ring"
+          options={ringOptions}
           value={formData.ring}
-          onChange={handleChange}
-          className={`${styles.select} ${errors.ring ? styles.inputError : ''}`}
+          onChange={(value) => {
+            const event = {
+              target: { name: 'ring', value: String(value) }
+            } as React.ChangeEvent<HTMLSelectElement>;
+            handleChange(event);
+          }}
+          error={!!errors.ring}
           required
-          aria-required="true"
           aria-invalid={!!errors.ring}
           aria-describedby={errors.ring ? 'ring-error' : undefined}
-        >
-          {DEFAULT_RINGS.map((name, index) => (
-            <option key={index} value={index}>
-              {name}
-            </option>
-          ))}
-        </select>
+        />
         {errors.ring && (
           <span id="ring-error" className={styles.errorMessage} role="alert">
             {errors.ring}
@@ -236,12 +248,13 @@ export function TechItemForm({
         <label htmlFor="description" className={styles.label}>
           Description
         </label>
-        <textarea
+        <Field
+          as="textarea"
           id="description"
           name="description"
           value={formData.description}
           onChange={handleChange}
-          className={`${styles.textarea} ${errors.description ? styles.inputError : ''}`}
+          error={!!errors.description}
           placeholder="Add notes, context, or reasoning for this technology"
           rows={4}
           maxLength={500}
@@ -263,13 +276,13 @@ export function TechItemForm({
         <label htmlFor="url" className={styles.label}>
           URL
         </label>
-        <input
+        <Field
           type="url"
           id="url"
           name="url"
           value={formData.url}
           onChange={handleChange}
-          className={`${styles.input} ${errors.url ? styles.inputError : ''}`}
+          error={!!errors.url}
           placeholder="https://example.com"
           aria-invalid={!!errors.url}
           aria-describedby={errors.url ? 'url-error' : undefined}
@@ -286,13 +299,13 @@ export function TechItemForm({
         <label htmlFor="category" className={styles.label}>
           Category
         </label>
-        <input
+        <Field
           type="text"
           id="category"
           name="category"
           value={formData.category}
           onChange={handleChange}
-          className={`${styles.input} ${errors.category ? styles.inputError : ''}`}
+          error={!!errors.category}
           placeholder="e.g., Frontend, Backend, DevOps"
           maxLength={50}
           aria-invalid={!!errors.category}
