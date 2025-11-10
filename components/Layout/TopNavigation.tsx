@@ -3,25 +3,25 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
-import { Share2, Download, Settings, User, LayoutGrid } from 'lucide-react';
+import { Share2, Settings, User, LayoutGrid, LogIn } from 'lucide-react';
 import { Button } from '@/components/Button';
 import styles from './TopNavigation.module.css';
 
 interface TopNavigationProps {
   radarName?: string;
   onShare?: () => void;
-  onExport?: () => void;
   onCustomize?: () => void;
   showAuthControls?: boolean;
+  isOwner?: boolean;
   className?: string;
 }
 
 export function TopNavigation({
   radarName = 'Tech Radar',
   onShare,
-  onExport,
   onCustomize,
   showAuthControls = true,
+  isOwner = false,
   className,
 }: TopNavigationProps) {
   const { data: session } = useSession();
@@ -50,8 +50,8 @@ export function TopNavigation({
 
         {/* Right: Action Buttons & User */}
         <div className={styles.rightSection}>
-          {/* Share Button */}
-          {onShare && (
+          {/* Share Button - Owner Only */}
+          {isOwner && onShare && (
             <Button
               onClick={onShare}
               variant="ghost"
@@ -65,23 +65,8 @@ export function TopNavigation({
             </Button>
           )}
 
-          {/* Export Button */}
-          {onExport && (
-            <Button
-              onClick={onExport}
-              variant="ghost"
-              size="sm"
-              leftIcon={<Download size={18} />}
-              aria-label="Export radar"
-              title="Export radar"
-              className={styles.navButton}
-            >
-              <span className={styles.buttonText}>Export</span>
-            </Button>
-          )}
-
-          {/* Customize Button */}
-          {onCustomize && (
+          {/* Settings Button - Owner Only */}
+          {isOwner && onCustomize && (
             <Button
               onClick={onCustomize}
               variant="ghost"
@@ -95,7 +80,22 @@ export function TopNavigation({
             </Button>
           )}
 
-          {/* User Account Indicator */}
+          {/* Login Button - Guest Users Only */}
+          {showAuthControls && !session && (
+            <Button
+              onClick={() => window.location.href = '/api/auth/signin'}
+              variant="primary"
+              size="sm"
+              leftIcon={<LogIn size={18} />}
+              aria-label="Log in"
+              title="Log in to save your work"
+              className={styles.navButton}
+            >
+              <span className={styles.buttonText}>Log In</span>
+            </Button>
+          )}
+
+          {/* User Account Indicator - Authenticated Users */}
           {showAuthControls && session && (
             <div className={styles.userSection}>
               <div className={styles.userInfo}>

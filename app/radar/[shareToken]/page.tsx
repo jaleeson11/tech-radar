@@ -437,11 +437,6 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     setShowShareModal(true);
   };
 
-  const handleExport = () => {
-    console.log('Export clicked');
-    // TODO: Implement export functionality
-  };
-
   const handleCustomize = () => {
     console.log('Customize clicked');
     // TODO: Open customize quadrants modal
@@ -481,9 +476,9 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     <TopNavigation
       radarName={radar.name}
       onShare={handleShare}
-      onExport={handleExport}
-      onCustomize={canEdit ? handleCustomize : undefined}
+      onCustomize={handleCustomize}
       showAuthControls={true}
+      isOwner={isOwner}
     />
   );
 
