@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, use, useRef } from 'react';
+import { useEffect, useState, useMemo, use, useRef, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TechItem } from '@prisma/client';
@@ -61,6 +61,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [mobileSidePanelOpen, setMobileSidePanelOpen] = useState(false);
+  const [hasLoadedItems, setHasLoadedItems] = useState(false);
 
   // Check if user is the owner
   const isOwner = session?.user?.email === radar?.owner?.email;
@@ -112,7 +113,9 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   // Load items when radar is loaded
   useEffect(() => {
     if (radar?.id) {
-      refreshItems();
+      refreshItems().then(() => {
+        setHasLoadedItems(true);
+      });
     }
   }, [radar?.id]);
 
@@ -233,15 +236,19 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     };
   }, [radar]);
 
-  const handleBlipClick = (item: TechItem) => {
+  const handleBlipClick = useCallback((item: TechItem) => {
     // Open item detail view in side panel
     setViewingItem(item);
     setEditingItem(null);
+    // Close any add-related views
     setShowAddForm(false);
+    setShowAddChoice(false);
+    setShowLibraryBrowse(false);
+    setLibraryItemData(null);
     setSuccessMessage(null);
     // Open mobile drawer to show detail view
     setMobileSidePanelOpen(true);
-  };
+  }, []);
 
   const handleAddItem = () => {
     setShowAddChoice(true);
@@ -401,7 +408,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     setSuccessMessage(null);
   };
 
-  const handleBlipMove = async (item: TechItem, newQuadrant: number, newRing: number, finalX: number, finalY: number) => {
+  const handleBlipMove = useCallback(async (item: TechItem, newQuadrant: number, newRing: number, finalX: number, finalY: number) => {
     // Update the tech item with new quadrant, ring, and saved position
     const result = await updateTechItem(item.id, {
       name: item.name,
@@ -416,12 +423,15 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
 
     if (result.success && result.item) {
       // If this item is currently being viewed, update the detail view with the returned item
-      if (viewingItem && viewingItem.id === item.id) {
-        setViewingItem(result.item);
-      }
+      setViewingItem(currentViewingItem => {
+        if (currentViewingItem && currentViewingItem.id === item.id) {
+          return result.item!;
+        }
+        return currentViewingItem;
+      });
     }
     // Error is handled by the hook
-  };
+  }, [updateTechItem]);
 
   const handleShare = () => {
     setShowShareModal(true);
@@ -444,8 +454,8 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     setShowWelcomeModal(false);
   };
 
-  // Loading state
-  if (isLoadingRadar) {
+  // Loading state - only show for initial load, not for updates
+  if (isLoadingRadar || (isLoadingItems && !hasLoadedItems)) {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.spinner} aria-label="Loading" />
