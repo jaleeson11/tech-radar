@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { TopNavigation } from './TopNavigation';
 import { useSession, signOut } from 'next-auth/react';
 
@@ -189,6 +189,193 @@ describe('TopNavigation', () => {
 
       const nav = container.querySelector('.custom-nav');
       expect(nav).toBeInTheDocument();
+    });
+  });
+
+  describe('Inline Name Editing', () => {
+    it('should show edit icon on hover for owners with onUpdateName', () => {
+      const handleUpdateName = vi.fn();
+      const { container } = render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const editIcon = container.querySelector('svg[class*="editIcon"]');
+      expect(editIcon).toBeInTheDocument();
+    });
+
+    it('should not show edit icon for non-owners', () => {
+      const handleUpdateName = vi.fn();
+      const { container } = render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={false}
+        />
+      );
+
+      const editIcon = container.querySelector('svg[class*="editIcon"]');
+      expect(editIcon).not.toBeInTheDocument();
+    });
+
+    it('should not show edit icon when onUpdateName is not provided', () => {
+      const { container } = render(
+        <TopNavigation radarName="My Radar" isOwner={true} />
+      );
+
+      const editIcon = container.querySelector('svg[class*="editIcon"]');
+      expect(editIcon).not.toBeInTheDocument();
+    });
+
+    it('should enter edit mode when clicking radar name', () => {
+      const handleUpdateName = vi.fn();
+      render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const nameContainer = screen.getByRole('button', { name: /click to edit radar name/i });
+      fireEvent.click(nameContainer);
+
+      const input = screen.getByRole('textbox', { name: /edit radar name/i });
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveValue('My Radar');
+    });
+
+    it('should call onUpdateName when pressing Enter', async () => {
+      const handleUpdateName = vi.fn().mockResolvedValue(undefined);
+      render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const nameContainer = screen.getByRole('button', { name: /click to edit radar name/i });
+      fireEvent.click(nameContainer);
+
+      const input = screen.getByRole('textbox', { name: /edit radar name/i });
+      fireEvent.change(input, { target: { value: 'Updated Radar' } });
+      fireEvent.keyDown(input, { key: 'Enter' });
+
+      await waitFor(() => {
+        expect(handleUpdateName).toHaveBeenCalledWith('Updated Radar');
+      });
+    });
+
+    it('should cancel editing when pressing Escape', () => {
+      const handleUpdateName = vi.fn();
+      render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const nameContainer = screen.getByRole('button', { name: /click to edit radar name/i });
+      fireEvent.click(nameContainer);
+
+      const input = screen.getByRole('textbox', { name: /edit radar name/i });
+      fireEvent.change(input, { target: { value: 'Updated Radar' } });
+      fireEvent.keyDown(input, { key: 'Escape' });
+
+      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+      expect(handleUpdateName).not.toHaveBeenCalled();
+    });
+
+    it('should save on blur', async () => {
+      const handleUpdateName = vi.fn().mockResolvedValue(undefined);
+      render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const nameContainer = screen.getByRole('button', { name: /click to edit radar name/i });
+      fireEvent.click(nameContainer);
+
+      const input = screen.getByRole('textbox', { name: /edit radar name/i });
+      fireEvent.change(input, { target: { value: 'Updated Radar' } });
+      fireEvent.blur(input);
+
+      await waitFor(() => {
+        expect(handleUpdateName).toHaveBeenCalledWith('Updated Radar');
+      });
+    });
+
+    it('should not save if name is empty', async () => {
+      const handleUpdateName = vi.fn();
+      render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const nameContainer = screen.getByRole('button', { name: /click to edit radar name/i });
+      fireEvent.click(nameContainer);
+
+      const input = screen.getByRole('textbox', { name: /edit radar name/i });
+      fireEvent.change(input, { target: { value: '   ' } });
+      fireEvent.blur(input);
+
+      await waitFor(() => {
+        expect(handleUpdateName).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should not save if name is unchanged', async () => {
+      const handleUpdateName = vi.fn();
+      render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const nameContainer = screen.getByRole('button', { name: /click to edit radar name/i });
+      fireEvent.click(nameContainer);
+
+      const input = screen.getByRole('textbox', { name: /edit radar name/i });
+      fireEvent.blur(input);
+
+      await waitFor(() => {
+        expect(handleUpdateName).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should trim whitespace before saving', async () => {
+      const handleUpdateName = vi.fn().mockResolvedValue(undefined);
+      render(
+        <TopNavigation
+          radarName="My Radar"
+          onUpdateName={handleUpdateName}
+          isOwner={true}
+        />
+      );
+
+      const nameContainer = screen.getByRole('button', { name: /click to edit radar name/i });
+      fireEvent.click(nameContainer);
+
+      const input = screen.getByRole('textbox', { name: /edit radar name/i });
+      fireEvent.change(input, { target: { value: '  Updated Radar  ' } });
+      fireEvent.keyDown(input, { key: 'Enter' });
+
+      await waitFor(() => {
+        expect(handleUpdateName).toHaveBeenCalledWith('Updated Radar');
+      });
     });
   });
 });

@@ -444,6 +444,22 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     setShowCustomizeModal(true);
   };
 
+  const handleUpdateName = async (name: string) => {
+    if (!radar) return;
+
+    try {
+      // Update radar with new name
+      const updatedRadar = await radarsApi.update(radar.id, { name });
+
+      // Update local state directly instead of refetching
+      setRadar({ ...radar, name: updatedRadar.name });
+    } catch (err) {
+      const axiosError = err as AxiosError<{ error: string }>;
+      console.error('Failed to update radar name:', axiosError);
+      throw err; // Re-throw so the component can handle it
+    }
+  };
+
   const handleSaveQuadrants = async (quadrants: string[]) => {
     if (!radar) return;
 
@@ -507,6 +523,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       radarName={radar.name}
       onShare={handleShare}
       onCustomize={handleCustomize}
+      onUpdateName={handleUpdateName}
       showAuthControls={true}
       isOwner={isOwner}
     />
