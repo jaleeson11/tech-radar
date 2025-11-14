@@ -5,6 +5,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/Button';
+import { RadarLoader } from '@/components/RadarLoader/RadarLoader';
 import styles from './page.module.css';
 
 export default function LoginForm() {
@@ -118,7 +119,7 @@ export default function LoginForm() {
   if (status === 'loading') {
     return (
       <div className={styles.loadingContainer}>
-        <div className={styles.spinner} aria-label="Loading" />
+        <RadarLoader size={80} />
         <p>Loading...</p>
       </div>
     );
@@ -128,7 +129,7 @@ export default function LoginForm() {
   if (status === 'authenticated') {
     return (
       <div className={styles.loadingContainer}>
-        <div className={styles.spinner} aria-label="Loading" />
+        <RadarLoader size={80} />
         <p>Redirecting...</p>
       </div>
     );

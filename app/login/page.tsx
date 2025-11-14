@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 import LoginForm from './LoginForm';
+import { RadarLoader } from '@/components/RadarLoader/RadarLoader';
 import styles from './page.module.css';
 
 // Force dynamic rendering
@@ -13,7 +14,7 @@ export default function LoginPage() {
       <Suspense
         fallback={
           <div className={styles.loadingContainer}>
-            <div className={styles.spinner} aria-label="Loading" />
+            <RadarLoader size={80} />
             <p>Loading...</p>
           </div>
         }

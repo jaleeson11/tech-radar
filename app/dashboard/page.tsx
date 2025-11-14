@@ -8,6 +8,7 @@ import { Plus, Search, Calendar, Eye, Edit, Trash2 } from 'lucide-react';
 import { radarsApi, RadarListItem } from '@/lib/api';
 import { AxiosError } from 'axios';
 import { Button } from '@/components/Button';
+import { RadarLoader } from '@/components/RadarLoader/RadarLoader';
 import styles from './page.module.css';
 
 // Force dynamic rendering - this page requires authentication
@@ -100,7 +101,7 @@ export default function DashboardPage() {
     return (
       <div className={styles.dashboard}>
         <div className={styles.loadingState}>
-          <div className={styles.spinner} aria-label="Loading" />
+          <RadarLoader size={80} />
           <p>Loading your radars...</p>
         </div>
       </div>

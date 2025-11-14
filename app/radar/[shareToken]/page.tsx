@@ -21,6 +21,7 @@ import { ShareModal } from '@/components/Modals/ShareModal';
 import { WelcomeModal } from '@/components/Modals/WelcomeModal';
 import { DeleteConfirmModal } from '@/components/Modals/DeleteConfirmModal';
 import { CustomizeQuadrantsModal } from '@/components/Modals/CustomizeQuadrantsModal';
+import { RadarLoader } from '@/components/RadarLoader/RadarLoader';
 import {
   calculateAllBlipPositions,
   getDefaultPositioningConfig,
@@ -499,7 +500,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   if (isLoadingRadar || (isLoadingItems && !hasLoadedItems)) {
     return (
       <div className={styles.loadingContainer}>
-        <div className={styles.spinner} aria-label="Loading" />
+        <RadarLoader size={80} />
         <p>Loading radar...</p>
       </div>
     );

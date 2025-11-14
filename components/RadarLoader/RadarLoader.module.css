@@ -1,0 +1,86 @@
+.radarLoader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Concentric rings with pulsating animation */
+.ring {
+  position: absolute;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.ring:nth-child(1) {
+  animation: radarPulse 2s ease-out infinite;
+  animation-delay: 0s;
+}
+
+.ring:nth-child(2) {
+  animation: radarPulse 2s ease-out infinite;
+  animation-delay: 0.5s;
+}
+
+.ring:nth-child(3) {
+  animation: radarPulse 2s ease-out infinite;
+  animation-delay: 1s;
+}
+
+.ring:nth-child(4) {
+  animation: radarPulse 2s ease-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* Center dot */
+.centerDot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow: 0 0 12px var(--color-primary);
+  animation: centerPulse 2s ease-in-out infinite;
+}
+
+/* Hide sweep container */
+.sweepContainer {
+  display: none;
+}
+
+.sweep {
+  display: none;
+}
+
+/* Pulsating animation */
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Center dot pulse */
+@keyframes centerPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .ring {
+    border-color: var(--color-primary);
+  }
+}
