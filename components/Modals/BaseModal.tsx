@@ -13,6 +13,7 @@ interface BaseModalProps {
   closeOnBackdrop?: boolean;
   closeOnEscape?: boolean;
   showCloseButton?: boolean;
+  disableClose?: boolean;
   maxWidth?: 'sm' | 'md' | 'lg';
   className?: string;
 }
@@ -26,6 +27,7 @@ export function BaseModal({
   closeOnBackdrop = true,
   closeOnEscape = true,
   showCloseButton = true,
+  disableClose = false,
   maxWidth = 'md',
   className = '',
 }: BaseModalProps) {
@@ -87,6 +89,7 @@ export function BaseModal({
                 className={styles.closeButton}
                 aria-label="Close modal"
                 type="button"
+                disabled={disableClose}
               >
                 <X size={20} aria-hidden="true" />
               </button>

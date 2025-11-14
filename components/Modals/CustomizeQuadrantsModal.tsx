@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { BaseModal } from './BaseModal';
 import { Button } from '@/components/Button';
+import { Field } from '@/components/Field/Field';
 import styles from './CustomizeQuadrantsModal.module.css';
 
 interface CustomizeQuadrantsModalProps {
@@ -91,7 +92,7 @@ export function CustomizeQuadrantsModal({
         variant="primary"
         isLoading={isSaving}
       >
-        Save Changes
+        {isSaving ? 'Saving...' : 'Save Changes'}
       </Button>
     </div>
   );
@@ -104,6 +105,7 @@ export function CustomizeQuadrantsModal({
       footer={footer}
       closeOnBackdrop={!isSaving}
       closeOnEscape={!isSaving}
+      disableClose={isSaving}
       maxWidth="md"
     >
       <p className={styles.description}>
@@ -116,15 +118,16 @@ export function CustomizeQuadrantsModal({
             <label htmlFor={`quadrant-${index}`} className={styles.label}>
               Quadrant {index + 1}
             </label>
-            <input
+            <Field
               id={`quadrant-${index}`}
               type="text"
               value={name}
               onChange={(e) => handleChange(index, e.target.value)}
-              className={`${styles.input} ${errors[index] ? styles.inputError : ''}`}
+              error={!!errors[index]}
               placeholder={`Enter quadrant ${index + 1} name`}
               disabled={isSaving}
               maxLength={50}
+              fullWidth
             />
             {errors[index] && (
               <span className={styles.error} role="alert">

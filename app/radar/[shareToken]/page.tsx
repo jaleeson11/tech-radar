@@ -20,6 +20,7 @@ import { RadarCanvas } from '@/components/Radar/RadarCanvas';
 import { ShareModal } from '@/components/Modals/ShareModal';
 import { WelcomeModal } from '@/components/Modals/WelcomeModal';
 import { DeleteConfirmModal } from '@/components/Modals/DeleteConfirmModal';
+import { CustomizeQuadrantsModal } from '@/components/Modals/CustomizeQuadrantsModal';
 import {
   calculateAllBlipPositions,
   getDefaultPositioningConfig,
@@ -60,6 +61,8 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
+  const [isSavingQuadrants, setIsSavingQuadrants] = useState(false);
   const [mobileSidePanelOpen, setMobileSidePanelOpen] = useState(false);
   const [hasLoadedItems, setHasLoadedItems] = useState(false);
 
@@ -438,8 +441,35 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   };
 
   const handleCustomize = () => {
-    console.log('Customize clicked');
-    // TODO: Open customize quadrants modal
+    setShowCustomizeModal(true);
+  };
+
+  const handleSaveQuadrants = async (quadrants: string[]) => {
+    if (!radar) return;
+
+    try {
+      setIsSavingQuadrants(true);
+
+      // Update radar with new quadrant names
+      await radarsApi.update(radar.id, { quadrants });
+
+      // Refresh radar data to get the updated quadrants
+      await fetchRadarData();
+
+      // Close modal on success
+      setShowCustomizeModal(false);
+      setSuccessMessage('Quadrants updated successfully!');
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (err) {
+      const axiosError = err as AxiosError<{ error: string }>;
+      console.error('Failed to update quadrants:', axiosError);
+      // Note: Error will be shown in the modal/UI
+      // You could add error handling to show a toast or error message
+    } finally {
+      setIsSavingQuadrants(false);
+    }
   };
 
 
@@ -604,6 +634,14 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
         isDeleting={isLoadingItems}
+      />
+
+      <CustomizeQuadrantsModal
+        isOpen={showCustomizeModal}
+        onClose={() => setShowCustomizeModal(false)}
+        currentQuadrants={(radar.quadrants as string[]) || DEFAULT_QUADRANTS}
+        onSave={handleSaveQuadrants}
+        isSaving={isSavingQuadrants}
       />
     </>
   );

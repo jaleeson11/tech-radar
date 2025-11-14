@@ -34,23 +34,15 @@ describe('TopNavigation', () => {
 
     it('should render Share button when onShare is provided', () => {
       const handleShare = vi.fn();
-      render(<TopNavigation onShare={handleShare} />);
+      render(<TopNavigation onShare={handleShare} isOwner={true} />);
 
       const shareButton = screen.getByRole('button', { name: /share radar/i });
       expect(shareButton).toBeInTheDocument();
     });
 
-    it('should render Export button when onExport is provided', () => {
-      const handleExport = vi.fn();
-      render(<TopNavigation onExport={handleExport} />);
-
-      const exportButton = screen.getByRole('button', { name: /export radar/i });
-      expect(exportButton).toBeInTheDocument();
-    });
-
     it('should render Settings button when onCustomize is provided', () => {
       const handleCustomize = vi.fn();
-      render(<TopNavigation onCustomize={handleCustomize} />);
+      render(<TopNavigation onCustomize={handleCustomize} isOwner={true} />);
 
       const settingsButton = screen.getByRole('button', { name: /customize radar/i });
       expect(settingsButton).toBeInTheDocument();
@@ -60,7 +52,6 @@ describe('TopNavigation', () => {
       render(<TopNavigation />);
 
       expect(screen.queryByRole('button', { name: /share radar/i })).not.toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: /export radar/i })).not.toBeInTheDocument();
       expect(screen.queryByRole('button', { name: /customize radar/i })).not.toBeInTheDocument();
     });
   });
@@ -147,7 +138,7 @@ describe('TopNavigation', () => {
   describe('Interactions', () => {
     it('should call onShare when Share button is clicked', () => {
       const handleShare = vi.fn();
-      render(<TopNavigation onShare={handleShare} />);
+      render(<TopNavigation onShare={handleShare} isOwner={true} />);
 
       const shareButton = screen.getByRole('button', { name: /share radar/i });
       fireEvent.click(shareButton);
@@ -155,19 +146,9 @@ describe('TopNavigation', () => {
       expect(handleShare).toHaveBeenCalledTimes(1);
     });
 
-    it('should call onExport when Export button is clicked', () => {
-      const handleExport = vi.fn();
-      render(<TopNavigation onExport={handleExport} />);
-
-      const exportButton = screen.getByRole('button', { name: /export radar/i });
-      fireEvent.click(exportButton);
-
-      expect(handleExport).toHaveBeenCalledTimes(1);
-    });
-
     it('should call onCustomize when Settings button is clicked', () => {
       const handleCustomize = vi.fn();
-      render(<TopNavigation onCustomize={handleCustomize} />);
+      render(<TopNavigation onCustomize={handleCustomize} isOwner={true} />);
 
       const settingsButton = screen.getByRole('button', { name: /customize radar/i });
       fireEvent.click(settingsButton);
@@ -179,20 +160,18 @@ describe('TopNavigation', () => {
   describe('Accessibility', () => {
     it('should have proper ARIA labels', () => {
       const handleShare = vi.fn();
-      const handleExport = vi.fn();
       const handleCustomize = vi.fn();
 
       render(
         <TopNavigation
           onShare={handleShare}
-          onExport={handleExport}
           onCustomize={handleCustomize}
+          isOwner={true}
         />
       );
 
       expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /share radar/i })).toHaveAttribute('aria-label', 'Share radar');
-      expect(screen.getByRole('button', { name: /export radar/i })).toHaveAttribute('aria-label', 'Export radar');
       expect(screen.getByRole('button', { name: /customize radar/i })).toHaveAttribute('aria-label', 'Customize radar');
     });
 
