@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { Share2, Settings, User, LayoutGrid, LogIn, Pencil } from 'lucide-react';
 import { Button } from '@/components/Button';
@@ -13,6 +12,7 @@ interface TopNavigationProps {
   onShare?: () => void;
   onCustomize?: () => void;
   onUpdateName?: (name: string) => Promise<void>;
+  onOpenRadarSwitcher?: () => void;
   showAuthControls?: boolean;
   isOwner?: boolean;
   className?: string;
@@ -23,6 +23,7 @@ export function TopNavigation({
   onShare,
   onCustomize,
   onUpdateName,
+  onOpenRadarSwitcher,
   showAuthControls = true,
   isOwner = false,
   className,
@@ -138,13 +139,19 @@ export function TopNavigation({
           )}
         </div>
 
-        {/* Center: My Radars Link */}
-        {showAuthControls && session && (
+        {/* Center: My Radars Button */}
+        {showAuthControls && session && onOpenRadarSwitcher && (
           <div className={styles.centerSection}>
-            <Link href="/dashboard" className={styles.dashboardLink}>
-              <LayoutGrid className={styles.buttonIcon} size={18} aria-hidden="true" />
-              <span>My Radars</span>
-            </Link>
+            <Button
+              onClick={onOpenRadarSwitcher}
+              variant="ghost"
+              size="sm"
+              leftIcon={<LayoutGrid size={18} />}
+              aria-label="Open radars switcher"
+              className={styles.radarSwitcherButton}
+            >
+              <span className={styles.buttonText}>My Radars</span>
+            </Button>
           </div>
         )}
 

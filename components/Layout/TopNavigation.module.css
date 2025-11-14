@@ -82,29 +82,14 @@
   padding: 0 var(--spacing-4);
 }
 
-.dashboardLink {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-4);
-  background-color: transparent;
-  border: 1px solid var(--color-border-hover);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
+.radarSwitcherButton {
+  border: 1px solid var(--color-border-hover) !important;
+  background-color: transparent !important;
 }
 
-.dashboardLink:hover {
-  background-color: var(--color-surface-hover);
-  border-color: var(--color-text-tertiary);
-}
-
-.dashboardLink:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+.radarSwitcherButton:hover {
+  background-color: var(--color-surface-hover) !important;
+  border-color: var(--color-text-tertiary) !important;
 }
 
 /* Right Section */
@@ -237,14 +222,6 @@
 
   .centerSection {
     padding: 0 var(--spacing-2);
-  }
-
-  .dashboardLink span {
-    display: none;
-  }
-
-  .dashboardLink {
-    padding: var(--spacing-2);
   }
 
   .buttonText {

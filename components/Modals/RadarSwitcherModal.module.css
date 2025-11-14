@@ -1,0 +1,167 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.limitMessage {
+  margin: 0;
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.error {
+  padding: var(--spacing-3);
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-sm);
+  color: var(--color-error);
+  font-size: 14px;
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-8) 0;
+}
+
+.loadingState p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.radarsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.radarItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radarItem:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border-hover);
+}
+
+.radarItem:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.radarItem.active {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary);
+}
+
+.radarInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.radarName {
+  margin: 0 0 var(--spacing-2) 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.radarMeta {
+  display: flex;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.metaItem svg {
+  flex-shrink: 0;
+}
+
+.deleteButton {
+  flex-shrink: 0;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.radarItem:hover .deleteButton {
+  opacity: 1;
+}
+
+.deleteButton:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.emptyState {
+  padding: var(--spacing-8) 0;
+  text-align: center;
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .radarItem {
+    padding: var(--spacing-3);
+  }
+
+  .radarName {
+    font-size: 15px;
+  }
+
+  .radarMeta {
+    gap: var(--spacing-3);
+  }
+
+  .metaItem {
+    font-size: 12px;
+  }
+
+  .deleteButton {
+    opacity: 1; /* Always visible on mobile */
+  }
+}

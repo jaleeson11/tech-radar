@@ -21,6 +21,7 @@ import { ShareModal } from '@/components/Modals/ShareModal';
 import { WelcomeModal } from '@/components/Modals/WelcomeModal';
 import { DeleteConfirmModal } from '@/components/Modals/DeleteConfirmModal';
 import { CustomizeQuadrantsModal } from '@/components/Modals/CustomizeQuadrantsModal';
+import { RadarSwitcherModal } from '@/components/Modals/RadarSwitcherModal';
 import { RadarLoader } from '@/components/RadarLoader/RadarLoader';
 import {
   calculateAllBlipPositions,
@@ -63,6 +64,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
+  const [showRadarSwitcher, setShowRadarSwitcher] = useState(false);
   const [isSavingQuadrants, setIsSavingQuadrants] = useState(false);
   const [mobileSidePanelOpen, setMobileSidePanelOpen] = useState(false);
   const [hasLoadedItems, setHasLoadedItems] = useState(false);
@@ -445,6 +447,10 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     setShowCustomizeModal(true);
   };
 
+  const handleOpenRadarSwitcher = () => {
+    setShowRadarSwitcher(true);
+  };
+
   const handleUpdateName = async (name: string) => {
     if (!radar) return;
 
@@ -525,6 +531,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       onShare={handleShare}
       onCustomize={handleCustomize}
       onUpdateName={handleUpdateName}
+      onOpenRadarSwitcher={handleOpenRadarSwitcher}
       showAuthControls={true}
       isOwner={isOwner}
     />
@@ -660,6 +667,12 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
         currentQuadrants={(radar.quadrants as string[]) || DEFAULT_QUADRANTS}
         onSave={handleSaveQuadrants}
         isSaving={isSavingQuadrants}
+      />
+
+      <RadarSwitcherModal
+        isOpen={showRadarSwitcher}
+        onClose={() => setShowRadarSwitcher(false)}
+        currentRadarId={radar.id}
       />
     </>
   );
