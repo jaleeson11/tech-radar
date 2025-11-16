@@ -24,7 +24,7 @@ export function AddItemChoice({ onBrowseLibrary, onCreateCustom }: AddItemChoice
           </div>
           <h3 className={styles.choiceTitle}>Browse Library</h3>
           <p className={styles.choiceDescription}>
-            Choose from 80+ popular technologies with pre-filled information and icons
+            Choose from 85+ popular technologies with pre-filled information and icons
           </p>
         </button>
 

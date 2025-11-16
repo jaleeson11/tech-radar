@@ -19,19 +19,19 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'react',
     name: 'React',
-    icon: 'react',
+    icon: 'devicon:react',
     description: 'JavaScript library for building user interfaces',
-    suggestedQuadrant: 0, // Tools
-    suggestedRing: 0, // Adopt
+    suggestedQuadrant: 3,
+    suggestedRing: 0,
     categories: ['Frontend', 'Framework'],
     url: 'https://react.dev'
   },
   {
     id: 'vue',
     name: 'Vue.js',
-    icon: 'vuedotjs',
+    icon: 'devicon:vuejs',
     description: 'Progressive JavaScript framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Frontend', 'Framework'],
     url: 'https://vuejs.org'
@@ -39,19 +39,19 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'angular',
     name: 'Angular',
-    icon: 'angular',
+    icon: 'devicon:angular',
     description: 'Platform for building web applications',
-    suggestedQuadrant: 0,
-    suggestedRing: 1, // Trial
+    suggestedQuadrant: 3,
+    suggestedRing: 1,
     categories: ['Frontend', 'Framework'],
     url: 'https://angular.io'
   },
   {
     id: 'svelte',
     name: 'Svelte',
-    icon: 'svelte',
+    icon: 'devicon:svelte',
     description: 'Cybernetically enhanced web apps',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['Frontend', 'Framework'],
     url: 'https://svelte.dev'
@@ -59,9 +59,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'nextjs',
     name: 'Next.js',
-    icon: 'nextdotjs',
+    icon: 'devicon:nextjs',
     description: 'React framework for production',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Frontend', 'Framework'],
     url: 'https://nextjs.org'
@@ -69,9 +69,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'nuxt',
     name: 'Nuxt.js',
-    icon: 'nuxtdotjs',
+    icon: 'devicon:nuxtjs',
     description: 'Vue.js framework for server-side rendering',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['Frontend', 'Framework'],
     url: 'https://nuxt.com'
@@ -79,10 +79,10 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'remix',
     name: 'Remix',
-    icon: 'remix',
+    icon: 'simple-icons:remix',
     description: 'Full stack web framework',
-    suggestedQuadrant: 0,
-    suggestedRing: 2, // Assess
+    suggestedQuadrant: 3,
+    suggestedRing: 2,
     categories: ['Frontend', 'Framework'],
     url: 'https://remix.run'
   },
@@ -91,7 +91,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'typescript',
     name: 'TypeScript',
-    icon: 'typescript',
+    icon: 'devicon:typescript',
     description: 'Typed superset of JavaScript',
     suggestedQuadrant: 3, // Languages
     suggestedRing: 0,
@@ -101,7 +101,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'javascript',
     name: 'JavaScript',
-    icon: 'javascript',
+    icon: 'devicon:javascript',
     description: 'Programming language of the web',
     suggestedQuadrant: 3,
     suggestedRing: 0,
@@ -111,7 +111,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'python',
     name: 'Python',
-    icon: 'python',
+    icon: 'devicon:python',
     description: 'High-level programming language',
     suggestedQuadrant: 3,
     suggestedRing: 0,
@@ -121,7 +121,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'rust',
     name: 'Rust',
-    icon: 'rust',
+    icon: 'devicon:rust',
     description: 'Systems programming language',
     suggestedQuadrant: 3,
     suggestedRing: 1,
@@ -131,7 +131,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'go',
     name: 'Go',
-    icon: 'go',
+    icon: 'devicon:go',
     description: 'Programming language by Google',
     suggestedQuadrant: 3,
     suggestedRing: 0,
@@ -141,7 +141,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'java',
     name: 'Java',
-    icon: 'openjdk',
+    icon: 'devicon:java',
     description: 'Object-oriented programming language',
     suggestedQuadrant: 3,
     suggestedRing: 0,
@@ -151,7 +151,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'kotlin',
     name: 'Kotlin',
-    icon: 'kotlin',
+    icon: 'devicon:kotlin',
     description: 'Modern programming language for JVM',
     suggestedQuadrant: 3,
     suggestedRing: 1,
@@ -161,7 +161,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'swift',
     name: 'Swift',
-    icon: 'swift',
+    icon: 'devicon:swift',
     description: 'Apple programming language',
     suggestedQuadrant: 3,
     suggestedRing: 0,
@@ -173,9 +173,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'nodejs',
     name: 'Node.js',
-    icon: 'nodedotjs',
+    icon: 'devicon:nodejs',
     description: 'JavaScript runtime built on Chrome V8',
-    suggestedQuadrant: 2, // Platforms
+    suggestedQuadrant: 2,
     suggestedRing: 0,
     categories: ['Backend', 'Runtime'],
     url: 'https://nodejs.org'
@@ -183,9 +183,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'express',
     name: 'Express.js',
-    icon: 'express',
+    icon: 'devicon:express',
     description: 'Fast, unopinionated web framework for Node.js',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Backend', 'Framework'],
     url: 'https://expressjs.com'
@@ -193,9 +193,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'fastify',
     name: 'Fastify',
-    icon: 'fastify',
+    icon: 'devicon:fastify',
     description: 'Fast and low overhead web framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['Backend', 'Framework'],
     url: 'https://fastify.dev'
@@ -203,9 +203,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'nestjs',
     name: 'NestJS',
-    icon: 'nestjs',
+    icon: 'devicon:nestjs',
     description: 'Progressive Node.js framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['Backend', 'Framework'],
     url: 'https://nestjs.com'
@@ -213,9 +213,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'django',
     name: 'Django',
-    icon: 'django',
+    icon: 'simple-icons:django',
     description: 'High-level Python web framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Backend', 'Framework'],
     url: 'https://www.djangoproject.com'
@@ -223,9 +223,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'flask',
     name: 'Flask',
-    icon: 'flask',
+    icon: 'devicon:flask',
     description: 'Micro web framework for Python',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Backend', 'Framework'],
     url: 'https://flask.palletsprojects.com'
@@ -233,9 +233,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'fastapi',
     name: 'FastAPI',
-    icon: 'fastapi',
+    icon: 'devicon:fastapi',
     description: 'Modern Python web framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['Backend', 'Framework'],
     url: 'https://fastapi.tiangolo.com'
@@ -243,9 +243,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'spring',
     name: 'Spring Boot',
-    icon: 'springboot',
+    icon: 'devicon:spring',
     description: 'Java-based framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Backend', 'Framework'],
     url: 'https://spring.io/projects/spring-boot'
@@ -253,9 +253,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'laravel',
     name: 'Laravel',
-    icon: 'laravel',
+    icon: 'devicon:laravel',
     description: 'PHP web application framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Backend', 'Framework'],
     url: 'https://laravel.com'
@@ -263,9 +263,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'rails',
     name: 'Ruby on Rails',
-    icon: 'rubyonrails',
+    icon: 'simple-icons:rubyonrails',
     description: 'Server-side web application framework',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['Backend', 'Framework'],
     url: 'https://rubyonrails.org'
@@ -275,7 +275,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'postgresql',
     name: 'PostgreSQL',
-    icon: 'postgresql',
+    icon: 'devicon:postgresql',
     description: 'Advanced open source relational database',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -285,7 +285,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'mysql',
     name: 'MySQL',
-    icon: 'mysql',
+    icon: 'devicon:mysql',
     description: 'Open source relational database',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -295,7 +295,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'mongodb',
     name: 'MongoDB',
-    icon: 'mongodb',
+    icon: 'devicon:mongodb',
     description: 'Document-oriented NoSQL database',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -305,7 +305,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'redis',
     name: 'Redis',
-    icon: 'redis',
+    icon: 'devicon:redis',
     description: 'In-memory data structure store',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -315,7 +315,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'sqlite',
     name: 'SQLite',
-    icon: 'sqlite',
+    icon: 'devicon:sqlite',
     description: 'Self-contained SQL database engine',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -327,7 +327,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'docker',
     name: 'Docker',
-    icon: 'docker',
+    icon: 'devicon:docker',
     description: 'Platform for containerized applications',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -337,7 +337,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'kubernetes',
     name: 'Kubernetes',
-    icon: 'kubernetes',
+    icon: 'devicon:kubernetes',
     description: 'Container orchestration platform',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -347,7 +347,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'aws',
     name: 'Amazon Web Services',
-    icon: 'amazonwebservices',
+    icon: 'devicon:amazonwebservices',
     description: 'Cloud computing platform',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -357,7 +357,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'gcp',
     name: 'Google Cloud Platform',
-    icon: 'googlecloud',
+    icon: 'devicon:googlecloud',
     description: 'Cloud computing services',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -367,7 +367,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'azure',
     name: 'Microsoft Azure',
-    icon: 'microsoftazure',
+    icon: 'devicon:azure',
     description: 'Cloud computing platform',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -377,7 +377,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'vercel',
     name: 'Vercel',
-    icon: 'vercel',
+    icon: 'devicon:vercel',
     description: 'Platform for frontend frameworks',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -387,7 +387,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'netlify',
     name: 'Netlify',
-    icon: 'netlify',
+    icon: 'devicon:netlify',
     description: 'Platform for web development',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -399,7 +399,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'jest',
     name: 'Jest',
-    icon: 'jest',
+    icon: 'simple-icons:jest',
     description: 'JavaScript testing framework',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -409,7 +409,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'vitest',
     name: 'Vitest',
-    icon: 'vitest',
+    icon: 'devicon:vitest',
     description: 'Blazing fast unit test framework',
     suggestedQuadrant: 0,
     suggestedRing: 1,
@@ -419,7 +419,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'playwright',
     name: 'Playwright',
-    icon: 'playwright',
+    icon: 'logos:playwright',
     description: 'End-to-end testing framework',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -429,7 +429,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'cypress',
     name: 'Cypress',
-    icon: 'cypress',
+    icon: 'simple-icons:cypress',
     description: 'End-to-end testing framework',
     suggestedQuadrant: 0,
     suggestedRing: 1,
@@ -439,7 +439,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'pytest',
     name: 'pytest',
-    icon: 'pytest',
+    icon: 'devicon:pytest',
     description: 'Python testing framework',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -451,7 +451,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'vite',
     name: 'Vite',
-    icon: 'vite',
+    icon: 'devicon:vite',
     description: 'Next generation frontend tooling',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -461,7 +461,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'webpack',
     name: 'webpack',
-    icon: 'webpack',
+    icon: 'devicon:webpack',
     description: 'JavaScript module bundler',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -471,7 +471,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'esbuild',
     name: 'esbuild',
-    icon: 'esbuild',
+    icon: 'simple-icons:esbuild',
     description: 'Extremely fast JavaScript bundler',
     suggestedQuadrant: 0,
     suggestedRing: 1,
@@ -481,7 +481,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'npm',
     name: 'npm',
-    icon: 'npm',
+    icon: 'devicon:npm',
     description: 'Package manager for JavaScript',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -491,7 +491,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'pnpm',
     name: 'pnpm',
-    icon: 'pnpm',
+    icon: 'devicon:pnpm',
     description: 'Fast, disk space efficient package manager',
     suggestedQuadrant: 0,
     suggestedRing: 1,
@@ -501,7 +501,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'yarn',
     name: 'Yarn',
-    icon: 'yarn',
+    icon: 'devicon:yarn',
     description: 'Fast, reliable JavaScript package manager',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -513,7 +513,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'tailwindcss',
     name: 'Tailwind CSS',
-    icon: 'tailwindcss',
+    icon: 'devicon:tailwindcss',
     description: 'Utility-first CSS framework',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -523,7 +523,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'sass',
     name: 'Sass',
-    icon: 'sass',
+    icon: 'devicon:sass',
     description: 'CSS preprocessor',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -533,7 +533,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'styled-components',
     name: 'styled-components',
-    icon: 'styledcomponents',
+    icon: 'devicon:materializecss',
     description: 'CSS-in-JS library',
     suggestedQuadrant: 0,
     suggestedRing: 1,
@@ -545,7 +545,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'redux',
     name: 'Redux',
-    icon: 'redux',
+    icon: 'devicon:redux',
     description: 'Predictable state container',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -555,7 +555,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'zustand',
     name: 'Zustand',
-    icon: 'zustand',
+    icon: 'simple-icons:react',
     description: 'Small, fast state-management solution',
     suggestedQuadrant: 0,
     suggestedRing: 1,
@@ -567,7 +567,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'graphql',
     name: 'GraphQL',
-    icon: 'graphql',
+    icon: 'simple-icons:graphql',
     description: 'Query language for APIs',
     suggestedQuadrant: 1, // Techniques
     suggestedRing: 0,
@@ -577,9 +577,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'apollo',
     name: 'Apollo GraphQL',
-    icon: 'apollographql',
+    icon: 'simple-icons:graphql',
     description: 'GraphQL implementation',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['API', 'Backend'],
     url: 'https://www.apollographql.com'
@@ -587,7 +587,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'rest',
     name: 'REST API',
-    icon: 'fastapi',
+    icon: 'devicon:fastapi',
     description: 'RESTful web services',
     suggestedQuadrant: 1,
     suggestedRing: 0,
@@ -596,7 +596,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'grpc',
     name: 'gRPC',
-    icon: 'grpc',
+    icon: 'devicon:grpc',
     description: 'High performance RPC framework',
     suggestedQuadrant: 1,
     suggestedRing: 1,
@@ -608,9 +608,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'react-native',
     name: 'React Native',
-    icon: 'react',
+    icon: 'devicon:react',
     description: 'Framework for building native apps',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 0,
     categories: ['Mobile', 'Framework'],
     url: 'https://reactnative.dev'
@@ -618,9 +618,9 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'flutter',
     name: 'Flutter',
-    icon: 'flutter',
+    icon: 'devicon:flutter',
     description: 'UI toolkit for mobile, web, and desktop',
-    suggestedQuadrant: 0,
+    suggestedQuadrant: 3,
     suggestedRing: 1,
     categories: ['Mobile', 'Framework'],
     url: 'https://flutter.dev'
@@ -630,7 +630,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'git',
     name: 'Git',
-    icon: 'git',
+    icon: 'devicon:git',
     description: 'Distributed version control system',
     suggestedQuadrant: 0,
     suggestedRing: 0,
@@ -640,7 +640,7 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'github',
     name: 'GitHub',
-    icon: 'github',
+    icon: 'devicon:github',
     description: 'Development platform',
     suggestedQuadrant: 2,
     suggestedRing: 0,
@@ -650,12 +650,226 @@ export const TECH_LIBRARY: TechLibraryItem[] = [
   {
     id: 'gitlab',
     name: 'GitLab',
-    icon: 'gitlab',
+    icon: 'devicon:gitlab',
     description: 'DevOps platform',
     suggestedQuadrant: 2,
     suggestedRing: 1,
     categories: ['Platform', 'DevOps'],
     url: 'https://gitlab.com'
+  },
+
+  // CI/CD
+  {
+    id: 'github-actions',
+    name: 'GitHub Actions',
+    icon: 'devicon:githubactions',
+    description: 'CI/CD automation platform',
+    suggestedQuadrant: 0,
+    suggestedRing: 0,
+    categories: ['CI/CD', 'DevOps', 'Tools'],
+    url: 'https://github.com/features/actions'
+  },
+  {
+    id: 'circleci',
+    name: 'CircleCI',
+    icon: 'simple-icons:circleci',
+    description: 'Continuous integration and delivery',
+    suggestedQuadrant: 0,
+    suggestedRing: 1,
+    categories: ['CI/CD', 'DevOps', 'Tools'],
+    url: 'https://circleci.com'
+  },
+  {
+    id: 'jenkins',
+    name: 'Jenkins',
+    icon: 'devicon:jenkins',
+    description: 'Open source automation server',
+    suggestedQuadrant: 0,
+    suggestedRing: 1,
+    categories: ['CI/CD', 'DevOps', 'Tools'],
+    url: 'https://www.jenkins.io'
+  },
+
+  // Infrastructure as Code
+  {
+    id: 'terraform',
+    name: 'Terraform',
+    icon: 'devicon:terraform',
+    description: 'Infrastructure as code software',
+    suggestedQuadrant: 0,
+    suggestedRing: 0,
+    categories: ['Infrastructure', 'DevOps', 'Tools'],
+    url: 'https://www.terraform.io'
+  },
+  {
+    id: 'ansible',
+    name: 'Ansible',
+    icon: 'devicon:ansible',
+    description: 'IT automation and configuration management',
+    suggestedQuadrant: 0,
+    suggestedRing: 1,
+    categories: ['Infrastructure', 'DevOps', 'Tools'],
+    url: 'https://www.ansible.com'
+  },
+  {
+    id: 'pulumi',
+    name: 'Pulumi',
+    icon: 'devicon:pulumi',
+    description: 'Infrastructure as code using programming languages',
+    suggestedQuadrant: 0,
+    suggestedRing: 2,
+    categories: ['Infrastructure', 'DevOps', 'Tools'],
+    url: 'https://www.pulumi.com'
+  },
+
+  // Monitoring & Observability
+  {
+    id: 'datadog',
+    name: 'Datadog',
+    icon: 'devicon:datadog',
+    description: 'Monitoring and analytics platform',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Monitoring', 'Observability', 'Platform'],
+    url: 'https://www.datadoghq.com'
+  },
+  {
+    id: 'sentry',
+    name: 'Sentry',
+    icon: 'devicon:sentry',
+    description: 'Application monitoring and error tracking',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Monitoring', 'Observability', 'Platform'],
+    url: 'https://sentry.io'
+  },
+  {
+    id: 'prometheus',
+    name: 'Prometheus',
+    icon: 'devicon:prometheus',
+    description: 'Systems monitoring and alerting toolkit',
+    suggestedQuadrant: 0,
+    suggestedRing: 0,
+    categories: ['Monitoring', 'Observability', 'Tools'],
+    url: 'https://prometheus.io'
+  },
+  {
+    id: 'grafana',
+    name: 'Grafana',
+    icon: 'devicon:grafana',
+    description: 'Observability and data visualization platform',
+    suggestedQuadrant: 0,
+    suggestedRing: 0,
+    categories: ['Monitoring', 'Observability', 'Tools'],
+    url: 'https://grafana.com'
+  },
+
+  // Message Queues & Streaming
+  {
+    id: 'kafka',
+    name: 'Apache Kafka',
+    icon: 'devicon:apachekafka',
+    description: 'Distributed event streaming platform',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Messaging', 'Streaming', 'Platform'],
+    url: 'https://kafka.apache.org'
+  },
+  {
+    id: 'rabbitmq',
+    name: 'RabbitMQ',
+    icon: 'devicon:rabbitmq',
+    description: 'Message broker software',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Messaging', 'Platform'],
+    url: 'https://www.rabbitmq.com'
+  },
+
+  // Authentication & Backend Services
+  {
+    id: 'auth0',
+    name: 'Auth0',
+    icon: 'simple-icons:auth0',
+    description: 'Authentication and authorization platform',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Authentication', 'Security', 'Platform'],
+    url: 'https://auth0.com'
+  },
+  {
+    id: 'supabase',
+    name: 'Supabase',
+    icon: 'devicon:supabase',
+    description: 'Open source Firebase alternative',
+    suggestedQuadrant: 2,
+    suggestedRing: 1,
+    categories: ['Backend', 'Database', 'Platform'],
+    url: 'https://supabase.com'
+  },
+  {
+    id: 'firebase',
+    name: 'Firebase',
+    icon: 'devicon:firebase',
+    description: 'App development platform by Google',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Backend', 'Platform'],
+    url: 'https://firebase.google.com'
+  },
+
+  // ORMs & Database Tools
+  {
+    id: 'prisma',
+    name: 'Prisma',
+    icon: 'devicon:prisma',
+    description: 'Next-generation ORM for Node.js and TypeScript',
+    suggestedQuadrant: 0,
+    suggestedRing: 0,
+    categories: ['Database', 'ORM', 'Tools'],
+    url: 'https://www.prisma.io'
+  },
+  {
+    id: 'typeorm',
+    name: 'TypeORM',
+    icon: 'devicon:typeorm',
+    description: 'ORM for TypeScript and JavaScript',
+    suggestedQuadrant: 0,
+    suggestedRing: 1,
+    categories: ['Database', 'ORM', 'Tools'],
+    url: 'https://typeorm.io'
+  },
+  {
+    id: 'elasticsearch',
+    name: 'Elasticsearch',
+    icon: 'devicon:elasticsearch',
+    description: 'Search and analytics engine',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Database', 'Search', 'Platform'],
+    url: 'https://www.elastic.co/elasticsearch'
+  },
+
+  // Web Servers & Reverse Proxies
+  {
+    id: 'nginx',
+    name: 'NGINX',
+    icon: 'devicon:nginx',
+    description: 'Web server and reverse proxy',
+    suggestedQuadrant: 2,
+    suggestedRing: 0,
+    categories: ['Web Server', 'Infrastructure'],
+    url: 'https://nginx.org'
+  },
+  {
+    id: 'caddy',
+    name: 'Caddy',
+    icon: 'simple-icons:caddy',
+    description: 'Web server with automatic HTTPS',
+    suggestedQuadrant: 2,
+    suggestedRing: 1,
+    categories: ['Web Server', 'Infrastructure'],
+    url: 'https://caddyserver.com'
   }
 ];
 

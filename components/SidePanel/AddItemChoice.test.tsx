@@ -31,7 +31,7 @@ describe('AddItemChoice', () => {
       />
     );
 
-    expect(screen.getByText(/Choose from 80\+ popular technologies/)).toBeInTheDocument();
+    expect(screen.getByText(/Choose from 85\+ popular technologies/)).toBeInTheDocument();
     expect(screen.getByText(/Add your own technology with custom details/)).toBeInTheDocument();
   });
 
