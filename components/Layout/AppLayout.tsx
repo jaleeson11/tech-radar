@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
 import { ErrorBoundary } from './ErrorBoundary';
 import styles from './AppLayout.module.css';
 
@@ -97,7 +98,7 @@ export function AppLayout({
               aria-label={isSidePanelOpen ? 'Close items panel' : 'Open items panel'}
               aria-expanded={isSidePanelOpen}
             >
-              {isSidePanelOpen ? '✕' : '☰'}
+              {isSidePanelOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           )}
 

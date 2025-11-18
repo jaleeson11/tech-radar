@@ -47,7 +47,6 @@
   background-color: var(--color-primary);
   color: white;
   border: none;
-  font-size: var(--spacing-6);
   cursor: pointer;
   box-shadow: var(--shadow-md);
   z-index: 200;

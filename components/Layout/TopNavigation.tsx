@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { Share2, Settings, User, LayoutGrid, LogIn, Pencil } from 'lucide-react';
+import { Share2, Settings, User, LayoutGrid, LogIn, Pencil, MoreVertical, X } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Field } from '@/components/Field/Field';
 import styles from './TopNavigation.module.css';
@@ -32,15 +32,37 @@ export function TopNavigation({
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState(radarName);
   const [isSavingName, setIsSavingName] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Update editedName when radarName prop changes
   useEffect(() => {
     setEditedName(radarName);
   }, [radarName]);
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isMobileMenuOpen]);
+
   const handleSignOut = async () => {
+    setIsMobileMenuOpen(false);
     await signOut({ callbackUrl: '/' });
+  };
+
+  const handleMobileMenuAction = (action: () => void) => {
+    setIsMobileMenuOpen(false);
+    action();
   };
 
   const handleStartEditing = () => {
@@ -157,6 +179,100 @@ export function TopNavigation({
 
         {/* Right: Action Buttons & User */}
         <div className={styles.rightSection}>
+          {/* Mobile Menu Button */}
+          <div className={styles.mobileMenuContainer} ref={mobileMenuRef}>
+            <button
+              className={styles.mobileMenuButton}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Open menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <MoreVertical size={24} />}
+            </button>
+
+            {/* Mobile Menu Dropdown */}
+            {isMobileMenuOpen && (
+              <div className={styles.mobileMenuDropdown}>
+                {/* My Radars */}
+                {showAuthControls && session && onOpenRadarSwitcher && (
+                  <button
+                    className={styles.mobileMenuItem}
+                    onClick={() => handleMobileMenuAction(onOpenRadarSwitcher)}
+                  >
+                    <LayoutGrid size={20} />
+                    <span>My Radars</span>
+                  </button>
+                )}
+
+                {/* Share */}
+                {isOwner && onShare && (
+                  <button
+                    className={styles.mobileMenuItem}
+                    onClick={() => handleMobileMenuAction(onShare)}
+                  >
+                    <Share2 size={20} />
+                    <span>Share</span>
+                  </button>
+                )}
+
+                {/* Settings */}
+                {isOwner && onCustomize && (
+                  <button
+                    className={styles.mobileMenuItem}
+                    onClick={() => handleMobileMenuAction(onCustomize)}
+                  >
+                    <Settings size={20} />
+                    <span>Settings</span>
+                  </button>
+                )}
+
+                {/* Divider if authenticated */}
+                {showAuthControls && (session || !session) && (
+                  <div className={styles.mobileMenuDivider} />
+                )}
+
+                {/* User Info & Sign Out */}
+                {showAuthControls && session && (
+                  <>
+                    <div className={styles.mobileMenuUser}>
+                      <User size={20} />
+                      <div className={styles.mobileMenuUserInfo}>
+                        <span className={styles.mobileMenuUserName}>
+                          {session.user?.name || session.user?.email}
+                        </span>
+                        <span className={styles.mobileMenuUserEmail}>
+                          {session.user?.email}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      className={`${styles.mobileMenuItem} ${styles.signOutItem}`}
+                      onClick={handleSignOut}
+                    >
+                      <span>Sign Out</span>
+                    </button>
+                  </>
+                )}
+
+                {/* Log In for guests */}
+                {showAuthControls && !session && (
+                  <button
+                    className={styles.mobileMenuItem}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      window.location.href = '/api/auth/signin';
+                    }}
+                  >
+                    <LogIn size={20} />
+                    <span>Log In</span>
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Navigation Items */}
+          <div className={styles.desktopNav}>
           {/* Share Button - Owner Only */}
           {isOwner && onShare && (
             <Button
@@ -223,6 +339,7 @@ export function TopNavigation({
               </Button>
             </div>
           )}
+          </div>
         </div>
       </div>
     </nav>
