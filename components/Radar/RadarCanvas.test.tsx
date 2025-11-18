@@ -75,16 +75,14 @@ describe('RadarCanvas', () => {
       expect(screen.getByText('Languages')).toBeInTheDocument();
     });
 
-    it('should render ring labels (excluding innermost)', () => {
+    it('should render ring labels (all rings, uppercase, on both sides)', () => {
       render(<RadarCanvas items={[]} config={mockConfig} />);
 
-      // First ring (Adopt) should be skipped
-      expect(screen.queryByText('Adopt')).not.toBeInTheDocument();
-
-      // Other rings should be visible
-      expect(screen.getByText('Trial')).toBeInTheDocument();
-      expect(screen.getByText('Assess')).toBeInTheDocument();
-      expect(screen.getByText('Hold')).toBeInTheDocument();
+      // All rings should be visible in uppercase (and duplicated on both sides)
+      expect(screen.getAllByText('ADOPT')).toHaveLength(2);
+      expect(screen.getAllByText('TRIAL')).toHaveLength(2);
+      expect(screen.getAllByText('ASSESS')).toHaveLength(2);
+      expect(screen.getAllByText('HOLD')).toHaveLength(2);
     });
 
     it('should render blips for all tech items', () => {
@@ -103,9 +101,9 @@ describe('RadarCanvas', () => {
       const svg = screen.getByRole('img');
       expect(svg).toBeInTheDocument();
 
-      // Should still have quadrant and ring labels
+      // Should still have quadrant and ring labels (uppercase)
       expect(screen.getByText('Tools')).toBeInTheDocument();
-      expect(screen.getByText('Trial')).toBeInTheDocument();
+      expect(screen.getAllByText('TRIAL')).toHaveLength(2);
     });
   });
 

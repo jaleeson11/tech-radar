@@ -1,11 +1,13 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { ArrowRight, Target, Users, Share2, TrendingUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { createExampleRadar, getMostRecentRadar } from '@/lib/utils/createExampleRadar';
 import styles from './page.module.css';
+import buttonStyles from '@/components/Button/Button.module.css';
 
 export default async function LandingPage() {
   // Check if user is authenticated
@@ -64,114 +66,39 @@ export default async function LandingPage() {
             platforms, and languages.
           </p>
           <div className={styles.ctaButtons}>
-            <Link href="/dashboard" className={styles.primaryCta}>
-              Get Started
-              <ArrowRight size={20} aria-hidden="true" />
+            <Link
+              href="/login"
+              className={`${buttonStyles.button} ${buttonStyles['button-primary']} ${buttonStyles['button-lg']} ${styles.heroButton}`}
+            >
+              <span className={buttonStyles.content}>
+                <span className={buttonStyles.text}>Create Your Radar</span>
+                <span className={buttonStyles.icon}>
+                  <ArrowRight size={20} aria-hidden="true" />
+                </span>
+              </span>
             </Link>
-            <Link href="/demo" className={styles.secondaryCta}>
-              View Demo
-            </Link>
-          </div>
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.radarPreview}>
-            <svg viewBox="0 0 400 400" className={styles.radarSvg}>
-              {/* Background circles */}
-              <circle cx="200" cy="200" r="180" fill="none" stroke="#e5e7eb" strokeWidth="1" />
-              <circle cx="200" cy="200" r="135" fill="none" stroke="#e5e7eb" strokeWidth="1" />
-              <circle cx="200" cy="200" r="90" fill="none" stroke="#e5e7eb" strokeWidth="1" />
-              <circle cx="200" cy="200" r="45" fill="none" stroke="#e5e7eb" strokeWidth="1" />
-
-              {/* Quadrant lines */}
-              <line x1="200" y1="20" x2="200" y2="380" stroke="#d1d5db" strokeWidth="1" />
-              <line x1="20" y1="200" x2="380" y2="200" stroke="#d1d5db" strokeWidth="1" />
-
-              {/* Sample blips */}
-              <circle cx="250" cy="80" r="6" fill="#3b82f6" opacity="0.8" />
-              <circle cx="150" cy="120" r="6" fill="#3b82f6" opacity="0.8" />
-              <circle cx="280" cy="160" r="6" fill="#10b981" opacity="0.8" />
-              <circle cx="120" cy="240" r="6" fill="#8b5cf6" opacity="0.8" />
-              <circle cx="320" cy="280" r="6" fill="#f59e0b" opacity="0.8" />
-              <circle cx="100" cy="320" r="6" fill="#f59e0b" opacity="0.8" />
-              <circle cx="260" cy="300" r="6" fill="#10b981" opacity="0.8" />
-              <circle cx="180" cy="260" r="6" fill="#8b5cf6" opacity="0.8" />
-
-              {/* Quadrant labels */}
-              <text x="300" y="100" textAnchor="middle" className={styles.quadrantLabel}>Tools</text>
-              <text x="100" y="100" textAnchor="middle" className={styles.quadrantLabel}>Techniques</text>
-              <text x="100" y="310" textAnchor="middle" className={styles.quadrantLabel}>Platforms</text>
-              <text x="300" y="310" textAnchor="middle" className={styles.quadrantLabel}>Languages</text>
-            </svg>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className={styles.features}>
-        <h2 className={styles.featuresTitle}>Why Technology Radar?</h2>
-        <div className={styles.featureGrid}>
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <Target size={32} aria-hidden="true" />
-            </div>
-            <h3>Strategic Clarity</h3>
-            <p>
-              Visualize your technology landscape across four quadrants: Tools, Techniques,
-              Platforms, and Languages. See the big picture at a glance.
-            </p>
-          </div>
-
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <TrendingUp size={32} aria-hidden="true" />
-            </div>
-            <h3>Adoption Tracking</h3>
-            <p>
-              Track technologies through four rings: Adopt, Trial, Assess, and Hold.
-              Monitor adoption progress over time.
-            </p>
-          </div>
-
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <Users size={32} aria-hidden="true" />
-            </div>
-            <h3>Team Collaboration</h3>
-            <p>
-              Work together to assess technologies, share insights, and make collective
-              decisions about your tech stack.
-            </p>
-          </div>
-
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <Share2 size={32} aria-hidden="true" />
-            </div>
-            <h3>Easy Sharing</h3>
-            <p>
-              Share your radar with stakeholders via public links. Export to PDF or PNG
-              for presentations and documentation.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className={styles.cta}>
-        <div className={styles.ctaContent}>
-          <h2>Ready to Get Started?</h2>
-          <p>Create your first technology radar in minutes.</p>
-          <Link href="/dashboard" className={styles.ctaButton}>
-            Create Your Radar
-            <ArrowRight size={20} aria-hidden="true" />
-          </Link>
+      {/* Radar Preview Section */}
+      <section className={styles.radarSection}>
+        <div className={styles.radarPreview}>
+          <Image
+            src="/images/radar-screenshot.png"
+            alt="Technology Radar Example"
+            width={1200}
+            height={800}
+            className={styles.radarImage}
+            priority
+          />
         </div>
       </section>
 
       {/* Footer */}
       <footer className={styles.footer}>
         <p className={styles.footerText}>
-          © {new Date().getFullYear()} Technology Radar. Built with Next.js.
+          © {new Date().getFullYear()} Technology Radar
         </p>
       </footer>
     </div>

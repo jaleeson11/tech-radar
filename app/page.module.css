@@ -6,18 +6,15 @@
 
 /* Hero Section */
 .hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: var(--max-width-container);
+  max-width: 900px;
   margin: 0 auto;
   padding: var(--spacing-20) var(--spacing-10);
-  gap: 60px;
+  text-align: center;
 }
 
 .heroContent {
-  flex: 1;
-  max-width: 560px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .heroTitle {
@@ -40,68 +37,32 @@
   display: flex;
   gap: var(--spacing-4);
   align-items: center;
+  justify-content: center;
 }
 
-.primaryCta {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  padding: 14px 28px;
-  background-color: var(--color-primary);
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: all 0.2s ease;
+.heroButton {
+  padding: var(--spacing-5) var(--spacing-8) !important;
+  font-size: 18px !important;
 }
 
-.primaryCta:hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-}
-
-.secondaryCta {
-  display: inline-flex;
-  align-items: center;
-  padding: 14px 28px;
-  background-color: var(--color-background);
-  color: var(--color-text-secondary);
-  font-size: 16px;
-  font-weight: 600;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.secondaryCta:hover {
-  border-color: var(--color-border-hover);
-  background-color: var(--color-surface);
-}
-
-.heroVisual {
-  flex: 1;
-  max-width: 500px;
+/* Radar Preview Section */
+.radarSection {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 0 var(--spacing-10) var(--spacing-20);
 }
 
 .radarPreview {
   background: var(--color-background);
   border-radius: var(--radius-xl);
-  padding: var(--spacing-10);
   box-shadow: var(--shadow-xl);
 }
 
-.radarSvg {
+.radarImage {
   width: 100%;
   height: auto;
-}
-
-.quadrantLabel {
-  font-size: 14px;
-  font-weight: 600;
-  fill: var(--color-text-secondary);
+  display: block;
+  border-radius: var(--radius-lg);
 }
 
 /* Features Section */
@@ -191,29 +152,20 @@
 }
 
 .ctaButton {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-4) var(--spacing-8);
-  background-color: white;
-  color: var(--color-primary);
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: all 0.2s ease;
+  background-color: white !important;
+  color: var(--color-primary) !important;
+  border-color: white !important;
 }
 
 .ctaButton:hover {
+  background-color: rgba(255, 255, 255, 0.95) !important;
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg) !important;
 }
 
 /* Footer */
 .footer {
-  padding: var(--spacing-10);
-  background-color: var(--color-surface);
-  border-top: 1px solid var(--color-border);
+  padding: var(--spacing-5 );
 }
 
 .footerText {
@@ -226,9 +178,7 @@
 /* Responsive - Tablet */
 @media (max-width: 968px) {
   .hero {
-    flex-direction: column;
     padding: var(--spacing-16) var(--spacing-8);
-    text-align: center;
   }
 
   .heroContent {
@@ -239,19 +189,15 @@
     font-size: 44px;
   }
 
-  .ctaButtons {
-    justify-content: center;
-  }
-
-  .heroVisual {
-    max-width: 100%;
+  .radarSection {
+    padding: 0 var(--spacing-8) var(--spacing-16);
   }
 }
 
 /* Responsive - Mobile */
 @media (max-width: 640px) {
   .hero {
-    padding: var(--spacing-10) var(--spacing-5);
+    padding: var(--spacing-12) var(--spacing-5);
   }
 
   .heroTitle {
@@ -267,10 +213,8 @@
     width: 100%;
   }
 
-  .primaryCta,
-  .secondaryCta {
-    width: 100%;
-    justify-content: center;
+  .radarSection {
+    padding: 0 var(--spacing-5) var(--spacing-12);
   }
 
   .features {

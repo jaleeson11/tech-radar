@@ -243,16 +243,6 @@ export default function LoginForm() {
               Continue with Google
             </Button>
           </div>
-
-          {/* Guest Access Info */}
-          <div className={styles.guestInfo}>
-            <p>
-              Don&apos;t need an account?{' '}
-              <a href="/" className={styles.link}>
-                View public radars
-              </a>
-            </p>
-          </div>
         </>
       )}
     </div>

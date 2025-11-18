@@ -150,27 +150,45 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
       }
     });
 
-    // Add ring labels with fade-in
+    // Add ring labels with fade-in (positioned horizontally on both sides)
     rings.forEach((ring, index) => {
-      if (index === 0) return; // Skip innermost ring label to avoid crowding
+      // Calculate the midpoint radius between inner and outer for centering
+      const midRadius = ((ring.innerRadius + ring.outerRadius) / 2 / 100) * maxRadius;
 
-      const radius = (ring.innerRadius / 100) * maxRadius + 10;
-
-      const ringLabel = g.append('text')
-        .attr('x', centerX + 5)
-        .attr('y', centerY - radius)
+      // Right side label
+      const ringLabelRight = g.append('text')
+        .attr('x', centerX + midRadius)
+        .attr('y', centerY - 5)
         .attr('class', `ring-label ring-label-${ring.index}`)
         .attr('fill', '#666')
         .attr('font-size', '12px')
-        .attr('opacity', shouldAnimate ? 0 : 1)
-        .text(ring.name);
+        .attr('text-anchor', 'middle')
+        .attr('opacity', shouldAnimate ? 0 : 0.5)
+        .text(ring.name.toUpperCase());
+
+      // Left side label
+      const ringLabelLeft = g.append('text')
+        .attr('x', centerX - midRadius)
+        .attr('y', centerY - 5)
+        .attr('class', `ring-label ring-label-${ring.index}`)
+        .attr('fill', '#666')
+        .attr('font-size', '12px')
+        .attr('text-anchor', 'middle')
+        .attr('opacity', shouldAnimate ? 0 : 0.5)
+        .text(ring.name.toUpperCase());
 
       if (shouldAnimate) {
-        ringLabel
+        ringLabelRight
           .transition()
           .delay(labelDelay)
           .duration(400)
-          .attr('opacity', 1);
+          .attr('opacity', 0.5);
+
+        ringLabelLeft
+          .transition()
+          .delay(labelDelay)
+          .duration(400)
+          .attr('opacity', 0.5);
       }
     });
 
