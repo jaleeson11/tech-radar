@@ -19,6 +19,7 @@ import { TechLibraryItem } from '@/lib/data/tech-library';
 import { RadarCanvas } from '@/components/Radar/RadarCanvas';
 import { ShareModal } from '@/components/Modals/ShareModal';
 import { WelcomeModal } from '@/components/Modals/WelcomeModal';
+import { OnboardingModal } from '@/components/Modals/OnboardingModal';
 import { DeleteConfirmModal } from '@/components/Modals/DeleteConfirmModal';
 import { CustomizeQuadrantsModal } from '@/components/Modals/CustomizeQuadrantsModal';
 import { RadarSwitcherModal } from '@/components/Modals/RadarSwitcherModal';
@@ -63,6 +64,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showOnboardingModal, setShowOnboardingModal] = useState(false);
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
   const [showRadarSwitcher, setShowRadarSwitcher] = useState(false);
   const [isSavingQuadrants, setIsSavingQuadrants] = useState(false);
@@ -139,6 +141,27 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       setShowWelcomeModal(false);
     }
   }, [radar, status, isLoadingRadar, shareToken]);
+
+  // Check if authenticated user needs to see onboarding modal
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      if (radar && status === 'authenticated' && isOwner && !isLoadingRadar) {
+        try {
+          const response = await fetch('/api/user/me');
+          if (response.ok) {
+            const userData = await response.json();
+            if (!userData.hasSeenOnboarding) {
+              setShowOnboardingModal(true);
+            }
+          }
+        } catch (error) {
+          console.error('Failed to check onboarding status:', error);
+        }
+      }
+    };
+
+    checkOnboarding();
+  }, [radar, status, isOwner, isLoadingRadar]);
 
   // Cache for calculated positions to prevent recalculation during save process
   const positionCache = useRef<Map<string, { x: number; y: number }>>(new Map());
@@ -502,6 +525,20 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     setShowWelcomeModal(false);
   };
 
+  const handleDismissOnboarding = async () => {
+    try {
+      // Mark onboarding as complete in the database
+      await fetch('/api/user/onboarding', {
+        method: 'PATCH',
+      });
+      setShowOnboardingModal(false);
+    } catch (error) {
+      console.error('Failed to update onboarding status:', error);
+      // Close modal anyway - user can still use the app
+      setShowOnboardingModal(false);
+    }
+  };
+
   // Loading state - only show for initial load, not for updates
   if (isLoadingRadar || (isLoadingItems && !hasLoadedItems)) {
     return (
@@ -649,6 +686,12 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       <WelcomeModal
         isOpen={showWelcomeModal}
         onContinueAsVisitor={handleContinueAsVisitor}
+        radarName={radar?.name || 'Tech Radar'}
+      />
+
+      <OnboardingModal
+        isOpen={showOnboardingModal}
+        onClose={handleDismissOnboarding}
         radarName={radar?.name || 'Tech Radar'}
       />
 
