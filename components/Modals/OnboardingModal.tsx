@@ -31,28 +31,27 @@ export function OnboardingModal({
           <Radar size={48} />
         </div>
 
-        <h2 className={styles.title}>Welcome to Technology Radar!</h2>
+        <h2 className={styles.title}>Welcome to Your Tech Radar!</h2>
 
         <div className={styles.description}>
           <p>
-            We've created an example radar called <strong>{radarName}</strong> to help you get started.
+            We've created <strong>{radarName}</strong> for you - your blank canvas to map out your technology landscape.
           </p>
           <p>
-            It's pre-populated with various technologies organized into quadrants and rings.
-            Feel free to explore, edit, or delete items to make it your own.
+            Build your radar by adding technologies and organizing them into quadrants (categories) and rings (adoption stages).
           </p>
           <ul className={styles.features}>
             <li>
               <Check className={styles.checkIcon} size={18} />
-              <span>Click on any blip to view details</span>
+              <span>Click "Add Item" to add your first technology</span>
+            </li>
+            <li>
+              <Check className={styles.checkIcon} size={18} />
+              <span>Browse our tech library or create custom items</span>
             </li>
             <li>
               <Check className={styles.checkIcon} size={18} />
               <span>Drag and drop items to reposition them</span>
-            </li>
-            <li>
-              <Check className={styles.checkIcon} size={18} />
-              <span>Add new technologies using the button in the navigation</span>
             </li>
             <li>
               <Check className={styles.checkIcon} size={18} />

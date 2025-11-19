@@ -157,6 +157,24 @@ const EXAMPLE_TECH_ITEMS: ExampleTechItem[] = [
 ];
 
 /**
+ * Creates a blank radar for new users
+ * @param userId - The ID of the user to create the radar for
+ * @returns The created blank radar
+ */
+export async function createBlankRadar(userId: string) {
+  const radar = await prisma.radar.create({
+    data: {
+      name: 'My Tech Radar',
+      ownerId: userId,
+      quadrants: DEFAULT_QUADRANTS,
+      rings: DEFAULT_RINGS,
+    },
+  });
+
+  return radar;
+}
+
+/**
  * Creates a pre-populated example radar for new users
  * @param userId - The ID of the user to create the radar for
  * @returns The created radar with all tech items
@@ -179,6 +197,14 @@ export async function createExampleRadar(userId: string) {
   });
 
   return radar;
+}
+
+/**
+ * Gets example tech items for public radar display
+ * @returns Array of example tech items
+ */
+export function getExampleTechItems() {
+  return EXAMPLE_TECH_ITEMS;
 }
 
 /**
