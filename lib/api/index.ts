@@ -4,5 +4,5 @@ export { radarsApi } from './radars';
 export { itemsApi } from './items';
 
 // Export types
-export type { RadarListItem, CreateRadarRequest, UpdateRadarRequest } from './radars';
+export type { RadarListItem, SharedRadarListItem, CreateRadarRequest, UpdateRadarRequest } from './radars';
 export type { CreateItemRequest, UpdateItemRequest } from './items';

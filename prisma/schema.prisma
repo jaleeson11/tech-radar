@@ -25,7 +25,8 @@ model User {
   sessions      Session[]
 
   // App-specific relations
-  radars        Radar[]   // One user has many radars
+  radars        Radar[]        // One user has many radars
+  radarAccesses RadarAccess[]  // Track radars accessed via share link
 
   @@map("users")
 }
@@ -79,16 +80,33 @@ model Radar {
   ownerId    String
   owner      User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   shareToken String     @unique @default(cuid()) // Single share link - anyone with link can edit
-  quadrants  Json       // Array of 4 quadrant names
-  rings      Json       // Array of 4 ring names
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt // Manually update when items change to track last edit
-  items      TechItem[] // One radar has many tech items
+  quadrants  Json          // Array of 4 quadrant names
+  rings      Json          // Array of 4 ring names
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt // Manually update when items change to track last edit
+  items      TechItem[]    // One radar has many tech items
+  accesses   RadarAccess[] // Track which users have accessed this radar
 
   @@index([shareToken])
   @@index([ownerId])
   @@index([updatedAt])
   @@map("radars")
+}
+
+// RadarAccess model - tracks when authenticated users access shared radars
+model RadarAccess {
+  id         String   @id @default(cuid())
+  radarId    String
+  userId     String
+  radar      Radar    @relation(fields: [radarId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastViewed DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@unique([radarId, userId])
+  @@index([userId])
+  @@index([radarId])
+  @@map("radar_accesses")
 }
 
 // TechItem model - represents a technology item on a radar

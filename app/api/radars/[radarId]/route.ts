@@ -39,6 +39,34 @@ export async function GET(
       return NextResponse.json({ error: 'Radar not found' }, { status: 404 });
     }
 
+    // Track access for authenticated users viewing shared radars
+    const session = await getServerSession(authOptions);
+    if (session?.user?.email) {
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+      });
+
+      // Only track if user is authenticated, not the owner, and accessed via shareToken
+      if (user && user.id !== radar.ownerId && radarId === radar.shareToken) {
+        await prisma.radarAccess.upsert({
+          where: {
+            radarId_userId: {
+              radarId: radar.id,
+              userId: user.id,
+            },
+          },
+          create: {
+            radarId: radar.id,
+            userId: user.id,
+            lastViewed: new Date(),
+          },
+          update: {
+            lastViewed: new Date(),
+          },
+        });
+      }
+    }
+
     return NextResponse.json(radar, { status: 200 });
   } catch (error) {
     console.error('Error fetching radar:', error);

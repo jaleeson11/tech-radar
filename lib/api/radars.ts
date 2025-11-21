@@ -13,6 +13,15 @@ export interface RadarListItem {
   };
 }
 
+export interface SharedRadarListItem extends RadarListItem {
+  owner: {
+    id: string;
+    name: string | null;
+    email: string | null;
+  };
+  lastViewed: string;
+}
+
 export interface CreateRadarRequest {
   name: string;
   quadrants?: string[];
@@ -33,6 +42,14 @@ export const radarsApi = {
    */
   async getAll(): Promise<RadarListItem[]> {
     const response = await apiClient.get<RadarListItem[]>('/radars');
+    return response.data;
+  },
+
+  /**
+   * Get all radars shared with the authenticated user
+   */
+  async getShared(): Promise<SharedRadarListItem[]> {
+    const response = await apiClient.get<SharedRadarListItem[]>('/radars/shared');
     return response.data;
   },
 

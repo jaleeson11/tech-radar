@@ -7,6 +7,7 @@ import { radarsApi } from '@/lib/api';
 vi.mock('@/lib/api', () => ({
   radarsApi: {
     getAll: vi.fn(),
+    getShared: vi.fn(),
     create: vi.fn(),
     delete: vi.fn(),
   },
@@ -37,11 +38,45 @@ const mockRadars = [
   },
 ];
 
+const mockSharedRadars = [
+  {
+    id: '3',
+    name: 'Engineering Radar',
+    shareToken: 'shared-token1',
+    createdAt: '2024-01-10T00:00:00Z',
+    updatedAt: '2024-01-18T00:00:00Z',
+    lastViewed: '2024-01-25T00:00:00Z',
+    owner: {
+      id: 'owner-1',
+      name: 'John Doe',
+      email: 'john@example.com',
+    },
+    _count: { items: 15 },
+  },
+  {
+    id: '4',
+    name: 'Design Systems',
+    shareToken: 'shared-token2',
+    createdAt: '2024-01-12T00:00:00Z',
+    updatedAt: '2024-01-20T00:00:00Z',
+    lastViewed: '2024-01-24T00:00:00Z',
+    owner: {
+      id: 'owner-2',
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+    },
+    _count: { items: 20 },
+  },
+];
+
 describe('RadarSwitcherModal', () => {
   const mockOnClose = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // Set default mock return values
+    vi.mocked(radarsApi.getAll).mockResolvedValue([]);
+    vi.mocked(radarsApi.getShared).mockResolvedValue([]);
   });
 
   describe('Rendering', () => {
@@ -67,11 +102,14 @@ describe('RadarSwitcherModal', () => {
       );
 
       expect(screen.getByRole('dialog')).toBeInTheDocument();
-      expect(screen.getByText('My Radars')).toBeInTheDocument();
+      expect(screen.getAllByText(/My Radars/)[0]).toBeInTheDocument();
     });
 
     it('should show loading state while fetching radars', async () => {
       vi.mocked(radarsApi.getAll).mockImplementation(
+        () => new Promise(() => {}) // Never resolves
+      );
+      vi.mocked(radarsApi.getShared).mockImplementation(
         () => new Promise(() => {}) // Never resolves
       );
 
@@ -83,7 +121,7 @@ describe('RadarSwitcherModal', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('Loading your radars...')).toBeInTheDocument();
+        expect(screen.getByText('Loading radars...')).toBeInTheDocument();
       });
     });
 
@@ -352,6 +390,198 @@ describe('RadarSwitcherModal', () => {
       await waitFor(() => {
         const radarItem = screen.getByText('Tech Radar 2024').closest('[role="button"]');
         expect(radarItem).toHaveAttribute('tabIndex', '0');
+      });
+    });
+  });
+
+  describe('Tabs Feature', () => {
+    it('should render both tabs (My Radars and Shared with me)', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue(mockRadars);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText(/My Radars/)[0]).toBeInTheDocument();
+        expect(screen.getByText(/Shared with me/)).toBeInTheDocument();
+      });
+    });
+
+    it('should show count in tab labels', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue(mockRadars);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText(/My Radars \(2\)/)).toBeInTheDocument();
+        expect(screen.getByText(/Shared with me \(2\)/)).toBeInTheDocument();
+      });
+    });
+
+    it('should fetch both owned and shared radars on open', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue(mockRadars);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      await waitFor(() => {
+        expect(radarsApi.getAll).toHaveBeenCalled();
+        expect(radarsApi.getShared).toHaveBeenCalled();
+      });
+    });
+
+    it('should switch to shared radars tab when clicked', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue(mockRadars);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      // Wait for data to load
+      await waitFor(() => {
+        expect(screen.getByText('Tech Radar 2024')).toBeInTheDocument();
+      });
+
+      // Click on Shared with me tab
+      const sharedTab = screen.getByText(/Shared with me/);
+      fireEvent.click(sharedTab);
+
+      await waitFor(() => {
+        expect(screen.getByText('Engineering Radar')).toBeInTheDocument();
+        expect(screen.getByText('Design Systems')).toBeInTheDocument();
+        expect(screen.queryByText('Tech Radar 2024')).not.toBeInTheDocument();
+      });
+    });
+
+    it('should display owner information for shared radars', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue([]);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      // Switch to Shared with me tab
+      await waitFor(() => {
+        const sharedTab = screen.getByText(/Shared with me/);
+        fireEvent.click(sharedTab);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('John Doe')).toBeInTheDocument();
+        expect(screen.getByText('Jane Smith')).toBeInTheDocument();
+      });
+    });
+
+    it('should not show delete button for shared radars', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue([]);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      // Switch to Shared with me tab
+      await waitFor(() => {
+        const sharedTab = screen.getByText(/Shared with me/);
+        fireEvent.click(sharedTab);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Engineering Radar')).toBeInTheDocument();
+        // No delete buttons should be present
+        expect(screen.queryByLabelText(/delete/i)).not.toBeInTheDocument();
+      });
+    });
+
+    it('should not show Create New button on Shared with me tab', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue([]);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      // Create button should be visible on My Radars tab
+      expect(screen.getByText('Create New Radar')).toBeInTheDocument();
+
+      // Switch to Shared with me tab
+      const sharedTab = screen.getByText(/Shared with me/);
+      fireEvent.click(sharedTab);
+
+      await waitFor(() => {
+        // Create button should not be visible
+        expect(screen.queryByText('Create New Radar')).not.toBeInTheDocument();
+      });
+    });
+
+    it('should show empty state message for shared radars tab', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue([]);
+      vi.mocked(radarsApi.getShared).mockResolvedValue([]);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      // Switch to Shared with me tab
+      const sharedTab = screen.getByText(/Shared with me/);
+      fireEvent.click(sharedTab);
+
+      await waitFor(() => {
+        expect(screen.getByText(/No shared radars yet/)).toBeInTheDocument();
+      });
+    });
+
+    it('should display lastViewed date for shared radars', async () => {
+      vi.mocked(radarsApi.getAll).mockResolvedValue([]);
+      vi.mocked(radarsApi.getShared).mockResolvedValue(mockSharedRadars);
+
+      render(
+        <RadarSwitcherModal
+          isOpen={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      // Switch to Shared with me tab
+      const sharedTab = screen.getByText(/Shared with me/);
+      fireEvent.click(sharedTab);
+
+      await waitFor(() => {
+        // Should show date formatted from lastViewed
+        expect(screen.getByText(/Jan 25, 2024/)).toBeInTheDocument();
       });
     });
   });
