@@ -2,11 +2,9 @@
 
 import { useEffect, useState, useMemo, use, useRef, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { TechItem } from '@prisma/client';
-import { radarsApi, itemsApi } from '@/lib/api';
 import { AxiosError } from 'axios';
-import { RadarWithOwner } from '@/lib/types/radar.types';
 import { AppLayout } from '@/components/Layout/AppLayout';
 import { TopNavigation } from '@/components/Layout/TopNavigation';
 import { SidePanel } from '@/components/SidePanel/SidePanel';
@@ -30,6 +28,7 @@ import {
 } from '@/components/Radar/BlipPositioning';
 import { DEFAULT_QUADRANTS, DEFAULT_RINGS } from '@/lib/constants/defaults';
 import { useTechItems } from '@/hooks/useTechItems';
+import { useRadar } from '@/hooks/useRadar';
 import type {
   RadarVisualizationConfig,
   QuadrantConfig,
@@ -50,9 +49,14 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const [radar, setRadar] = useState<RadarWithOwner | null>(null);
-  const [isLoadingRadar, setIsLoadingRadar] = useState(true);
-  const [radarError, setRadarError] = useState<string | null>(null);
+  // Use the useRadar hook for managing radar data with polling
+  const {
+    radar,
+    isLoading: isLoadingRadar,
+    error: radarError,
+    updateRadar,
+  } = useRadar(shareToken);
+
   const [showAddChoice, setShowAddChoice] = useState(false);
   const [showLibraryBrowse, setShowLibraryBrowse] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -88,36 +92,6 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     refreshItems,
   } = useTechItems(radar?.id || '', []);
 
-  useEffect(() => {
-    fetchRadarData();
-  }, [shareToken]);
-
-  const fetchRadarData = async () => {
-    try {
-      setIsLoadingRadar(true);
-      setRadarError(null);
-
-      // Fetch radar by shareToken (API uses radarId param but accepts shareToken)
-      const radarData = await radarsApi.getById(shareToken);
-      setRadar(radarData);
-
-      // Items will be loaded via useTechItems hook once radar.id is set
-    } catch (err) {
-      const axiosError = err as AxiosError<{ error: string }>;
-      if (axiosError.response?.status === 404) {
-        setRadarError('Radar not found');
-      } else {
-        setRadarError(
-          axiosError.response?.data?.error ||
-          axiosError.message ||
-          'Failed to load radar'
-        );
-      }
-    } finally {
-      setIsLoadingRadar(false);
-    }
-  };
-
   // Load items when radar is loaded
   useEffect(() => {
     if (radar?.id) {
@@ -125,7 +99,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
         setHasLoadedItems(true);
       });
     }
-  }, [radar?.id]);
+  }, [radar?.id, refreshItems]);
 
   // Show welcome modal for unauthenticated users
   useEffect(() => {
@@ -477,16 +451,11 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const handleUpdateName = async (name: string) => {
     if (!radar) return;
 
-    try {
-      // Update radar with new name
-      const updatedRadar = await radarsApi.update(radar.id, { name });
+    const result = await updateRadar({ name });
 
-      // Update local state directly instead of refetching
-      setRadar({ ...radar, name: updatedRadar.name });
-    } catch (err) {
-      const axiosError = err as AxiosError<{ error: string }>;
-      console.error('Failed to update radar name:', axiosError);
-      throw err; // Re-throw so the component can handle it
+    if (!result.success) {
+      console.error('Failed to update radar name:', result.error);
+      throw new Error(result.error);
     }
   };
 
@@ -497,17 +466,18 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       setIsSavingQuadrants(true);
 
       // Update radar with new quadrant names
-      await radarsApi.update(radar.id, { quadrants });
+      const result = await updateRadar({ quadrants });
 
-      // Refresh radar data to get the updated quadrants
-      await fetchRadarData();
+      if (result.success) {
+        // Close modal on success
+        setShowCustomizeModal(false);
+        setSuccessMessage('Quadrants updated successfully!');
 
-      // Close modal on success
-      setShowCustomizeModal(false);
-      setSuccessMessage('Quadrants updated successfully!');
-
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMessage(null), 3000);
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccessMessage(null), 3000);
+      } else {
+        console.error('Failed to update quadrants:', result.error);
+      }
     } catch (err) {
       const axiosError = err as AxiosError<{ error: string }>;
       console.error('Failed to update quadrants:', axiosError);
