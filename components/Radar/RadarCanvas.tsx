@@ -41,108 +41,180 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
     // Only animate on first render (page load)
     const shouldAnimate = !hasAnimated;
 
-    // Draw rings (concentric circles) with ripple animation
-    // Define opacity scale - decreasing from center outward
-    const ringOpacities = [0.15, 0.10, 0.06, 0.03];
-
-    // Draw rings in REVERSE order (largest to smallest) so inner rings with higher opacity appear on top
-    [...rings].reverse().forEach((ring, reverseIndex) => {
-      const index = rings.length - 1 - reverseIndex; // Get original index for opacity
-      const radius = (ring.outerRadius / 100) * maxRadius;
-      const delay = shouldAnimate ? index * 150 : 0; // Stagger delay for ripple effect
-      const baseOpacity = ringOpacities[index] || 0.03;
-
-      const circle = g.append('circle')
-        .attr('cx', centerX)
-        .attr('cy', centerY)
-        .attr('r', shouldAnimate ? 0 : radius) // Start from center or final size
-        .attr('class', `ring ring-${ring.index}`)
-        .attr('fill', '#14b8a6')
-        .attr('fill-opacity', shouldAnimate ? 0 : baseOpacity)
-        .attr('stroke', '#14b8a6')
-        .attr('stroke-width', 1.5)
-        .attr('stroke-opacity', 0.3)
-        .attr('opacity', shouldAnimate ? 0 : 1);
-
-      if (shouldAnimate) {
-        circle
-          .transition()
-          .delay(delay)
-          .duration(600)
-          .ease(d3.easeCubicOut)
-          .attr('r', radius)
-          .attr('opacity', 1)
-          .attr('fill-opacity', baseOpacity);
-      }
-    });
-
-    // Draw quadrant dividers with fade-in after rings
-    const dividerDelay = shouldAnimate ? rings.length * 150 + 300 : 0; // After all rings
-
-    // Vertical line
-    const verticalLine = g.append('line')
-      .attr('x1', centerX)
-      .attr('y1', centerY - maxRadius)
-      .attr('x2', centerX)
-      .attr('y2', centerY + maxRadius)
-      .attr('class', 'quadrant-divider')
-      .attr('stroke', '#14b8a6')
-      .attr('stroke-width', 2)
-      .attr('stroke-opacity', 0.4)
-      .attr('opacity', shouldAnimate ? 0 : 1);
-
-    if (shouldAnimate) {
-      verticalLine
-        .transition()
-        .delay(dividerDelay)
-        .duration(400)
-        .attr('opacity', 1);
-    }
-
-    // Horizontal line
-    const horizontalLine = g.append('line')
-      .attr('x1', centerX - maxRadius)
-      .attr('y1', centerY)
-      .attr('x2', centerX + maxRadius)
-      .attr('y2', centerY)
-      .attr('class', 'quadrant-divider')
-      .attr('stroke', '#14b8a6')
-      .attr('stroke-width', 2)
-      .attr('stroke-opacity', 0.4)
-      .attr('opacity', shouldAnimate ? 0 : 1);
-
-    if (shouldAnimate) {
-      horizontalLine
-        .transition()
-        .delay(dividerDelay)
-        .duration(400)
-        .attr('opacity', 1);
-    }
-
-    // Add quadrant labels with fade-in
-    const labelDelay = shouldAnimate ? dividerDelay + 200 : 0;
+    // Draw quadrant background shading with gradient (behind everything)
+    // Opacity gradient: inner ring (0) is darkest, outer ring (3) is lightest
+    const bgOpacityScale = [0.35, 0.23, 0.14, 0.08]; // Decreasing opacity from inner to outer
 
     quadrants.forEach((quadrant) => {
-      // Calculate label position (midpoint of quadrant arc at 70% radius)
-      const labelRadius = maxRadius * 0.7;
+      // Convert angles to radians and rotate 90 degrees clockwise (add 90)
+      const startAngleRad = (quadrant.startAngle + 90) * (Math.PI / 180);
+      const endAngleRad = (quadrant.endAngle + 90) * (Math.PI / 180);
+
+      // Draw a background section for each ring within this quadrant
+      rings.forEach((ring) => {
+        const innerRadius = (ring.innerRadius / 100) * maxRadius;
+        const outerRadius = (ring.outerRadius / 100) * maxRadius;
+        const bgOpacity = bgOpacityScale[ring.index] || 0.08;
+
+        // Create arc path for this ring section
+        const arcGenerator = d3.arc()
+          .innerRadius(innerRadius)
+          .outerRadius(outerRadius)
+          .startAngle(startAngleRad)
+          .endAngle(endAngleRad);
+
+        const quadrantRingBg = g.append('path')
+          .attr('d', arcGenerator as any)
+          .attr('transform', `translate(${centerX}, ${centerY})`)
+          .attr('class', `quadrant-bg quadrant-bg-${quadrant.index} ring-bg-${ring.index}`)
+          .attr('fill', getBlipColor(quadrant.index))
+          .attr('fill-opacity', shouldAnimate ? 0 : bgOpacity)
+          .attr('opacity', shouldAnimate ? 0 : 1);
+
+        if (shouldAnimate) {
+          quadrantRingBg
+            .transition()
+            .duration(600)
+            .ease(d3.easeCubicOut)
+            .attr('opacity', 1)
+            .attr('fill-opacity', bgOpacity);
+        }
+      });
+    });
+
+    // Draw rings as colored arc segments matching quadrants with gradient effect
+    [...rings].reverse().forEach((ring, reverseIndex) => {
+      const index = rings.length - 1 - reverseIndex;
+      const radius = (ring.outerRadius / 100) * maxRadius;
+      const delay = shouldAnimate ? index * 150 : 0;
+
+      // Calculate opacity gradient: inner ring (0) is darkest, outer ring (3) is lightest
+      // Ring indices: 0 = Adopt (inner), 1 = Trial, 2 = Assess, 3 = Hold (outer)
+      const opacityScale = [0.5, 0.38, 0.28, 0.18]; // Decreasing opacity from inner to outer
+      const ringOpacity = opacityScale[ring.index] || 0.4;
+
+      // Draw a ring segment for each quadrant
+      quadrants.forEach((quadrant) => {
+        const startAngleRad = (quadrant.startAngle + 90) * (Math.PI / 180);
+        const endAngleRad = (quadrant.endAngle + 90) * (Math.PI / 180);
+
+        const arcGenerator = d3.arc()
+          .innerRadius(radius - 0.5) // Slight inner offset for stroke effect
+          .outerRadius(radius + 0.5) // Slight outer offset for stroke effect
+          .startAngle(startAngleRad)
+          .endAngle(endAngleRad);
+
+        const ringArc = g.append('path')
+          .attr('d', arcGenerator as any)
+          .attr('transform', `translate(${centerX}, ${centerY})`)
+          .attr('class', `ring-arc ring-${ring.index} quadrant-${quadrant.index}`)
+          .attr('fill', 'none')
+          .attr('stroke', getBlipColor(quadrant.index))
+          .attr('stroke-width', 1.5)
+          .attr('stroke-opacity', shouldAnimate ? 0 : ringOpacity)
+          .attr('opacity', shouldAnimate ? 0 : 1);
+
+        if (shouldAnimate) {
+          ringArc
+            .transition()
+            .delay(delay)
+            .duration(600)
+            .ease(d3.easeCubicOut)
+            .attr('opacity', 1)
+            .attr('stroke-opacity', ringOpacity);
+        }
+      });
+    });
+
+    // Add quadrant labels outside the radar with fade-in
+    const labelDelay = shouldAnimate ? rings.length * 150 + 500 : 0;
+
+    quadrants.forEach((quadrant) => {
+      // Calculate label position outside the radar (at 130% of radius)
+      const labelRadius = maxRadius * 1.3;
       const midAngle = ((quadrant.startAngle + quadrant.endAngle) / 2) * (Math.PI / 180);
       const labelX = centerX + labelRadius * Math.cos(midAngle);
       const labelY = centerY + labelRadius * Math.sin(midAngle);
 
-      const label = g.append('text')
+      // Create a group for the label elements
+      const labelGroup = g.append('g')
+        .attr('class', `quadrant-label-group quadrant-label-group-${quadrant.index}`)
+        .attr('opacity', shouldAnimate ? 0 : 1);
+
+      // Add "QUADRANT #" heading
+      labelGroup.append('text')
+        .attr('x', labelX)
+        .attr('y', labelY - 35)
+        .attr('text-anchor', 'middle')
+        .attr('fill', getBlipColor(quadrant.index))
+        .attr('font-size', '11px')
+        .attr('font-weight', '600')
+        .attr('letter-spacing', '0.5px')
+        .text(`QUADRANT ${quadrant.index + 1}`);
+
+      // Add divider line under heading
+      labelGroup.append('line')
+        .attr('x1', labelX - 40)
+        .attr('y1', labelY - 23)
+        .attr('x2', labelX + 40)
+        .attr('y2', labelY - 23)
+        .attr('stroke', getBlipColor(quadrant.index))
+        .attr('stroke-width', 2)
+        .attr('stroke-opacity', 0.6);
+
+      // Add quadrant name with text wrapping
+      const nameText = labelGroup.append('text')
         .attr('x', labelX)
         .attr('y', labelY)
-        .attr('class', `quadrant-label quadrant-label-${quadrant.index}`)
         .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
         .attr('fill', '#333')
-        .attr('font-size', '16px')
+        .attr('font-size', '18px')
+        .attr('font-weight', 'bold');
+
+      // Split text by '&' or long words and wrap if needed
+      const words = quadrant.name.split(/(\s+|&)/);
+      const maxWidth = 150; // Max width before wrapping
+      let line = '';
+      let lineNumber = 0;
+      const lineHeight = 20; // Line height in pixels
+
+      // Create a temporary text element to measure width
+      const tempText = g.append('text')
+        .attr('font-size', '18px')
         .attr('font-weight', 'bold')
-        .attr('opacity', shouldAnimate ? 0 : 1)
-        .text(quadrant.name);
+        .style('visibility', 'hidden');
+
+      words.forEach((word, i) => {
+        const testLine = line + word;
+        tempText.text(testLine);
+        const testWidth = tempText.node()?.getBBox().width || 0;
+
+        if (testWidth > maxWidth && line !== '') {
+          // Add the current line
+          nameText.append('tspan')
+            .attr('x', labelX)
+            .attr('dy', lineNumber === 0 ? 0 : lineHeight)
+            .text(line.trim());
+          line = word;
+          lineNumber++;
+        } else {
+          line = testLine;
+        }
+      });
+
+      // Add the last line
+      if (line.trim()) {
+        nameText.append('tspan')
+          .attr('x', labelX)
+          .attr('dy', lineNumber === 0 ? 0 : lineHeight)
+          .text(line.trim());
+      }
+
+      // Remove temporary text
+      tempText.remove();
 
       if (shouldAnimate) {
-        label
+        labelGroup
           .transition()
           .delay(labelDelay)
           .duration(400)
@@ -151,19 +223,24 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
     });
 
     // Add ring labels with fade-in (positioned horizontally on both sides)
+    // Color gradient: darker for inner rings (more important) to lighter for outer rings
+    const ringLabelColors = ['#334155', '#475569', '#64748b', '#94a3b8']; // Adopt (darkest) to Hold (lightest)
+
     rings.forEach((ring, index) => {
       // Calculate the midpoint radius between inner and outer for centering
       const midRadius = ((ring.innerRadius + ring.outerRadius) / 2 / 100) * maxRadius;
+      const ringColor = ringLabelColors[ring.index] || '#64748b';
 
       // Right side label
       const ringLabelRight = g.append('text')
         .attr('x', centerX + midRadius)
         .attr('y', centerY - 5)
         .attr('class', `ring-label ring-label-${ring.index}`)
-        .attr('fill', '#666')
+        .attr('fill', ringColor)
         .attr('font-size', '12px')
+        .attr('font-weight', '600')
         .attr('text-anchor', 'middle')
-        .attr('opacity', shouldAnimate ? 0 : 0.5)
+        .attr('opacity', shouldAnimate ? 0 : 1)
         .text(ring.name.toUpperCase());
 
       // Left side label
@@ -171,10 +248,11 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
         .attr('x', centerX - midRadius)
         .attr('y', centerY - 5)
         .attr('class', `ring-label ring-label-${ring.index}`)
-        .attr('fill', '#666')
+        .attr('fill', ringColor)
         .attr('font-size', '12px')
+        .attr('font-weight', '600')
         .attr('text-anchor', 'middle')
-        .attr('opacity', shouldAnimate ? 0 : 0.5)
+        .attr('opacity', shouldAnimate ? 0 : 1)
         .text(ring.name.toUpperCase());
 
       if (shouldAnimate) {
@@ -182,13 +260,13 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
           .transition()
           .delay(labelDelay)
           .duration(400)
-          .attr('opacity', 0.5);
+          .attr('opacity', 1);
 
         ringLabelLeft
           .transition()
           .delay(labelDelay)
           .duration(400)
-          .attr('opacity', 0.5);
+          .attr('opacity', 1);
       }
     });
 
@@ -423,10 +501,10 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
 // Helper function to get color for each quadrant
 function getBlipColor(quadrant: number): string {
   const colors = [
-    '#14b8a6', // Teal - Quadrant 0
-    '#06b6d4', // Cyan - Quadrant 1
-    '#8b5cf6', // Purple - Quadrant 2
-    '#ec4899', // Pink - Quadrant 3
+    '#dc2626', // Red - Quadrant 0 (bottom-left)
+    '#14b8a6', // Teal - Quadrant 1 (top-left)
+    '#3b82f6', // Blue - Quadrant 2 (top-right)
+    '#f97316', // Orange - Quadrant 3 (bottom-right)
   ];
   return colors[quadrant] || '#6b7280';
 }

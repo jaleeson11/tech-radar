@@ -28,10 +28,10 @@
   --radar-grid-line: #e5e7eb;
   --radar-quadrant-label: #374151;
 
-  --radar-quadrant-1: #14b8a6;
-  --radar-quadrant-2: #06b6d4;
-  --radar-quadrant-3: #8b5cf6;
-  --radar-quadrant-4: #ec4899;
+  --radar-quadrant-1: #dc2626;
+  --radar-quadrant-2: #14b8a6;
+  --radar-quadrant-3: #3b82f6;
+  --radar-quadrant-4: #f97316;
 
   --radar-ring-1: #14b8a6; /* Adopt - teal */
   --radar-ring-2: #14b8a6; /* Trial - teal */
@@ -71,10 +71,10 @@
   --radar-grid-line: #334155;
   --radar-quadrant-label: #e2e8f0;
 
-  --radar-quadrant-1: #2dd4bf;
-  --radar-quadrant-2: #22d3ee;
-  --radar-quadrant-3: #a78bfa;
-  --radar-quadrant-4: #f472b6;
+  --radar-quadrant-1: #f87171;
+  --radar-quadrant-2: #2dd4bf;
+  --radar-quadrant-3: #60a5fa;
+  --radar-quadrant-4: #fb923c;
 
   --radar-ring-1: #2dd4bf; /* Adopt - teal (dark mode) */
   --radar-ring-2: #2dd4bf; /* Trial - teal (dark mode) */

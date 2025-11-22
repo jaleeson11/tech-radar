@@ -77,23 +77,6 @@ export function TechItemDetail({
             </a>
           </div>
         )}
-
-        {/* Metadata */}
-        <div className={styles.metadata}>
-          <span className={styles.metaLabel}>Created</span>
-          <span className={styles.metaValue}>
-            {new Date(item.createdAt).toLocaleDateString()}
-          </span>
-          {item.updatedAt && item.updatedAt !== item.createdAt && (
-            <>
-              <span className={styles.metaSeparator}>•</span>
-              <span className={styles.metaLabel}>Updated</span>
-              <span className={styles.metaValue}>
-                {new Date(item.updatedAt).toLocaleDateString()}
-              </span>
-            </>
-          )}
-        </div>
       </div>
     </div>
   );

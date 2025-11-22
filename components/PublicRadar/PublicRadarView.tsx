@@ -67,12 +67,17 @@ export function PublicRadarView() {
       endAngle: (index + 1) * 90,
     }));
 
-    const rings: RingConfig[] = DEFAULT_RINGS.map((name, index) => ({
-      index,
-      name,
-      innerRadius: (index * 100) / 4,
-      outerRadius: ((index + 1) * 100) / 4,
-    }));
+    const rings: RingConfig[] = DEFAULT_RINGS.map((name, index) => {
+      // Make Adopt ring larger (35%) and distribute remaining space (65%) equally among 3 rings
+      // Adopt: 0-35%, Trial: 35-56.67%, Assess: 56.67-78.33%, Hold: 78.33-100%
+      const ringBoundaries = [0, 35, 56.67, 78.33, 100];
+      return {
+        index,
+        name,
+        innerRadius: ringBoundaries[index],
+        outerRadius: ringBoundaries[index + 1],
+      };
+    });
 
     return {
       width: 800,
