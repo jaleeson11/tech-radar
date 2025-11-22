@@ -459,9 +459,9 @@ export function RadarCanvas({ items, config, onBlipClick, onBlipMove, className 
       svg.call(zoom.transform as any, currentTransform);
     }
 
-    // Mark as animated after first render with items
-    // Only set hasAnimated if we actually have items to animate
-    if (shouldAnimate && items.length > 0) {
+    // Mark as animated after first render
+    // Set hasAnimated regardless of whether there are items, to prevent re-animation when first item is added
+    if (shouldAnimate) {
       setHasAnimated(true);
     }
 
