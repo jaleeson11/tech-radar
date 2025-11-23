@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background: var(--color-surface);
   padding: var(--spacing-5);
 }
 
@@ -14,7 +14,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-4);
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .spinner {
@@ -45,9 +45,12 @@
 
 /* Header */
 .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
   text-align: center;
   margin-bottom: var(--spacing-8);
-  color: white;
 }
 
 .header h1 {
@@ -60,7 +63,7 @@
 .header p {
   margin: 0;
   font-size: 16px;
-  opacity: 0.95;
+  color: var(--color-text-secondary);
 }
 
 /* Login Card */

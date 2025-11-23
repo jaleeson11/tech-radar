@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Radar, LogIn, Eye } from 'lucide-react';
+import { LogIn, Eye } from 'lucide-react';
 import { BaseModal } from './BaseModal';
 import { Button } from '@/components/Button';
+import { Logo } from '@/components/Logo/Logo';
 import styles from './HomeWelcomeModal.module.css';
 
 interface HomeWelcomeModalProps {
@@ -32,11 +33,9 @@ export function HomeWelcomeModal({
       maxWidth="md"
     >
       <div className={styles.content}>
-        <div className={styles.icon}>
-          <Radar size={48} />
+        <div className={styles.logoContainer}>
+          <Logo size="lg" />
         </div>
-
-        <h2 className={styles.title}>Technology Radar</h2>
 
         <div className={styles.description}>
           <p>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Inter, Fira_Code } from 'next/font/google';
+import { Space_Grotesk, Inter, Fira_Code, Poppins } from 'next/font/google';
 import { Providers } from './providers';
 import './globals.css';
 
@@ -19,6 +19,12 @@ const firaCode = Fira_Code({
   subsets: ['latin'],
 });
 
+const poppins = Poppins({
+  variable: '--font-poppins',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+});
+
 export const metadata: Metadata = {
   title: 'Technology Radar',
   description: 'Create and share interactive technology radars',
@@ -31,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${inter.variable} ${firaCode.variable}`}>
+      <body className={`${spaceGrotesk.variable} ${inter.variable} ${firaCode.variable} ${poppins.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

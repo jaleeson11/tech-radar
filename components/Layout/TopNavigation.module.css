@@ -14,7 +14,33 @@
 
 /* Left Section */
 .leftSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
   flex-shrink: 0;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.logoLink:hover {
+  opacity: 0.8;
+}
+
+.logoLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.divider {
+  width: 1px;
+  height: 28px;
+  background-color: var(--color-border);
 }
 
 .radarNameContainer {
@@ -346,6 +372,14 @@
     padding: var(--spacing-3) var(--spacing-4);
   }
 
+  .leftSection {
+    gap: var(--spacing-3);
+  }
+
+  .divider {
+    height: 24px;
+  }
+
   .radarName {
     font-size: 18px;
     max-width: 200px;
@@ -373,9 +407,17 @@
     padding: var(--spacing-2) var(--spacing-3);
   }
 
+  .leftSection {
+    gap: var(--spacing-2);
+  }
+
+  .divider {
+    height: 20px;
+  }
+
   .radarName {
     font-size: 16px;
-    max-width: 160px;
+    max-width: 120px;
   }
 
   .mobileMenuDropdown {

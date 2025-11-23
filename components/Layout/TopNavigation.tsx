@@ -3,8 +3,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { Share2, Settings, User, LayoutGrid, LogIn, Pencil, MoreVertical, X } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Field } from '@/components/Field/Field';
+import { Logo } from '@/components/Logo/Logo';
 import styles from './TopNavigation.module.css';
 
 interface TopNavigationProps {
@@ -122,8 +124,12 @@ export function TopNavigation({
   return (
     <nav className={`${styles.topNav} ${className || ''}`} role="navigation" aria-label="Main navigation">
       <div className={styles.navContent}>
-        {/* Left: Radar Name */}
+        {/* Left: Logo & Radar Name */}
         <div className={styles.leftSection}>
+          <Link href="/" className={styles.logoLink}>
+            <Logo size="sm" />
+          </Link>
+          <div className={styles.divider} />
           {isEditingName ? (
             <div className={styles.radarNameEditContainer}>
               <Field

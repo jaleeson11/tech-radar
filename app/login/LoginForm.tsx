@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { RadarLoader } from '@/components/RadarLoader/RadarLoader';
+import { Logo } from '@/components/Logo/Logo';
 import styles from './page.module.css';
 
 export default function LoginForm() {
@@ -139,7 +140,7 @@ export default function LoginForm() {
     <div className={styles.loginContainer}>
       {/* Logo/Title */}
       <div className={styles.header}>
-        <h1>Technology Radar</h1>
+        <Logo size="lg" />
         <p>Sign in to create and manage your technology radars</p>
       </div>
 
