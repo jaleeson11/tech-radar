@@ -167,22 +167,6 @@ export function TopNavigation({
           )}
         </div>
 
-        {/* Center: My Radars Button */}
-        {showAuthControls && session && onOpenRadarSwitcher && (
-          <div className={styles.centerSection}>
-            <Button
-              onClick={onOpenRadarSwitcher}
-              variant="ghost"
-              size="sm"
-              leftIcon={<LayoutGrid size={18} />}
-              aria-label="Open radars switcher"
-              className={styles.radarSwitcherButton}
-            >
-              <span className={styles.buttonText}>My Radars</span>
-            </Button>
-          </div>
-        )}
-
         {/* Right: Action Buttons & User */}
         <div className={styles.rightSection}>
           {/* Mobile Menu Button */}
@@ -279,6 +263,20 @@ export function TopNavigation({
 
           {/* Desktop Navigation Items */}
           <div className={styles.desktopNav}>
+          {/* My Radars Button */}
+          {showAuthControls && session && onOpenRadarSwitcher && (
+            <Button
+              onClick={onOpenRadarSwitcher}
+              variant="ghost"
+              size="sm"
+              leftIcon={<LayoutGrid size={18} />}
+              aria-label="Open radars switcher"
+              className={styles.navButton}
+            >
+              <span className={styles.buttonText}>My Radars</span>
+            </Button>
+          )}
+
           {/* Share Button - Owner Only */}
           {isOwner && onShare && (
             <Button
