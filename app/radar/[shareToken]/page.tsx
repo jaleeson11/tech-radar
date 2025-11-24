@@ -72,6 +72,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
   const [showRadarSwitcher, setShowRadarSwitcher] = useState(false);
   const [isSavingQuadrants, setIsSavingQuadrants] = useState(false);
+  const [isSavingItem, setIsSavingItem] = useState(false);
   const [mobileSidePanelOpen, setMobileSidePanelOpen] = useState(false);
   const [hasLoadedItems, setHasLoadedItems] = useState(false);
 
@@ -306,52 +307,62 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
   };
 
   const handleSaveItem = async (data: TechItemFormData) => {
-    const result = await addTechItem(data);
+    setIsSavingItem(true);
+    try {
+      const result = await addTechItem(data);
 
-    if (result.success) {
-      setSuccessMessage('Tech item added successfully!');
-      setShowAddForm(false);
-      setShowAddChoice(false);
-      setShowLibraryBrowse(false);
-      setLibraryItemData(null);
+      if (result.success) {
+        setSuccessMessage('Tech item added successfully!');
+        setShowAddForm(false);
+        setShowAddChoice(false);
+        setShowLibraryBrowse(false);
+        setLibraryItemData(null);
 
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMessage(null), 3000);
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccessMessage(null), 3000);
+      }
+      // Error is handled by the hook and passed to the form
+    } finally {
+      setIsSavingItem(false);
     }
-    // Error is handled by the hook and passed to the form
   };
 
   const handleEditItem = async (data: TechItemFormData) => {
     if (!editingItem) return;
 
-    // Check if quadrant or ring changed - if so, clear saved positions to force recalculation
-    const quadrantChanged = data.quadrant !== editingItem.quadrant;
-    const ringChanged = data.ring !== editingItem.ring;
-    const shouldClearPosition = quadrantChanged || ringChanged;
+    setIsSavingItem(true);
+    try {
+      // Check if quadrant or ring changed - if so, clear saved positions to force recalculation
+      const quadrantChanged = data.quadrant !== editingItem.quadrant;
+      const ringChanged = data.ring !== editingItem.ring;
+      const shouldClearPosition = quadrantChanged || ringChanged;
 
-    // Clear from cache if position needs recalculation
-    if (shouldClearPosition) {
-      positionCache.current.delete(editingItem.id);
+      // Clear from cache if position needs recalculation
+      if (shouldClearPosition) {
+        positionCache.current.delete(editingItem.id);
+      }
+
+      const updateData = {
+        ...data,
+        // Clear saved positions if ring or quadrant changed
+        ...(shouldClearPosition && { positionX: null, positionY: null }),
+      };
+
+      const result = await updateTechItem(editingItem.id, updateData);
+
+      if (result.success) {
+        setSuccessMessage('Tech item updated successfully!');
+        // Return to detail view after successful edit
+        setViewingItem(result.item || null);
+        setEditingItem(null);
+
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccessMessage(null), 3000);
+      }
+      // Error is handled by the hook and passed to the form
+    } finally {
+      setIsSavingItem(false);
     }
-
-    const updateData = {
-      ...data,
-      // Clear saved positions if ring or quadrant changed
-      ...(shouldClearPosition && { positionX: null, positionY: null }),
-    };
-
-    const result = await updateTechItem(editingItem.id, updateData);
-
-    if (result.success) {
-      setSuccessMessage('Tech item updated successfully!');
-      // Return to detail view after successful edit
-      setViewingItem(result.item || null);
-      setEditingItem(null);
-
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMessage(null), 3000);
-    }
-    // Error is handled by the hook and passed to the form
   };
 
   const handleEditFromDetail = () => {
@@ -603,7 +614,7 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
           onCancel={handleCancelForm}
           successMessage={successMessage}
           errorMessage={itemsError}
-          isLoading={isLoadingItems}
+          isLoading={isSavingItem}
         />
       ) : viewingItem && radar ? (
         <TechItemDetail
