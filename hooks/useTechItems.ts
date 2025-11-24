@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import useSWR from 'swr';
 import { TechItem } from '@prisma/client';
 import { itemsApi, CreateItemRequest, UpdateItemRequest } from '@/lib/api/items';
@@ -6,6 +6,8 @@ import { MAX_ITEMS_PER_RADAR } from '@/lib/constants/defaults';
 import { AxiosError } from 'axios';
 
 export function useTechItems(radarId: string, initialItems: TechItem[] = []) {
+  // Track abort controllers for in-flight update requests
+  const updateControllersRef = useRef<Map<string, AbortController>>(new Map());
   // Use SWR for data fetching with automatic polling
   const { data: items, error: swrError, mutate, isLoading } = useSWR<TechItem[]>(
     radarId ? `/radars/${radarId}/items` : null,
@@ -56,19 +58,58 @@ export function useTechItems(radarId: string, initialItems: TechItem[] = []) {
 
   const updateTechItem = useCallback(
     async (id: string, data: UpdateItemRequest): Promise<{ success: boolean; item?: TechItem; error?: string }> => {
-      try {
-        // Make API request to update tech item using axios client
-        const updatedItem = await itemsApi.update(id, data);
+      // Find the current item to create optimistic update
+      const currentItem = items?.find(item => item.id === id);
+      if (!currentItem) {
+        return { success: false, error: 'Item not found' };
+      }
 
-        // Optimistically update SWR cache
+      // Create optimistic updated item
+      const optimisticItem = { ...currentItem, ...data };
+
+      // Optimistically update UI immediately (before API call)
+      await mutate(
+        (currentItems) =>
+          (currentItems || []).map((item) => (item.id === id ? optimisticItem : item)),
+        { revalidate: false }
+      );
+
+      try {
+        // Abort any existing update request for this item
+        const existingController = updateControllersRef.current.get(id);
+        if (existingController) {
+          existingController.abort();
+        }
+
+        // Create new abort controller for this request
+        const controller = new AbortController();
+        updateControllersRef.current.set(id, controller);
+
+        // Fire API request to persist to server (let SWR polling handle sync)
+        await itemsApi.update(id, data, controller.signal);
+
+        // Clean up controller after successful request
+        updateControllersRef.current.delete(id);
+
+        return { success: true, item: optimisticItem };
+      } catch (err) {
+        // Clean up controller on error (unless it was aborted)
+        if (err instanceof Error && err.name !== 'CanceledError') {
+          updateControllersRef.current.delete(id);
+        }
+
+        // Aborted requests are fine - the newer request will handle it
+        if (err instanceof Error && err.name === 'CanceledError') {
+          return { success: true, item: optimisticItem };
+        }
+
+        // Revert optimistic update on real errors
         await mutate(
           (currentItems) =>
-            (currentItems || []).map((item) => (item.id === id ? updatedItem : item)),
-          { revalidate: true }
+            (currentItems || []).map((item) => (item.id === id ? currentItem : item)),
+          { revalidate: false }
         );
 
-        return { success: true, item: updatedItem };
-      } catch (err) {
         const errorMsg = err instanceof AxiosError && err.response?.data?.error
           ? err.response.data.error
           : err instanceof Error
@@ -78,7 +119,7 @@ export function useTechItems(radarId: string, initialItems: TechItem[] = []) {
         return { success: false, error: errorMsg };
       }
     },
-    [mutate]
+    [mutate, items]
   );
 
   const deleteTechItem = useCallback(

@@ -116,10 +116,11 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
     }
   }, [radar, status, isLoadingRadar, shareToken]);
 
-  // Check if authenticated user needs to see onboarding modal
+  // Check if authenticated user needs to see onboarding modal (only once)
   useEffect(() => {
     const checkOnboarding = async () => {
-      if (radar && status === 'authenticated' && isOwner && !isLoadingRadar) {
+      if (radar && status === 'authenticated' && isOwner && !isLoadingRadar && !hasCheckedOnboarding.current) {
+        hasCheckedOnboarding.current = true;
         try {
           const response = await fetch('/api/user/me');
           if (response.ok) {
@@ -139,6 +140,9 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
 
   // Cache for calculated positions to prevent recalculation during save process
   const positionCache = useRef<Map<string, { x: number; y: number }>>(new Map());
+
+  // Track if we've already checked onboarding to prevent polling /api/user/me
+  const hasCheckedOnboarding = useRef(false);
 
   // Calculate blip positions
   const itemsWithPositions = useMemo(() => {

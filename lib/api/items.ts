@@ -51,8 +51,8 @@ export const itemsApi = {
   /**
    * Update an existing item
    */
-  async update(itemId: string, data: UpdateItemRequest): Promise<TechItem> {
-    const response = await apiClient.patch<TechItem>(`/items/${itemId}`, data);
+  async update(itemId: string, data: UpdateItemRequest, signal?: AbortSignal): Promise<TechItem> {
+    const response = await apiClient.patch<TechItem>(`/items/${itemId}`, data, { signal });
     return response.data;
   },
 
