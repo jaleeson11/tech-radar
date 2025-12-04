@@ -545,8 +545,8 @@ export default function RadarViewPage({ params }: RadarViewPageProps) {
       <div className={styles.errorContainer}>
         <h1>Error</h1>
         <p>{radarError || 'Failed to load radar'}</p>
-        <button onClick={() => router.push('/dashboard')} className={styles.backButton}>
-          Back to Dashboard
+        <button onClick={() => router.push('/')} className={styles.backButton}>
+          Back to Home
         </button>
       </div>
     );

@@ -59,7 +59,7 @@ export default function LoginForm() {
   // Redirect if already authenticated
   useEffect(() => {
     if (status === 'authenticated' && session) {
-      const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+      const callbackUrl = searchParams.get('callbackUrl') || '/';
       router.push(callbackUrl);
     }
   }, [status, session, router, searchParams]);
@@ -86,7 +86,7 @@ export default function LoginForm() {
       const result = await signIn('email', {
         email,
         redirect: false,
-        callbackUrl: searchParams.get('callbackUrl') || '/dashboard',
+        callbackUrl: searchParams.get('callbackUrl') || '/',
       });
 
       if (result?.error) {
@@ -108,7 +108,7 @@ export default function LoginForm() {
 
     try {
       await signIn('google', {
-        callbackUrl: searchParams.get('callbackUrl') || '/dashboard',
+        callbackUrl: searchParams.get('callbackUrl') || '/',
       });
     } catch (err) {
       setError('Failed to sign in with Google. Please try again.');
